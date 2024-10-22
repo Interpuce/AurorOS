@@ -1,0 +1,4 @@
+# BACKUP FILES
+# Backup files created by Interpuce to easily restore not-working function
+*.bak
+*.backup
