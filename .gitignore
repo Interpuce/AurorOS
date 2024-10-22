@@ -6,3 +6,7 @@
 # ISO DIRECTORY
 # A special directory to build the ISO
 iso
+
+# OBJECT FILES
+# The result of AurorOS first-stage compilation
+*.o
