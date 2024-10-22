@@ -12,6 +12,7 @@ Everyone is permitted to share this document, but changing it is not allowed.
 
 ## Using an OS
 
-1. This also affects un-official distributions.
+1. This section also affects un-official distributions.
 2. You can't use AurorOS to do forbidden activities in your country/region.
 3. You can't use AurorOS as a hosting server to provide drugs and other illegal things available for shopping.
+4. You can't use the security vulnerabilities found in AurorOS, and if you found them you need to immediatelly report them to official accounts on Discord (gorciu_official and .eklerka25).
