@@ -14,3 +14,4 @@ Everyone is permitted to share this document, but changing it is not allowed.
 
 1. This also affects un-official distributions.
 2. You can't use AurorOS to do forbidden activities in your country/region.
+3. You can't use AurorOS as a hosting server to provide drugs and other illegal things available for shopping.
