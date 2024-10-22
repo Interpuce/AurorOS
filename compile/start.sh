@@ -5,7 +5,7 @@ cd "$(dirname "$0")" || exit 1
 gcc="gcc"
 nasm="nasm"
 flags="-Wall -Wextra -m64 -march=x86-64 -ffreestanding -Iinclude"
-ldflags="-T ./linker.ld -nostdlib -nostartfiles"
+ldflags="-T ./compile/linker.ld -nostdlib -nostartfiles"
 
 mkdir -p bin iso
 
