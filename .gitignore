@@ -10,3 +10,7 @@ iso
 # OBJECT FILES
 # The result of AurorOS first-stage compilation
 *.o
+
+# THE AUROROS ISO
+# Final result of OS compilation
+*.iso
