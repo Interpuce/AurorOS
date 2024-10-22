@@ -14,3 +14,7 @@ iso
 # THE AUROROS ISO
 # Final result of OS compilation
 *.iso
+
+# THE BIN DIRECTORY
+# Final object files and something other
+bin
