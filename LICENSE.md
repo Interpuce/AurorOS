@@ -16,6 +16,7 @@ Everyone is permitted to share this document, but changing it is not allowed.
 2. You can't use AurorOS to do forbidden activities in your country/region.
 3. You can't use AurorOS as a hosting server to provide drugs and other illegal things available for shopping.
 4. You can't use the security vulnerabilities found in AurorOS, and if you found them you need to immediatelly report them to official accounts on Discord (gorciu_official and .eklerka25).
+5. Creating viruses or any types of malware is forbidden.
 
 ## License changing
 
