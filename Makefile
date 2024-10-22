@@ -12,6 +12,10 @@ ifeq ($(OS),Windows_NT)
 $(error Install Linux)
 endif
 
+chmod +x ./compile/start.sh
+chmod +x ./compile/help.sh
+chmod +x ./compile/packages-ubuntu.sh
+
 .PHONY: all help install-ubuntu
 
 all:
