@@ -26,3 +26,6 @@ help:
 
 install-ubuntu:
 	./compile/packages-ubuntu.sh
+
+run:
+	qemu-system-x86_64 -cdrom auroros.iso -boot d -m 512
