@@ -1,8 +1,8 @@
-# ------------------------------------------------------------
-#                   AurorOS bootloader
-#
-# The main entry to the OS where it loads kernel.
-# ------------------------------------------------------------
+; ------------------------------------------------------------
+;                   AurorOS bootloader
+;
+; The main entry to the OS where it loads kernel.
+; ------------------------------------------------------------
 
 section .text
     extern load_kernel
