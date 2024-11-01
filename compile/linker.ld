@@ -1,30 +1,9 @@
-OUTPUT_FORMAT("elf64-x86-64")
-OUTPUT_ARCH(x86_64)
-ENTRY(main)
-
+OUTPUT_FORMAT(elf32-i386)
+ENTRY(start)
 SECTIONS
-{
-    . = 0x400000;
-
-    .text : {
-        *(.text)
-    }
-
-    .data : {
-        *(.data)
-    }
-
-    .bss : {
-        *(.bss)
-        *(COMMON)
-    }
-
-    .rodata : {
-        *(.rodata)
-    }
-
-    /DISCARD/ : {
-        *(.comment)
-        *(.note.GNU-stack)
-    }
-}
+ {
+   . = 0x100000;
+   .text : { *(.text) }
+   .data : { *(.data) }
+   .bss  : { *(.bss)  }
+ }
