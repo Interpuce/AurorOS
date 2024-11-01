@@ -12,9 +12,9 @@ string readStr(int8 colr)
     uint8 reading = 1;
     while(reading)
     {
-    if(inportb(0x64) & 0x1)         
+    if(inb(0x64) & 0x1)         
     {
-        switch(inportb(0x60))
+        switch(inb(0x60))
         { 
     case 1:
         printch((char)27,colr);
