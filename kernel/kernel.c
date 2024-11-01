@@ -10,7 +10,7 @@ void main()
        {
                 print("\nroot@aurorOS > ", 0x05);
                 
-                string ch = readStr(0x07);
+                string ch = read_string(0x07);
                 if(string_equal(ch,"ver"))
                 {
                         print("\nAurorOS beta sigma alpha domino pizza skibidi toilet\n", 0x07);
