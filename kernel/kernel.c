@@ -11,11 +11,11 @@ void main()
                 print("\nroot@aurorOS > ", 0x05);
                 
                 string ch = readStr(0x07);
-                if(strEql(ch,"ver"))
+                if(string_equal(ch,"ver"))
                 {
                         print("\nAurorOS beta sigma alpha domino pizza skibidi toilet\n", 0x07);
                 }
-                else if(strEql(ch,"clear"))
+                else if(string_equal(ch,"clear"))
                 {
                         clearScreen();
                 }

@@ -9,7 +9,7 @@ uint16 strlength(string ch)
     return --i;
 }
 
-uint8 strEql(string ch1,string ch2)             
+uint8 string_equal(string ch1,string ch2)             
 {
     uint32 result = 1;
     uint32 size = strlength(ch1);
