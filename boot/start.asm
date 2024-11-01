@@ -4,13 +4,16 @@
 ; The main entry to the OS where it loads kernel.
 ; ------------------------------------------------------------
 
+bits 32
 section .text
-    extern load_kernel
-    global _start
-
-_start:
-    call load_kernel
-
-    mov rax, 60
-    xor rdi, rdi
-    syscall
+        align 4
+        dd 0x1BADB002
+        dd 0x00
+        dd - (0x1BADB002+0x00)
+        
+global start
+extern main
+start:
+        cli
+        call main
+        hlt
