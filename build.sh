@@ -1,4 +1,4 @@
-# simple build tool
+#!/bin/bash
 
 nasm -f elf32 boot/boot.asm -o bootloader.o
 gcc -m32 -c kernel/kernel.c -o kernel.o -ffreestanding
