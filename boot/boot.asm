@@ -1,8 +1,10 @@
-; ------------------------------------------------------------
-;                   AurorOS bootloader
+; -------------------------------------------------------------------------
+;                                   AurorOS
+; (c) 2022-2024 Interpuce
 ;
-; The main entry to the OS where it loads kernel.
-; ------------------------------------------------------------
+; You should receive AurorOS license with this source code. If not - check:
+;  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
+; -------------------------------------------------------------------------
 
 bits 32
 section .text
