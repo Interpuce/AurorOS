@@ -4,7 +4,7 @@
 
 void main()
 {
-       clearScreen();
+       clear_console();
        print("Welcome to aurorOS!\n", 0x07);
        while (1)
        {
@@ -17,7 +17,7 @@ void main()
                 }
                 else if(string_equal(ch,"clear"))
                 {
-                        clearScreen();
+                        clear_console();
                 }
                 else
                 {

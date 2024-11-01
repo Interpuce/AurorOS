@@ -5,7 +5,7 @@
 #include "string.h"
 int cursorX = 0, cursorY = 0;
 const uint8 sw = 80,sh = 25,sd = 2;
-void clearLine(uint8 from,uint8 to)
+void clear_line(uint8 from,uint8 to)
 {
     uint16 i = sw * from * sd;
     string vidmem=(string)0xb8000;
@@ -14,7 +14,7 @@ void clearLine(uint8 from,uint8 to)
         vidmem[i] = 0x0;
     }
 }
-void updateCursor()
+void update_cursor()
 {
     unsigned temp;
 
@@ -25,24 +25,24 @@ void updateCursor()
     outb(0x3D4, 15);
     outb(0x3D5, temp);
 }
-void clearScreen()
+void clear_console()
 {
-    clearLine(0,sh-1);
+    clear_line(0,sh-1);
     cursorX = 0;
     cursorY = 0;
-    updateCursor();
+    update_cursor();
 }
 
-void scrollUp(uint8 lineNumber)
+void scroll_up(uint8 lineNumber)
 {
     string vidmem = (string)0xb8000;
     uint16 i = 0;
-    clearLine(0,lineNumber-1);
+    clear_line(0,lineNumber-1);
     for (i;i<sw*(sh-1)*2;i++)
     {
         vidmem[i] = vidmem[i+sw*2*lineNumber];
     }
-    clearLine(sh-1-lineNumber,sh-1);
+    clear_line(sh-1-lineNumber,sh-1);
     if((cursorY - lineNumber) < 0 ) 
     {
         cursorY = 0;
@@ -52,15 +52,15 @@ void scrollUp(uint8 lineNumber)
     {
         cursorY -= lineNumber;
     }
-    updateCursor();
+    update_cursor();
 }
 
 
-void newLineCheck()
+void nl_check()
 {
     if(cursorY >=sh-1)
     {
-        scrollUp(1);
+        scroll_up(1);
     }
 }
 
@@ -95,8 +95,8 @@ void printch(char c, int8 color)
     cursorX = 0;                                
     cursorY++;                                    
     }
-    updateCursor();
-    newLineCheck();
+    update_cursor();
+    nl_check();
 }
 
 void print(string ch, int8 clr)
