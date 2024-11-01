@@ -10,9 +10,9 @@
 
 #ifndef KB_H
 #define KB_H
-#include "screen.h"
-#include "system.h"
-#include "types.h"
+#include <screen.h>
+#include <system.h>
+#include <types.h>
 
 string read_string(int8 colr)
 {

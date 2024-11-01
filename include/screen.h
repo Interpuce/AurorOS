@@ -10,9 +10,9 @@
 
 #ifndef SCREEN_H
 #define SCREEN_H
-#include "types.h"
-#include "system.h"
-#include "string.h"
+#include <types.h>
+#include <system.h>
+#include <string.h>
 int cursorX = 0, cursorY = 0;
 const uint8 sw = 80,sh = 25,sd = 2;
 void clear_line(uint8 from,uint8 to)
