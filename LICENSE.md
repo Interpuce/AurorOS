@@ -18,6 +18,11 @@ Everyone is permitted to share this document, but changing it is not allowed.
 4. You can't use the security vulnerabilities found in AurorOS, and if you found them you need to immediatelly report them to official accounts on Discord (gorciu_official and .eklerka25).
 5. Creating viruses or any types of malware is forbidden.
 
+## Other situations when using AurorOS code
+
+1. Creating a distro and contributing to project are only allowed ways to make changes in project.
+2. Copying code from this repository is forbidden.
+
 ## License changing
 
 Two weeks before license validation we will inform you about changes.
