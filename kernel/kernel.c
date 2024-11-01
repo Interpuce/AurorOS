@@ -8,9 +8,9 @@
  * -------------------------------------------------------------------------
  */
 
-#include "../include/screen.h"
-#include "../include/input.h"
-#include "../include/string.h"
+#include <screen.h>
+#include <input.h>
+#include <string.h>
 
 void main()
 {
