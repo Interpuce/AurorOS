@@ -53,7 +53,7 @@ void run_terminal(const string user) {
             } 
         } else if (string_equal(charray[0], "quit") || string_equal(charray[0], "exit")) {
             break;
-        } else if (string_equal(charray[0], "colormap") {
+        } else if (string_equal(charray[0], "colormap")) {
             print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
             print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
             print("\nAurorOS ", 0x05); print("AurorOS ", 0x50);
