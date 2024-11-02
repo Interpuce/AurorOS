@@ -27,6 +27,8 @@ void main()
         if (string_equal(charray[0], 'ver')) {
             print("AurorOS 1.0.0", 0x07);
             print("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
-        }    
+        } else {
+            print("Invalid command!", 0x04);
+        }
     }  
 }
