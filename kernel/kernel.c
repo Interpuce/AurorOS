@@ -15,6 +15,7 @@
 
 void main()
 {
+    string version = "1.0.0 insider preview";
     clear_console();
     print("Welcome to AurorOS!\n", 0x07);
     print("You can type \"help\" for available commands.\n", 0x07);
