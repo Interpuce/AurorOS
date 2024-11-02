@@ -9,3 +9,4 @@
  */
 
 #include <types.h>
+#include "fat32.h"
