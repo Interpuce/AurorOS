@@ -2,6 +2,12 @@
 
 Our lightweight, custom OS - directly from Interpuce!
 
+## Downloading
+
+Navigate to [Github Releases of the project](https://github.com/Interpuce/AurorOS/releases) and search for:
+- **stable release** if you want to get stable AurorOS
+- **beta release** if you want to get the latest release of AurorOS. __You need to manually compile every version.__ [Learn more](https://github.com/Interpuce/AurorOS/blob/main/docs/COMPILATION.md)
+
 ## Authors
 
 AurorOS is created by Interpuce. This is the Interpuce presented in alphabetical order:
