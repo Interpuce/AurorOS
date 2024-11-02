@@ -14,8 +14,11 @@
 
 void main()
 {
+    string version = "1.0.0 insider preview";
     clear_console();
-    print("Welcome to AurorOS!\n", 0x07);
+
+    print("AurorOS liveboot", 0x07);
+    print("\nWelcome to aurorOS!\n", 0x07);
     while (1)
     {
         print("\nroot@AurorOS > ", 0x05);
