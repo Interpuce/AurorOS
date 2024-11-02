@@ -53,6 +53,20 @@ void run_terminal(const string user) {
             } 
         } else if (string_equal(charray[0], "quit") || string_equal(charray[0], "exit")) {
             break;
+        } else if (string_equal(charray[0], "colormap") {
+            print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
+            print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
+            print("\nAurorOS ", 0x05); print("AurorOS ", 0x50);
+            print("\nAurorOS ", 0x04); print("AurorOS ", 0x40);
+            print("\nAurorOS ", 0x03); print("AurorOS ", 0x30);
+            print("\nAurorOS ", 0x02); print("AurorOS ", 0x20);
+            print("\nAurorOS ", 0x01); print("AurorOS ", 0x10);
+            print("\nAurorOS ", 0x0F); print("AurorOS ", 0xF0);
+            print("\nAurorOS ", 0x0E); print("AurorOS ", 0xE0);
+            print("\nAurorOS ", 0x0D); print("AurorOS ", 0xD0);
+            print("\nAurorOS ", 0x0C); print("AurorOS ", 0xC0);
+            print("\nAurorOS ", 0x0B); print("AurorOS ", 0xB0);
+            print("\nAurorOS ", 0x0A); print("AurorOS ", 0xA0);
         } else {
             print("Invalid command!\n", 0x04);
         }
