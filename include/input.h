@@ -5,7 +5,7 @@
 #include "system.h"
 #include "types.h"
 
-string readStr(int8 colr) {
+string read_string(int8 colr) {
     char buff;
     bool input_shift = false;
     string buffstr;
