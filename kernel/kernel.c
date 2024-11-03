@@ -16,7 +16,7 @@
 
 void main()
 {
-    string version = "1.0.0 [private beta]"
+    string version = "1.0.0 [private beta]";
     clear_console();
     println("Welcome to AurorOS!");
     print("Current version: ", 0x07);
