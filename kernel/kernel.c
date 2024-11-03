@@ -16,12 +16,14 @@
 
 void main()
 {
-    string version = "1.0.0 insider preview";
+    string version = "1.0.0 [private beta]"
     clear_console();
-    print("Welcome to AurorOS!\n", 0x07);
-    print("You can type \"help\" for available commands.\n", 0x07);
+    println("Welcome to AurorOS!", 0x07);
+    print("Current version: ", 0x07);
+    println(version);
+    println("You can type \"help\" for available commands.", 0x07);
     run_terminal('user');
-    print("Terminal process exited. You can manually turn off your computer.", 0x07);
+    println("Terminal process exited. You can manually turn off your computer.", 0x07);
     while (1) {}
 }
 
