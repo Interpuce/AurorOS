@@ -12,6 +12,7 @@
 #include <input.h>
 #include <string.h>
 #include <types.h>
+#include <msghandler.h>
 
 void main()
 {
