@@ -73,7 +73,7 @@ void main()
     print("Current version: ", 0x07);
     println(version);
     println("You can type \"help\" for available commands.");
-    run_terminal('user');
+    run_terminal("user");
     println("Terminal process exited. You can manually turn off your computer.");
     while (1) {}
 }
