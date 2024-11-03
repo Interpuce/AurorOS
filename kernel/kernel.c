@@ -14,19 +14,6 @@
 #include <types.h>
 #include <msghandler.h>
 
-void main()
-{
-    string version = "1.0.0 [private beta]";
-    clear_console();
-    println("Welcome to AurorOS!");
-    print("Current version: ", 0x07);
-    println(version);
-    println("You can type \"help\" for available commands.");
-    run_terminal('user');
-    println("Terminal process exited. You can manually turn off your computer.");
-    while (1) {}
-}
-
 void run_terminal(const string user) {
     while (1)
     {
@@ -75,4 +62,18 @@ void run_terminal(const string user) {
             print("Invalid command!\n", 0x04);
         }
     }
+}
+
+
+void main()
+{
+    string version = "1.0.0 [private beta]";
+    clear_console();
+    println("Welcome to AurorOS!");
+    print("Current version: ", 0x07);
+    println(version);
+    println("You can type \"help\" for available commands.");
+    run_terminal('user');
+    println("Terminal process exited. You can manually turn off your computer.");
+    while (1) {}
 }
