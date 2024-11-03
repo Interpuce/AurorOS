@@ -1,6 +1,6 @@
-#include "screen.h"
-#include "string.h"
-#include "types.h"
+#include <screen.h>
+#include <string.h>
+#include <types.h>
 
 void print_info(string msg)
 {

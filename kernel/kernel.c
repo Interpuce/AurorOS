@@ -18,12 +18,12 @@ void main()
 {
     string version = "1.0.0 [private beta]"
     clear_console();
-    println("Welcome to AurorOS!", 0x07);
+    println("Welcome to AurorOS!");
     print("Current version: ", 0x07);
     println(version);
-    println("You can type \"help\" for available commands.", 0x07);
+    println("You can type \"help\" for available commands.");
     run_terminal('user');
-    println("Terminal process exited. You can manually turn off your computer.", 0x07);
+    println("Terminal process exited. You can manually turn off your computer.");
     while (1) {}
 }
 
@@ -39,7 +39,8 @@ void run_terminal(const string user) {
         string* charray = split_by_spaces(ch, count);
 
         if (string_equal(charray[0], "ver") || string_equal(charray[0], "version")) {
-            print("AurorOS 1.0.0\n", 0x07);
+            print("AurorOS", 0x07);
+            println("");
             print("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS\n", 0x04);
         } else if (string_equal(charray[0], "clear")) {
             clear_console();
