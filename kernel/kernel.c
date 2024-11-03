@@ -22,7 +22,7 @@ void run_terminal(const string user) {
         print("@AurorOS > ", 0x05);
   
         string ch = read_string(0x07);
-        int count;
+        uint16* count;
         string* charray = split_by_spaces(ch, count);
 
         if (string_equal(charray[0], "ver") || string_equal(charray[0], "version")) {
