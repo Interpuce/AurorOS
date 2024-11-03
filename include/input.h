@@ -23,8 +23,8 @@ string read_string(int8 colr) {
     uint8 reading = 1;
 
     while (reading) {
-    if (inportb(0x64) & 0x1) {
-        uint8 keycode = inportb(0x60);
+    if (inb(0x64) & 0x1) {
+        uint8 keycode = inb(0x60);
 
         if (keycode == 42 || keycode == 54) {
         input_shift = true;
