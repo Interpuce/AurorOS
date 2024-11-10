@@ -22,16 +22,14 @@ void run_terminal(const string user) {
         print("@AurorOS > ", 0x05);
   
         string ch = read_string(0x07);
-        uint16* count;
-        string* charray = split_by_spaces(ch, count);
-
-        if (string_equal(charray[0], "ver") || string_equal(charray[0], "version")) {
+        
+        if (string_equal(ch, "ver") || string_equal(ch, "version")) {
             print("AurorOS", 0x07);
             println("");
             print("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS\n", 0x04);
-        } else if (string_equal(charray[0], "clear")) {
+        } else if (string_equal(ch, "clear")) {
             clear_console();
-        } else if (string_equal(charray[0], "mush")) {
+        } else if (string_equal(ch, "mush")) {
             if (string_equal(user, "main")) {
                 print("mush: cannot request main user access when user already has it\n", 0x04);
                 continue;
@@ -42,9 +40,9 @@ void run_terminal(const string user) {
                 run_terminal("main");
                 print("mush: terminal process exited; returning to main instance\n", 0x07);
             } 
-        } else if (string_equal(charray[0], "quit") || string_equal(charray[0], "exit")) {
+        } else if (string_equal(ch[0], "quit") || string_equal(ch[0], "exit")) {
             break;
-        } else if (string_equal(charray[0], "colormap")) {
+        } else if (string_equal(ch[0], "colormap")) {
             print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
             print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
             print("\nAurorOS ", 0x05); print("AurorOS ", 0x50);
