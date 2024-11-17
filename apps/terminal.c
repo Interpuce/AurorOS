@@ -25,7 +25,7 @@ void run_terminal(const string user) {
         
         if (string_equal(ch, "ver") || string_equal(ch, "version")) {
             println("AurorOS", 0x07);
-            println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS\n", 0x04);
+            println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
         } else if (string_equal(ch, "clear")) {
             clear_console();
         } else if (string_equal(ch, "mush")) {
@@ -41,6 +41,11 @@ void run_terminal(const string user) {
             } 
         } else if (string_equal(ch, "quit") || string_equal(ch, "exit")) {
             break;
+        } else if (string_equal(ch, "appman")) {
+            println("Application Manager (appman) for AurorOS", 0x07);
+            println(" (c) 2022-2024 Interpuce", 0x07);
+            println("", 0x07);
+            print_warn("Not implemented required functions like Internet connection");
         } else if (string_equal(ch, "colormap")) {
             print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
             print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
