@@ -8,7 +8,7 @@ If you want to contribute to AurorOS kernel you need to have previous experience
 
 ## Contributing to the apps
 
-The apps are not that easy to break, so you can do more changes. You cannot create new apps, because it will be you app and not the app for OS. Instead try feature request.
+The apps are not that easy to break, so you can do more changes. Avoid creating new apps, because they are **your** creation.
 
 ## Compiling AurorOS
 
