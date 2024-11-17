@@ -24,21 +24,20 @@ void run_terminal(const string user) {
         string ch = read_string(0x07);
         
         if (string_equal(ch, "ver") || string_equal(ch, "version")) {
-            print("AurorOS", 0x07);
-            println("");
-            print("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS\n", 0x04);
+            println("AurorOS", 0x07);
+            println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS\n", 0x04);
         } else if (string_equal(ch, "clear")) {
             clear_console();
         } else if (string_equal(ch, "mush")) {
             if (string_equal(user, "main")) {
-                print("mush: cannot request main user access when user already has it\n", 0x04);
+                println("mush: cannot request main user access when user already has it", 0x04);
                 continue;
             }
-            print("mush: attempting to start terminal as main user\n", 0x02);
-            print("mush: main user password required; default is xxx\n", 0x07);
+            println("mush: attempting to start terminal as main user", 0x02);
+            println("mush: main user password required; default is xxx", 0x07);
             if (string_equal(read_string(0x07), "xxx")) {
                 run_terminal("main");
-                print("mush: terminal process exited; returning to main instance\n", 0x07);
+                println("mush: terminal process exited; returning to main instance", 0x07);
             } 
         } else if (string_equal(ch, "quit") || string_equal(ch, "exit")) {
             break;
@@ -67,11 +66,11 @@ void kernel_main()
 {
     string version = "1.0.0 [private beta]";
     clear_console();
-    println("Welcome to AurorOS!");
+    println("Welcome to AurorOS!", 0x07);
     print("Current version: ", 0x07);
-    println(version);
-    println("You can type \"help\" for available commands.");
+    println(version, 0x02);
+    println("You can type \"help\" for available commands.", 0x07);
     run_terminal("user");
-    println("Terminal process exited. You can manually turn off your computer.");
+    println("Terminal process exited. You can manually turn off your computer.", 0x07);
     while (1) {}
 }

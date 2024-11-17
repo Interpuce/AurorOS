@@ -52,8 +52,8 @@ void print_custom(string msg, string tp, int8 msgcl, int8 tpcl, int8 brcl)
     print(msg, msgcl);
 }
 
-void println(string msg)
+void println(string msg, int8 color)
 {
+    print(msg, color);
     print("\n", 0x07);
-    print(msg, 0x07);
 }
