@@ -12,7 +12,7 @@
 
 #define SECTOR_SIZE 512
 #define FAT32_MAX_FILENAME 11
-#define FAT32_CLUSTER_SIZE (SECTOR_SIZE * boot_sector.sectors_per_cluster)
+#define FAT32_CLUSTER_SIZE (SECTOR_SIZE * 8) // 8 is just typical and previous configuration had errors
 #define MAX_BUFFER_SIZE (SECTOR_SIZE * 10)
 
 typedef struct {
