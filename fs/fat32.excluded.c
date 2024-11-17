@@ -9,7 +9,7 @@
  */
 
 // WARNING: THIS IS A BASIC DRIVER
-// i think it contains some error because filesystems are complicated.
+// I think it contains some error because filesystems are complicated.
 
 #include <types.h>
 #include "fat32.h"

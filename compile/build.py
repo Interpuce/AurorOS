@@ -13,6 +13,9 @@ def compile_c_files(root_dir):
     for dirpath, _, filenames in os.walk(root_dir):
         for file in filenames:
             if file.endswith('.c'):
+                if file.endswith('.excluded.c'):
+                    continue
+                
                 source_path = os.path.join(dirpath, file)
                 object_path = source_path[:-2] + '.o'
                 object_files.append(object_path)
