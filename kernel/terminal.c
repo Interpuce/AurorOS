@@ -35,7 +35,7 @@ void run_terminal(const string user) {
             }
             println("mush: attempting to start terminal as main user", 0x02);
             println("mush: main user password required; default is xxx", 0x07);
-            if (string_equal(read_string(0x07), "xxx")) {
+            if (string_equal(invisible_read_string(0x07), "xxx")) {
                 run_terminal("main");
                 println("mush: terminal process exited; returning to main instance", 0x07);
             } 
