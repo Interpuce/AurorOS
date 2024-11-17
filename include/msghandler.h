@@ -1,3 +1,13 @@
+/**
+ * -------------------------------------------------------------------------
+ *                                   AurorOS
+ * (c) 2022-2024 Interpuce
+ * 
+ * You should receive AurorOS license with this source code. If not - check:
+ *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
+ * -------------------------------------------------------------------------
+ */
+
 #include <screen.h>
 #include <string.h>
 #include <types.h>
@@ -34,16 +44,16 @@ void print_ok(string msg)
     print(msg, 0x07);
 }
 
-void println(string msg)
-{
-    print("\n", 0x07);
-    print(msg, 0x07);
-}
-
 void print_custom(string msg, string tp, int8 msgcl, int8 tpcl, int8 brcl)
 {
     print("\n[ ", brcl);
     print(tp, tpcl);
     print(" ] ", brcl);
     print(msg, msgcl);
+}
+
+void println(string msg)
+{
+    print("\n", 0x07);
+    print(msg, 0x07);
 }
