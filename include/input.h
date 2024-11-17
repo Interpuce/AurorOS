@@ -333,7 +333,7 @@ string read_string(int8 colr) {
 }
 
 
-void invisible_read_string() {
+string invisible_read_string() {
     char buff;
     bool input_shift = false;
     string buffstr;
