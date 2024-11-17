@@ -14,6 +14,8 @@
 #include <string.h>
 #include <input.h>
 
+extern int run_appman(const string user);
+
 void run_terminal(const string user) {
     while (1)
     {
@@ -42,10 +44,7 @@ void run_terminal(const string user) {
         } else if (string_equal(ch, "quit") || string_equal(ch, "exit")) {
             break;
         } else if (string_equal(ch, "appman")) {
-            println("Application Manager (appman) for AurorOS", 0x07);
-            println(" (c) 2022-2024 Interpuce", 0x07);
-            println("", 0x07);
-            print_warn("Not implemented required functions like Internet connection");
+            
         } else if (string_equal(ch, "colormap")) {
             print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
             print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
