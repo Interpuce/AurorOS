@@ -63,7 +63,7 @@ void run_terminal(const string user) {
 }
 
 
-void main()
+void kernel_main()
 {
     string version = "1.0.0 [private beta]";
     clear_console();

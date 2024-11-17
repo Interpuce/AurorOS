@@ -14,8 +14,8 @@ section .text
         dd - (0x1BADB002+0x00)
         
 global start
-extern main
+extern kernel_load
 start:
         cli
-        call main
+        call kernel_load
         hlt
