@@ -9,6 +9,7 @@ Everyone is permitted to share this document, but changing it is not allowed.
 1. You are not allowed to create license that doesn't follow the rules of this license.
 2. You are allowed to change everything in code.
 3. You **need to inform users that it is a AurorOS distribution**.
+4. Distribution must be open-source and present in public repository on GitHub.
 
 ## Using an OS
 
