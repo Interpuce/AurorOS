@@ -40,9 +40,9 @@ void run_terminal(const string user) {
                 run_terminal("main");
                 print("mush: terminal process exited; returning to main instance\n", 0x07);
             } 
-        } else if (string_equal(ch[0], "quit") || string_equal(ch[0], "exit")) {
+        } else if (string_equal(ch, "quit") || string_equal(ch, "exit")) {
             break;
-        } else if (string_equal(ch[0], "colormap")) {
+        } else if (string_equal(ch, "colormap")) {
             print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
             print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
             print("\nAurorOS ", 0x05); print("AurorOS ", 0x50);
