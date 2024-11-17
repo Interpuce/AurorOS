@@ -14,6 +14,14 @@
 
 extern void run_terminal(const string user);
 
+void kernel_panic() {
+    clear_console();
+    print_error("KERNEL PANIC!\n");
+    println("System occurred a critical error and could not continue.", 0x04);
+    println("You can now manually restart/shutdown the computer using power button.", 0x07);
+    asm("hlt"); // i have no better idea what to do on kernel panic than halting the procesor, eclair25 do this better :)
+}
+
 void kernel_main()
 {
     string version = "1.0.0 [private beta]";
