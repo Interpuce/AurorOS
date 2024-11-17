@@ -44,7 +44,7 @@ void run_terminal(const string user) {
         } else if (string_equal(ch, "quit") || string_equal(ch, "exit")) {
             break;
         } else if (string_equal(ch, "appman")) {
-            
+            run_appman(user);
         } else if (string_equal(ch, "colormap")) {
             print("\nAurorOS ", 0x07); print("AurorOS ", 0x70);
             print("\nAurorOS ", 0x06); print("AurorOS ", 0x60);
