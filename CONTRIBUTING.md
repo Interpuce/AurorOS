@@ -2,6 +2,13 @@
 
 Thanks for your interest in contributing to AurorOS. This is a quick guide how to contribute to AurorOS.
 
+## Contributing important ToDo's
+
+If you want to help with AurorOS please consider contributing to one of these aspects:
+
+- security system (better and new user system)
+- drivers
+
 ## Contributing to AurorOS Kernel
 
 If you want to contribute to AurorOS kernel you need to have previous experience with OS-dev. You can break the code very easily, so always [compile the OS](#compiling-auroros) and check the changes. Every change must be described with English and can't rebuild the entire kernel (if you want, make issue as feature request).
