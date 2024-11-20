@@ -1,4 +1,8 @@
 .PHONY = all
 
 all:
-	python3 compile/build.py
+	ifeq ($(OS),Windows_NT)
+		compile\windows.exe
+	else
+		python3 compile/build.py
+	endif
