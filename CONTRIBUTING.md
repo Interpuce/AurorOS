@@ -36,6 +36,9 @@ Run this command in AurorOS repo root folder:
 
 ```make```
 
+> [!CAUTION]
+> You will do this only at your own risk. We don't officially support any OS builds compiled by the user.
+
 ### Windows compilation
 
 You need to get `make`, `python3`, `nasm` and `gcc` on Windows to compile the OS in Windows.
@@ -47,6 +50,9 @@ Clone the repository to the current folder skipping unnecessary commit history:
 Run this command in AurorOS repo root folder:
 
 ```make```
+
+> [!CAUTION]
+> You will do this only at your own risk. We don't officially support any OS builds compiled on Windows.
 
 ### Running OS in virtual machine
 
