@@ -21,8 +21,8 @@ The apps are not that easy to break, so you can do more changes. Avoid creating 
 
 ### Compilation
 
-> [!IMPORTANT]
-> 
+> [!CAUTION]
+> You will do this only at your own risk. We don't officially support any OS builds compiled by the user.
 
 First - make sure you have Linux distribution installed and you are going to execute these commands on Linux distribution.
 
@@ -43,10 +43,10 @@ Run this command in AurorOS repo root folder:
 
 ```make```
 
-> [!CAUTION]
-> You will do this only at your own risk. We don't officially support any OS builds compiled by the user.
-
 ### Windows compilation
+
+> [!WARNING]
+> Currently compilation does not work on Windows. We are working at the solution.
 
 You need to get `make`, `python3`, `nasm` and `gcc` on Windows to compile the OS in Windows.
 
@@ -57,9 +57,6 @@ Clone the repository to the current folder skipping unnecessary commit history:
 Run this command in AurorOS repo root folder:
 
 ```make```
-
-> [!CAUTION]
-> You will do this only at your own risk. We don't officially support any OS builds compiled on Windows.
 
 ### Running OS in virtual machine
 
