@@ -62,6 +62,9 @@ extern kernel_load
     mov word [idt + %1 * 8 + 6], ax    ; Set the high 16 bits of the handler address.
 %endmacro
 
+init_idt:
+        ; Nothing for now
+
 ; Entry point of the bootloader stage.
 start:
         cli               ; Disable interrupts to ensure a controlled initialization.
