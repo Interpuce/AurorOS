@@ -11,6 +11,8 @@
 #ifndef TYPES_H
 #define TYPES_H
 
+#define NULL ((void*)0)
+
 typedef signed char int8;
 typedef unsigned char uint8;
 

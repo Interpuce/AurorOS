@@ -1,5 +1,14 @@
+/**
+ * -------------------------------------------------------------------------
+ *                                   AurorOS
+ * (c) 2022-2024 Interpuce
+ * 
+ * You should receive AurorOS license with this source code. If not - check:
+ *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
+ * -------------------------------------------------------------------------
+ */
+
 #include <types.h>
-#include <stddef.h>
 
 #define MEMORY_POOL_SIZE  (1024 * 1024) // 1 MB memory pool
 static uint8_t memory_pool[MEMORY_POOL_SIZE];
