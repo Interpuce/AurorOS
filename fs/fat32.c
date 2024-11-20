@@ -62,7 +62,7 @@ bool fat32_read_file(FAT32FileSystem *fs, const char *filename, uint8_t *buffer,
         uint32_t bytes_remaining = *size - bytes_read;
         uint32_t bytes_to_read = (bytes_remaining < FAT32_CLUSTER_SIZE) ? bytes_remaining : FAT32_CLUSTER_SIZE;
 
-        my_memcpy(&buffer[bytes_read], &fs->disk_image[data_sector * SECTOR_SIZE], bytes_to_read);
+        memcpy(&buffer[bytes_read], &fs->disk_image[data_sector * SECTOR_SIZE], bytes_to_read);
         bytes_read += bytes_to_read;
         cluster = fat32_get_next_cluster(fs, cluster);
         
