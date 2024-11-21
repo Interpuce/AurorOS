@@ -8,13 +8,16 @@
  * -------------------------------------------------------------------------
  */
 
-#include <console.h>
+// DECLARATION FILE
+// The source for these function can be found at:
+//   drivers/vga.c
+
 #include <types.h>
 
-int run_appman(const string user) {
-    println("Application Manager (appman) for AurorOS", 0x07);
-    println(" (c) 2022-2024 Interpuce", 0x07);
-    println("", 0x07);
-    print_warn("Not implemented now required functions like Internet connection");
-    return 0;
-}
+extern void printchs(string ch, int8 clr);
+extern void printch(char c, int8 color);
+extern void nl_check();
+extern void scroll_up(uint8 lineNumber);
+extern void clear_console();
+extern void update_cursor();
+extern void clear_line(uint8 from,uint8 to);

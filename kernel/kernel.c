@@ -8,9 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <screen.h>
 #include <types.h>
-#include <msghandler.h>
+#include <console.h>
 
 extern void run_terminal(const string user);
 

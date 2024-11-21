@@ -10,10 +10,9 @@
 
 #ifndef KB_H
 #define KB_H
-#include <stdbool.h>
-#include "screen.h"
-#include "system.h"
-#include "types.h"
+#include <system.h>
+#include <types.h>
+#include <console.h>
 
 string read_string(int8 colr) {
     char buff;

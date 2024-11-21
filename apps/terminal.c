@@ -9,8 +9,7 @@
  */
 
 #include <types.h>
-#include <screen.h>
-#include <msghandler.h>
+#include
 #include <string.h>
 #include <input.h>
 
