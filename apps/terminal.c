@@ -11,6 +11,7 @@
 #include <types.h>
 #include <console.h>
 #include <string.h>
+#include <constants.h>
 
 extern int run_appman(const string user);
 
@@ -24,8 +25,26 @@ void run_terminal(const string user) {
         string ch = read(0x07);
         
         if (string_equal(ch, "ver") || string_equal(ch, "version")) {
-            println("AurorOS", 0x07);
-            println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
+            if (AUROR_BETA_STATE == 0) {
+                print("AurorOS ", 0x07);
+                println(AUROR_VERSION, 0x07);
+            }
+            if (AUROR_BETA_STATE == 1) {
+                print("AurorOS ", 0x07);
+                print(AUROR_VERSION, 0x07);
+                print(" (beta ", 0x07);
+                print(AUROR_SUBVERSION, 0x07);
+                println(")", 0x07);
+                println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
+            }
+            if (AUROR_BETA_STATE == 2) {
+                print("AurorOS ", 0x07);
+                print(AUROR_VERSION, 0x07);
+                print(" (alpha ", 0x07);
+                print(AUROR_SUBVERSION, 0x07);
+                println(")", 0x07);
+                println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
+            }
         } else if (string_equal(ch, "clear")) {
             clear_console();
         } else if (string_equal(ch, "mush")) {
