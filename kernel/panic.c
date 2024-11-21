@@ -10,18 +10,13 @@
 
 #include <types.h>
 #include <console.h>
-#include <panic.c>
 
-extern void run_terminal(const string user);
-
-void kernel_main()
-{
-    string version = "1.0.0 [private beta]";
+void kernel_panic(const string code) {
     clear_console();
-    println("Welcome to AurorOS!", 0x07);
-    print("Current version: ", 0x07);
-    println(version, 0x02);
-    println("You can type \"help\" for available commands.", 0x07);
-    run_terminal("user");
-    kernel_panic("TOP_SHELL_EXITED");
+    print_error("KERNEL PANIC!\n");
+    println("System occurred a critical error and could not continue.", 0x04);
+    println("You can now manually restart/shutdown the computer using power button.", 0x07);
+    print("Error code:", 0x0F);
+    println(code, 0x07);
+    asm("hlt"); // I have no better idea what to do on kernel panic than halting the procesor, eclair25 do this better :)
 }
