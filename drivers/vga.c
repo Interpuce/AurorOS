@@ -8,7 +8,7 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once // New way to replace constants, useless constants I think
+#pragma once
 
 #include <types.h>
 #include <system.h>
@@ -110,7 +110,7 @@ void printch(char c, int8 color)
     nl_check();
 }
 
-void print(string ch, int8 clr)
+void printchs(string ch, int8 clr)
 {
     uint32 i = 0;
     uint32 length = strlength(ch)-1;
