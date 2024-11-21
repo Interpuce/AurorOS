@@ -8,8 +8,7 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef TYPES_H
-#define TYPES_H
+#pragma once
 
 #define NULL ((void*)0)
 
@@ -46,5 +45,3 @@ typedef signed long long int64_t;
 typedef unsigned long long uint64_t;
 
 typedef enum { false, true } bool;
-
-#endif

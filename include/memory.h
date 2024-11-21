@@ -8,8 +8,7 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef MEMORY_MANAGEMENT_H
-#define MEMORY_MANAGEMENT_H
+#pragma once
 
 #include <types.h>
 
@@ -18,5 +17,3 @@ extern void mem_free(void *ptr);
 extern void memory_init(void);
 
 extern void *memcpy(void *dest, const void *src, size_t n);
-
-#endif 

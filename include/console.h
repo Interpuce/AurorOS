@@ -8,6 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
+#pragma once
+
 #include <declarations/vga.h>
 #include <string.h>
 #include <types.h>

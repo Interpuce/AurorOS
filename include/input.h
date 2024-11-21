@@ -8,8 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef KB_H
-#define KB_H
+#pragma once
+
 #include <system.h>
 #include <types.h>
 #include <console.h>
@@ -591,5 +591,3 @@ string invisible_read_string() {
     buffstr[i] = 0;           
     return buffstr;
 }
-
-#endif

@@ -8,8 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef SYSTEM_H
-#define SYSTEM_H
+#pragma once
+
 #include <types.h>
 uint8 inb (uint16 _port)
 {
@@ -22,5 +22,3 @@ void outb (uint16 _port, uint8 _data)
 {
 	__asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));
 }
-
-#endif

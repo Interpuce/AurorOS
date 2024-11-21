@@ -12,6 +12,8 @@
 // The source for these function can be found at:
 //   drivers/vga.c
 
+#pragma once
+
 #include <types.h>
 
 extern void printchs(string ch, int8 clr);
