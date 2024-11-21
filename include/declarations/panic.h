@@ -12,6 +12,8 @@
 // The source for these function can be found at:
 //   drivers/vga.c
 
+#pragma once
+
 #include <types.h>
 
 extern void kernel_panic(const string code);
