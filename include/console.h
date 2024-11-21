@@ -65,6 +65,6 @@ void print_custom(string msg, string tp, int8 msgcl, int8 tpcl, int8 brcl)
     println(msg, msgcl);
 }
 
-void read(int8 color) {
-    read_string(color);
+string read(int8 color) {
+    return read_string(color);
 }

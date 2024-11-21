@@ -9,9 +9,8 @@
  */
 
 #include <types.h>
-#include
+#include <console.h>
 #include <string.h>
-#include <input.h>
 
 extern int run_appman(const string user);
 
@@ -22,7 +21,7 @@ void run_terminal(const string user) {
         print(user, 0x05);
         print("@AurorOS > ", 0x05);
   
-        string ch = read_string(0x07);
+        string ch = read(0x07);
         
         if (string_equal(ch, "ver") || string_equal(ch, "version")) {
             println("AurorOS", 0x07);
