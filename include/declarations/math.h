@@ -31,3 +31,7 @@ extern int lcm(int a, int b);
 // Powers
 extern int highest_power_of_two(int n);
 extern int power(int base, int exp);
+
+// Covertion to string
+extern void int_to_hex(int n, char* buffer);
+extern void int_to_text(long long n, char* buffer);
