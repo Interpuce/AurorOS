@@ -40,3 +40,10 @@ int previous_prime_number(int n) {
     }
     return candidate;
 }
+
+bool has_previous_prime_number(int n) {
+    if (previous_prime_number(n) == -1) {
+        return false;
+    }
+    return true;
+}

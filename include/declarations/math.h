@@ -14,7 +14,10 @@
 
 #pragma once
 
+#include <types.h>
+
 // Prime numbers
 extern int is_prime(int n);
 extern int next_prime_number(int n);
 extern int previous_prime_number(int n);
+extern bool has_previous_prime_number(int n);
