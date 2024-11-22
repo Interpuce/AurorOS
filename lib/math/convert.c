@@ -10,7 +10,7 @@
 
 #include <types.h>
 
-void int_to_hex(int n, char* buffer) {
+void int_to_hex(int n, string buffer) {
     char hex_chars[] = "0123456789ABCDEF";
     int i = 0;
     do {
@@ -26,7 +26,7 @@ void int_to_hex(int n, char* buffer) {
     }
 }
 
-void int_to_text(long long n, char* buffer) {
+void int_to_text(long long n, string buffer) {
     int is_negative = 0;
 
     if (n < 0) {

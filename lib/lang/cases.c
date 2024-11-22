@@ -10,7 +10,7 @@
 
 #include <types.h>
 
-void to_lower_case(char* str) {
+void to_lower_case(string str) {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'A' && str[i] <= 'Z') {
             str[i] = str[i] + ('a' - 'A');
@@ -18,7 +18,7 @@ void to_lower_case(char* str) {
     }
 }
 
-void to_upper_case(char* str) {
+void to_upper_case(string str) {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'a' && str[i] <= 'z') {
             str[i] = str[i] - ('a' - 'A');
@@ -26,7 +26,7 @@ void to_upper_case(char* str) {
     }
 }
 
-void capitalize(char* str) {
+void capitalize(string str) {
     int first_letter = 1;
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'A' && str[i] <= 'Z') {
@@ -42,7 +42,7 @@ void capitalize(char* str) {
     }
 }
 
-void capitalize_words(char* str) {
+void capitalize_words(string str) {
     int in_word = 0;
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'a' && str[i] <= 'z') {
@@ -61,21 +61,21 @@ void capitalize_words(char* str) {
     }
 }
 
-int is_lower_case(const char* str) {
+int is_lower_case(const string str) {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'A' && str[i] <= 'Z') return 0;
     }
     return 1;
 }
 
-int is_upper_case(const char* str) {
+int is_upper_case(const string str) {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'a' && str[i] <= 'z') return 0;
     }
     return 1;
 }
 
-void toggle_case(char* str) {
+void toggle_case(string str) {
     for (int i = 0; str[i] != '\0'; i++) {
         if (str[i] >= 'a' && str[i] <= 'z') {
             str[i] = str[i] - ('a' - 'A');
