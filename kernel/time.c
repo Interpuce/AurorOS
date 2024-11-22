@@ -37,5 +37,5 @@ void unsafe_get_current_time(time_t* time) {
 
 void get_current_time(time_t* time) {
     while (rtc_time_is_updating());
-    get_current_time(time);
+    unsafe_get_current_time(time);
 }
