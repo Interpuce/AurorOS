@@ -13,6 +13,7 @@
 #include <string.h>
 #include <constants.h>
 #include <declarations/time.h>
+#include <rtc.h>
 
 extern int run_appman(const string user);
 
@@ -47,7 +48,13 @@ void run_terminal(const string user) {
                 println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
             }
         } else if (string_equal(ch, "time")) {
-            println(get_current_time(), 0x07);
+            time_t current_time;
+            get_current_time(&current_time);
+            print(current_time.hours, 0x07);
+            print(":", 0x07);
+            print(current_time.minutes, 0x07);
+            print(":", 0x07);
+            println(current_time.seconds, 0x07);
         } else if (string_equal(ch, "clear")) {
             clear_console();
         } else if (string_equal(ch, "mush")) {
