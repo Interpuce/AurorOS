@@ -12,6 +12,7 @@
 #include <console.h>
 #include <string.h>
 #include <constants.h>
+#include <declarations/time.h>
 
 extern int run_appman(const string user);
 
@@ -45,6 +46,8 @@ void run_terminal(const string user) {
                 println(")", 0x07);
                 println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
             }
+        } else if (string_equal(ch, "time")) {
+            println(get_current_time(), 0x07);
         } else if (string_equal(ch, "clear")) {
             clear_console();
         } else if (string_equal(ch, "mush")) {
