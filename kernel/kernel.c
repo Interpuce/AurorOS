@@ -10,7 +10,7 @@
 
 #include <types.h>
 #include <console.h>
-#include <panic.h>
+#include <declarations/panic.h>
 #include <constants.h>
 
 extern void run_terminal(const string user);

@@ -9,7 +9,7 @@
  */
 
 #include <constants.h>
-#include <panic.h>
+#include <declarations/panic.h>
 
 // Declaration of main function in the kernel/kernel.c file
 extern void kernel_main(void);
