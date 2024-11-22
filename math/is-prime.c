@@ -20,3 +20,13 @@ int is_prime(int n) {
     }
     return 1;
 }
+
+int next_prime_number(int n) {
+    if (n < 2) return 2;
+
+    int candidate = n + 1;
+    while (!is_prime(candidate)) {
+        candidate++;
+    }
+    return candidate;
+}
