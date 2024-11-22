@@ -24,3 +24,9 @@ extern void capitalize_words(string str);
 extern int is_lower_case(const string str);
 extern int is_upper_case(const string str);
 extern void toggle_case(string str);
+
+// Length
+extern int length(const string str);
+
+// Trim
+extern void trim(string str);
