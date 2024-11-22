@@ -13,7 +13,7 @@
 
 #include <types.h>
 #include "fat32.h"
-#include <memory.h>
+#include <declarations/memory.h>
 #include <string.h>
 
 bool fat32_init(FAT32FileSystem *fs, uint8_t *disk_image) {
