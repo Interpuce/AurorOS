@@ -27,3 +27,7 @@ extern int gcd(int a, int b);
 
 // LCM
 extern int lcm(int a, int b);
+
+// Powers
+extern int highest_power_of_two(int n);
+extern int power(int base, int exp);
