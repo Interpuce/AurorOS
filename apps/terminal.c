@@ -13,6 +13,7 @@
 #include <string.h>
 #include <constants.h>
 #include <declarations/time.h>
+#include <declarations/math.h>
 #include <rtc.h>
 
 extern int run_appman(const string user);
@@ -50,11 +51,17 @@ void run_terminal(const string user) {
         } else if (string_equal(ch, "time")) {
             time_t current_time;
             get_current_time(&current_time);
-            print(current_time.hours, 0x07);
+            string hours;
+            int_to_text(current_time.hours, hours);
+            print(hours, 0x07);
             print(":", 0x07);
-            print(current_time.minutes, 0x07);
+            string minutes;
+            int_to_text(current_time.minutes, minutes);
+            print(minutes, 0x07);
             print(":", 0x07);
-            println(current_time.seconds, 0x07);
+            string seconds;
+            int_to_text(current_time.seconds, seconds);
+            println(seconds, 0x07);
         } else if (string_equal(ch, "clear")) {
             clear_console();
         } else if (string_equal(ch, "mush")) {
