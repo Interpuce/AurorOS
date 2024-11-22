@@ -30,3 +30,13 @@ int next_prime_number(int n) {
     }
     return candidate;
 }
+
+int previous_prime_number(int n) {
+    if (n <= 2) return -1;
+
+    int candidate = n - 1;
+    while (candidate > 1 && !is_prime(candidate)) {
+        candidate--;
+    }
+    return candidate;
+}
