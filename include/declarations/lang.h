@@ -10,7 +10,7 @@
 
 // DECLARATION FILE
 // The source for these function can be found at:
-//   lib/math
+//   lib/lang
 
 #pragma once
 
