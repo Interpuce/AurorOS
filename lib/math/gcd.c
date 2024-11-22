@@ -8,19 +8,13 @@
  * -------------------------------------------------------------------------
  */
 
-// DECLARATION FILE
-// The source for these function can be found at:
-//   lib/math
-
-#pragma once
-
 #include <types.h>
 
-// Prime numbers
-extern int is_prime(int n);
-extern int next_prime_number(int n);
-extern int previous_prime_number(int n);
-extern bool has_previous_prime_number(int n);
-
-// GCD
-extern int gcd(int a, int b);
+int gcd(int a, int b) {
+    while (b != 0) {
+        int temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
