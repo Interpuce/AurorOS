@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
+#ifndef INCLUDE_DECLARATIONS_LANG
+#define INCLUDE_DECLARATIONS_LANG 1
 
 #include <types.h>
 
@@ -17,3 +18,5 @@ extern void mem_free(void *ptr);
 extern void memory_init(void);
 
 extern void *memcpy(void *dest, const void *src, size_t n);
+
+#endif

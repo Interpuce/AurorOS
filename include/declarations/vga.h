@@ -12,7 +12,8 @@
 // The source for these function can be found at:
 //   drivers/vga.c
 
-#pragma once
+#ifndef INCLUDE_DECLARATIONS_VGA
+#define INCLUDE_DECLARATIONS_VGA 1
 
 #include <types.h>
 
@@ -23,3 +24,5 @@ extern void scroll_up(uint8 lineNumber);
 extern void clear_console();
 extern void update_cursor();
 extern void clear_line(uint8 from,uint8 to);
+
+#endif

@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once 
+#ifndef INCLUDE_CONSTANTS
+#define INCLUDE_CONSTANTS 1
 
 /**
  * AurorOS version constant. It can be used to represent the version of
@@ -35,3 +36,5 @@
  * When AUROR_BETA_STAGE is set to 0 this constant is ignored.
  */
 #define AUROR_SUBVERSION "1"
+
+#endif

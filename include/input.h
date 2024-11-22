@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
+#ifndef INCLUDE_INPUT
+#define INCLUDE_INPUT 1
 
 #include <system.h>
 #include <types.h>
@@ -591,3 +592,5 @@ string invisible_read_string() {
     buffstr[i] = 0;           
     return buffstr;
 }
+
+#endif

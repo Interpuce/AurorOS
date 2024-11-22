@@ -12,7 +12,8 @@
 // The source for these function can be found at:
 //   lib/lang
 
-#pragma once
+#ifndef INCLUDE_DECLARATIONS_LANG
+#define INCLUDE_DECLARATIONS_LANG 1
 
 #include <types.h>
 
@@ -30,3 +31,5 @@ extern int length(const string str);
 
 // Trim
 extern void trim(string str);
+
+#endif

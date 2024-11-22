@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
+#ifndef INCLUDE_CONSOLE
+#define INCLUDE_CONSOLE 1
 
 #include <declarations/vga.h>
 #include <string.h>
@@ -68,3 +69,5 @@ void print_custom(string msg, string tp, int8 msgcl, int8 tpcl, int8 brcl)
 string read(int8 color) {
     return read_string(color);
 }
+
+#endif

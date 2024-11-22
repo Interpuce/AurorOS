@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
+#ifndef INCLUDE_STRING
+#define INCLUDE_STRING 1
 
 #include <types.h>
 uint16 strlength(string ch)
@@ -46,3 +47,5 @@ int strncmp(const char *str1, const char *str2, size_t n) {
     }
     return 0;
 }
+
+#endif

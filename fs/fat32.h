@@ -8,6 +8,9 @@
  * -------------------------------------------------------------------------
  */
 
+#ifndef FS_FAT32
+#define FS_FAT32 1
+
 #include <types.h>
 
 #define SECTOR_SIZE 512
@@ -64,3 +67,5 @@ typedef struct {
     uint8_t *disk_image;
     uint32_t first_data_sector;
 } FAT32FileSystem;
+
+#endif

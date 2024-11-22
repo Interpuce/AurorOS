@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
+#ifndef INCLUDE_RTC
+#define INCLUDE_RTC 1
 
 #include <types.h>
 
@@ -17,3 +18,5 @@ typedef struct {
     uint8_t minutes;
     uint8_t seconds;
 } time_t;
+
+#endif

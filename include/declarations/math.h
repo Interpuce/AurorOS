@@ -12,7 +12,8 @@
 // The source for these function can be found at:
 //   lib/math
 
-#pragma once
+#ifndef INCLUDE_DECLARATIONS_MATH
+#define INCLUDE_DECLARATIONS_MATH 1
 
 #include <types.h>
 
@@ -35,3 +36,5 @@ extern int power(int base, int exp);
 // Covertion to string
 extern void int_to_hex(int n, string buffer);
 extern void int_to_text(long long n, string buffer);
+
+#endif
