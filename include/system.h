@@ -13,6 +13,12 @@
 
 #include <types.h>
 
+/**
+ * inb vs inw, outb vs outw - what's the difference?
+ * inb (in port byte) works in 8-bits while inw (in port word) works in 16-bits
+ * outb (out port byte) works in 8-bits while outw (out port word) works in 16-bits
+ */
+
 uint8 inb(uint16 _port) {
     uint8 rv;
     asm volatile ("inb %1, %0" : "=a" (rv) : "dN" (_port));
