@@ -11,6 +11,7 @@
 #include "fat32.h"
 #include <system.h>
 #include <types.h>
+#include <declarations/memory.h>
 
 #define DISK_PORT_CONTROL 0x1F0 
 #define DISK_PORT_ERROR 0x1F1 
@@ -24,6 +25,15 @@
 
 #define FAT32_SECTOR_SIZE 512
 #define FAT32_MAX_CLUSTERS 0x0FFFFFF8
+
+uint32_t cluster_to_lba(uint32_t cluster) {
+    fat32_boot_sector_t boot_sector;
+    if (fat32_get_boot_sector(&boot_sector) != 0) {
+        return 0;
+    }
+    uint32_t first_data_sector = boot_sector.reserved_sector_count + (boot_sector.number_of_fats * boot_sector.fat_size);
+    return first_data_sector + ((cluster - 2) * boot_sector.sectors_per_cluster);
+}
 
 int fat32_lowlevel_read_sector(uint32_t lba, uint32_t count, uint8_t* buffer) {
     uint32_t sector;
@@ -89,13 +99,4 @@ int fat32_write_file(uint32_t cluster, uint8_t* buffer, uint32_t size) {
     uint32_t lba = cluster_to_lba(cluster);
     uint32_t sectors = (size + FAT32_SECTOR_SIZE - 1) / FAT32_SECTOR_SIZE;
     return fat32_lowlevel_write_sector(lba, sectors, buffer);
-}
-
-uint32_t cluster_to_lba(uint32_t cluster) {
-    fat32_boot_sector_t boot_sector;
-    if (fat32_get_boot_sector(&boot_sector) != 0) {
-        return 0;
-    }
-    uint32_t first_data_sector = boot_sector.reserved_sector_count + (boot_sector.number_of_fats * boot_sector.fat_size);
-    return first_data_sector + ((cluster - 2) * boot_sector.sectors_per_cluster);
 }
