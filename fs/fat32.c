@@ -8,67 +8,94 @@
  * -------------------------------------------------------------------------
  */
 
-// WARNING: THIS IS A BASIC DRIVER
-// I think it contains some error because filesystems are complicated.
-
-#include <types.h>
 #include "fat32.h"
-#include <declarations/memory.h>
-#include <string.h>
+#include <system.h>
+#include <types.h>
 
-bool fat32_init(FAT32FileSystem *fs, uint8_t *disk_image) {
-    memcpy(&fs->boot_sector, disk_image, SECTOR_SIZE);
-    fs->first_data_sector = fs->boot_sector.reserved_sectors + (fs->boot_sector.num_fats * fs->boot_sector.fat_size_32);
-    return true;
-}
+#define DISK_PORT_CONTROL 0x1F0 
+#define DISK_PORT_ERROR 0x1F1 
+#define DISK_PORT_FEATURES 0x1F1 
+#define DISK_PORT_SECTOR_COUNT 0x1F2
+#define DISK_PORT_LBA_LOW 0x1F3 
+#define DISK_PORT_LBA_MID 0x1F4 
+#define DISK_PORT_LBA_HIGH 0x1F5 
+#define DISK_PORT_DEVICE 0x1F6
+#define DISK_PORT_COMMAND 0x1F7
 
-uint32_t fat32_get_next_cluster(FAT32FileSystem *fs, uint32_t cluster) {
-    uint32_t fat_offset = cluster * 4; 
-    uint32_t fat_sector = fs->boot_sector.reserved_sectors + (fat_offset / SECTOR_SIZE);
-    uint32_t fat_entry_offset = fat_offset % SECTOR_SIZE;
+#define FAT32_SECTOR_SIZE 512
+#define FAT32_MAX_CLUSTERS 0x0FFFFFF8
 
-    uint32_t next_cluster;
-    memcpy(&next_cluster, &fs->disk_image[fat_sector * SECTOR_SIZE + fat_entry_offset], 4);
-    return next_cluster & 0x0FFFFFFF; // Mask out reserved bits
-}
+int fat32_lowlevel_read_sector(uint32_t lba, uint32_t count, uint8_t* buffer) {
+    uint32_t sector;
+    outb(DISK_PORT_DEVICE, 0xE0 | ((lba >> 24) & 0x0F));
+    outb(DISK_PORT_SECTOR_COUNT, count);
+    outb(DISK_PORT_LBA_LOW, lba & 0xFF);
+    outb(DISK_PORT_LBA_MID, (lba >> 8) & 0xFF);
+    outb(DISK_PORT_LBA_HIGH, (lba >> 16) & 0xFF);
+    outb(DISK_PORT_COMMAND, 0x20);
 
-bool fat32_read_file(FAT32FileSystem *fs, const char *filename, uint8_t *buffer, uint32_t *size) {
-    DirectoryEntry dir_entry;
-    uint32_t cluster = fs->boot_sector.root_cluster;
-
-    // Find the file in the directory structure
-    while (true) {
-        uint32_t dir_sector = fs->first_data_sector + (cluster - 2) * fs->boot_sector.sectors_per_cluster;
-        for (uint32_t i = 0; i < fs->boot_sector.sectors_per_cluster; i++) {
-            memcpy(&dir_entry, &fs->disk_image[dir_sector * SECTOR_SIZE + i * sizeof(DirectoryEntry)], sizeof(DirectoryEntry));
-            if (dir_entry.name[0] == 0) break; 
-            if (strncmp(dir_entry.name, filename, FAT32_MAX_FILENAME) == 0) {
-                cluster = dir_entry.first_cluster_low;
-                *size = dir_entry.size;
-                break;
-            }
-        }
-
-        if (dir_entry.name[0] != 0) break;
-
-        cluster = fat32_get_next_cluster(fs, cluster);
-        if (cluster >= 0x0FFFFFF8) break;
+    for (sector = 0; sector < count; sector++) {
+        inw(DISK_PORT_CONTROL, buffer + sector * FAT32_SECTOR_SIZE, FAT32_SECTOR_SIZE / 2);
     }
 
-    // Read the file data from the disk image
-    uint32_t bytes_read = 0;
-    while (bytes_read < *size) {
-        uint32_t data_sector = fs->first_data_sector + (cluster - 2) * fs->boot_sector.sectors_per_cluster;
-        
-        uint32_t bytes_remaining = *size - bytes_read;
-        uint32_t bytes_to_read = (bytes_remaining < FAT32_CLUSTER_SIZE) ? bytes_remaining : FAT32_CLUSTER_SIZE;
+    return 0;
+}
 
-        memcpy(&buffer[bytes_read], &fs->disk_image[data_sector * SECTOR_SIZE], bytes_to_read);
-        bytes_read += bytes_to_read;
-        cluster = fat32_get_next_cluster(fs, cluster);
-        
-        if (cluster >= 0x0FFFFFF8) break;
+int fat32_lowlevel_write_sector(uint32_t lba, uint32_t count, uint8_t* buffer) {
+    uint32_t sector;
+    outb(DISK_PORT_DEVICE, 0xE0 | ((lba >> 24) & 0x0F)); 
+    outb(DISK_PORT_SECTOR_COUNT, count);
+    outb(DISK_PORT_LBA_LOW, lba & 0xFF); 
+    outb(DISK_PORT_LBA_MID, (lba >> 8) & 0xFF);
+    outb(DISK_PORT_LBA_HIGH, (lba >> 16) & 0xFF);
+    outb(DISK_PORT_COMMAND, 0x30);
+
+    for (sector = 0; sector < count; sector++) {
+        outw(DISK_PORT_CONTROL, *(uint16_t*)(buffer + sector * FAT32_SECTOR_SIZE));
     }
 
-    return bytes_read == *size;
+    return 0;
+}
+
+int fat32_read_sector(uint32_t lba, uint32_t count, uint8_t* buffer) {
+    return fat32_lowlevel_read_sector(lba, count, buffer);
+}
+
+int fat32_get_boot_sector(fat32_boot_sector_t* boot_sector) {
+    uint8_t buffer[FAT32_SECTOR_SIZE];
+    if (fat32_read_sector(0, 1, buffer) != 0) {
+        return -1;
+    }
+    memcpy(boot_sector, buffer, sizeof(fat32_boot_sector_t));
+    return 0;
+}
+
+int fat32_get_fs_info(fat32_fs_info_t* fs_info) {
+    uint8_t buffer[FAT32_SECTOR_SIZE];
+    if (fat32_read_sector(FAT32_FS_INFO_SECTOR_OFFSET, 1, buffer) != 0) {
+        return -1;
+    }
+    memcpy(fs_info, buffer, sizeof(fat32_fs_info_t));
+    return 0;
+}
+
+int fat32_read_file(uint32_t cluster, uint8_t* buffer, uint32_t size) {
+    uint32_t lba = cluster_to_lba(cluster);
+    uint32_t sectors = (size + FAT32_SECTOR_SIZE - 1) / FAT32_SECTOR_SIZE;
+    return fat32_read_sector(lba, sectors, buffer);
+}
+
+int fat32_write_file(uint32_t cluster, uint8_t* buffer, uint32_t size) {
+    uint32_t lba = cluster_to_lba(cluster);
+    uint32_t sectors = (size + FAT32_SECTOR_SIZE - 1) / FAT32_SECTOR_SIZE;
+    return fat32_lowlevel_write_sector(lba, sectors, buffer);
+}
+
+uint32_t cluster_to_lba(uint32_t cluster) {
+    fat32_boot_sector_t boot_sector;
+    if (fat32_get_boot_sector(&boot_sector) != 0) {
+        return 0;
+    }
+    uint32_t first_data_sector = boot_sector.reserved_sector_count + (boot_sector.number_of_fats * boot_sector.fat_size);
+    return first_data_sector + ((cluster - 2) * boot_sector.sectors_per_cluster);
 }
