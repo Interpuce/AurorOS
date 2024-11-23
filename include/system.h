@@ -12,16 +12,25 @@
 #define INCLUDE_SYSTEM 1
 
 #include <types.h>
-uint8 inb (uint16 _port)
-{
-    	uint8 rv;
-    	__asm__ __volatile__ ("inb %1, %0" : "=a" (rv) : "dN" (_port));
-    	return rv;
+
+uint8 inb(uint16 _port) {
+    uint8 rv;
+    asm volatile ("inb %1, %0" : "=a" (rv) : "dN" (_port));
+    return rv;
 }
 
-void outb (uint16 _port, uint8 _data)
-{
-	__asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));
+void outb(uint16 _port, uint8 _data) {
+	asm volatile ("outb %1, %0" : : "dN" (_port), "a" (_data));
+}
+
+uint16_t inw(uint16_t port) {
+    uint16_t value;
+    asm volatile ("inw %1, %0" : "=a"(value) : "d"(port));
+    return value;
+}
+
+void outw(uint16_t port, uint16_t value) {
+    asm volatile ("outw %0, %1" : : "a"(value), "d"(port));
 }
 
 #endif
