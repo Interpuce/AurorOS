@@ -19,4 +19,9 @@ typedef struct {
     uint8_t seconds;
 } time_t;
 
+extern void get_current_time(time_t* time);
+extern void unsafe_get_current_time(time_t* time);
+extern uint8_t rtc_time_is_updating();
+extern uint8_t read_rtc_register(uint8_t reg);
+
 #endif
