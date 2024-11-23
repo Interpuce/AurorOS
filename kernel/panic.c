@@ -18,5 +18,7 @@ void kernel_panic(const string code) {
     println("You can now manually restart/shutdown the computer using power button.", 0x07);
     print("Error code:", 0x0F);
     println(code, 0x07);
-    asm("hlt"); // I have no better idea what to do on kernel panic than halting the procesor, eclair25 do this better :)
+    while (1) {
+        asm("hlt");
+    }
 }
