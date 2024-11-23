@@ -47,7 +47,7 @@ int run_terminal(const string user) {
                 println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
             }
         } else if (string_equal(ch, "gui")) { 
-            
+            return 1;
         } else if (string_equal(ch, "time")) {
             time_t current_time;
             get_current_time(&current_time);
