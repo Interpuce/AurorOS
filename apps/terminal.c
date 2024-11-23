@@ -17,7 +17,7 @@
 
 extern int run_appman(const string user);
 
-void run_terminal(const string user) {
+int run_terminal(const string user) {
     while (1)
     {
         print("\n", 0x07);
@@ -37,7 +37,6 @@ void run_terminal(const string user) {
                 print(" (beta ", 0x07);
                 print(AUROR_SUBVERSION, 0x07);
                 println(")", 0x07);
-                println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
             }
             if (AUROR_BETA_STATE == 2) {
                 print("AurorOS ", 0x07);
@@ -47,6 +46,8 @@ void run_terminal(const string user) {
                 println(")", 0x07);
                 println("This version is very unstable and may contain errors and bugs. Let us know on dsc.gg/Auror-OS", 0x04);
             }
+        } else if (string_equal(ch, "gui")) { 
+            
         } else if (string_equal(ch, "time")) {
             time_t current_time;
             get_current_time(&current_time);
@@ -71,7 +72,10 @@ void run_terminal(const string user) {
             println("mush: attempting to start terminal as main user", 0x02);
             println("mush: main user password required; default is xxx", 0x07);
             if (string_equal(invisible_read_string(0x07), "xxx")) {
-                run_terminal("main");
+                int returncode = run_terminal("main");
+                if (returncode == 1) {
+                    return 1;
+                }
                 println("mush: terminal process exited; returning to main instance", 0x07);
             } 
         } else if (string_equal(ch, "quit") || string_equal(ch, "exit")) {
@@ -96,4 +100,5 @@ void run_terminal(const string user) {
             print("Invalid command!\n", 0x04);
         }
     }
+    return 0;
 }
