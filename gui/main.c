@@ -11,6 +11,7 @@
 #include <types.h>
 #include <console.h>
 #include <string.h>
+#include <declarations/panic.h>
 #include "drawing.h"
 
 int start_gui(const string user) {
@@ -21,4 +22,7 @@ int start_gui(const string user) {
 
     // Make sure to clear everything from console-mode
     clear_console();
+
+    // Clear canvas
+    clear_canvas(0x0F);
 }
