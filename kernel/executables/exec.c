@@ -26,9 +26,9 @@ int determine_executable_format(string content) {
     if (string_starts_with(content, WINDOWS_EXECUTABLE_HEADER)) {
         return WINDOWS_EXECUTABLE_CODE; // Portable (Windows/MS-DOS) Executable Format (PE)
     }
-    if (string_starts_with(content, ELF_EXECUTABLE_HEADER)) {
-        return ELF_EXECUTABLE_CODE; // Executable and Linkable Format (ELF)
-    }
+    // Executable and Linkable Format (ELF) caused warnings,
+    // it was removed
+
     return 0; // File content is not an executable
 }
 
