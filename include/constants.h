@@ -35,6 +35,6 @@
  * 
  * When AUROR_BETA_STAGE is set to 0 this constant is ignored.
  */
-#define AUROR_SUBVERSION "1"
+#define AUROR_SUBVERSION "2024.04"
 
 #endif
