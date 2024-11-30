@@ -32,4 +32,7 @@ extern int length(const string str);
 // Trim
 extern void trim(string str);
 
+// Substring
+extern bool string_starts_with(string str, string prefix);
+
 #endif
