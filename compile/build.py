@@ -18,7 +18,7 @@ def compile_c_files(root_dir):
                 
                 try:
                     subprocess.run(
-                        ["clang", "-m32", "-ffreestanding", "-nostartfiles", "-Iinclude", "-nostdlib", "-c", source_path, "-o", object_path],
+                        ["gcc", "-m32", "-ffreestanding", "-nostartfiles", "-Iinclude", "-nostdlib", "-c", source_path, "-o", object_path],
                         check=True
                     )
                 except subprocess.CalledProcessError:
