@@ -6,4 +6,6 @@ typedef unsigned short uint16_t;
 typedef unsigned int uint32_t;
 typedef unsigned int size_t;
 
+#define NULL -1
+
 #endif
