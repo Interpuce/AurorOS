@@ -42,15 +42,15 @@ void main() {
                 strcat(farg, " ");
             }
 
-            if (strEql(args[0], "ver")) {
+            if (streql(args[0], "ver")) {
                 println(version, 0x07);
-            } else if (strEql(args[0], "passw")) {
+            } else if (streql(args[0], "passw")) {
                 read_str(buffer, sizeof(buffer), 1);
-            } else if (arg_count > 0 && strEql(args[0], "print")) {
+            } else if (arg_count > 0 && streql(args[0], "print")) {
                 println(farg ,0x07);
-            } else if (arg_count > 0 && strEql(args[0], "cowsay")) {
+            } else if (arg_count > 0 && streql(args[0], "cowsay")) {
                 cowsay(farg);
-            } else if (arg_count > 0 && strEql(args[0], "map")) {
+            } else if (arg_count > 0 && streql(args[0], "map")) {
                 map();
             } else {
                 print_error("Invalid command");
