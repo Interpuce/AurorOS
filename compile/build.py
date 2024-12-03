@@ -18,7 +18,7 @@ def compile_c_files(root_dir):
                 
                 try:
                     subprocess.run(
-                        ["gcc", "-Wall", "-Wextra" "-m32", "-ffreestanding", "-nostartfiles", "-Iinclude", "-nostdlib", "-fno-stack-protector", "-c", source_path, "-o", object_path],
+                        ["gcc", "-Wall", "-Wextra", "-m32", "-ffreestanding", "-nostartfiles", "-Iinclude", "-nostdlib", "-fno-stack-protector", "-c", source_path, "-o", object_path],
                         check=True
                     )
                 except subprocess.CalledProcessError:
@@ -53,7 +53,7 @@ def create_iso(kernel, iso_name):
     
     grub_cfg_path = os.path.join(grub_dir, "grub.cfg")
     with open(grub_cfg_path, "w") as grub_cfg:
-        grub_cfg.write("menuentry "aurorOS 0.0.1" {\n    multiboot /boot/kernel.bin\n}")
+        grub_cfg.write('menuentry "aurorOS 0.0.1" {\n    multiboot /boot/kernel.bin\n}')
     
     try:
         subprocess.run(["grub-mkrescue", "-o", iso_name, iso_dir], check=True)
