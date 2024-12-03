@@ -1,5 +1,5 @@
-#include "../kernel/ports.h"
-#include "screen.h"
+#include <ports.h>
+#include <screen.h>
 
 #define VIDEO_MEMORY 0xB8000
 #define SCREEN_WIDTH 80
