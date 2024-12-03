@@ -1,15 +1,4 @@
-.PHONY = all windows other
+.PHONY = all
 
-ifeq ($(OS), Windows_NT)
-    TARGET = windows
-else
-    TARGET = other
-endif
-
-all: $(TARGET)
-
-windows:
-	compile\windows.exe
-
-other:
+all:
 	python3 compile/build.py
