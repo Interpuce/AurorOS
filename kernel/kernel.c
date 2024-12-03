@@ -5,6 +5,7 @@
 #include <panic.h>
 #include <screen.h>
 #include <types.h>
+#include <input.h>
 
 #include "commands/commands.h"
 
