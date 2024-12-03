@@ -1,0 +1,99 @@
+#include "../include/input.h"
+#include "../include/screen.h"
+#include "../kernel/ports.h"
+
+static char keymap[128] = {
+    0,  27, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b',
+    '\t', 'q', 'w', 'e', 'r', 't', 'y', 'u', 'i', 'o', 'p', '[', ']', '\n', 0,
+    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';', '\'', '`', 0, '\\', 'z',
+    'x', 'c', 'v', 'b', 'n', 'm', ',', '.', '/', 0, '*', 0, ' ', 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, '-', 0, 0, 0, '+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+static char shift_keymap[128] = {
+    0,  27, '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '\b',
+    '\t', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '\n', 0,
+    'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '~', 0, '|', 'Z',
+    'X', 'C', 'V', 'B', 'N', 'M', '<', '>', '?', 0, '*', 0, ' ', 0, 0, 0, 0, 0, 
+    0, 0, 0, 0, 0, 0, 0, '-', 0, 0, 0, '+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+};
+
+static uint8_t SHIFT_LEFT_PRESSED = 0;
+static uint8_t SHIFT_RIGHT_PRESSED = 0;
+
+static uint8_t key_states[128] = {0};
+
+static uint8_t readScancode() {
+    return inb(0x60);
+}
+
+void readStr(char *buffer, uint16_t max_length, uint8_t secret) {
+    uint16_t length = 0;
+
+    while (1) {
+        uint8_t scancode = readScancode();
+        uint8_t SHIFT_RELEASED = scancode & 0x80;
+        uint8_t key = scancode & ~0x80;
+
+        if (SHIFT_RELEASED) {
+            key_states[key] = 0;
+
+            switch (key) {
+                case 0x2A:
+                    SHIFT_LEFT_PRESSED = 0;
+                    break;
+                case 0x36:
+                    SHIFT_RIGHT_PRESSED = 0;
+                    break;
+            }
+            continue;
+        }
+
+        if (key_states[key]) {
+            continue;
+        }
+
+        key_states[key] = 1;
+
+        if (key == 0x1C) {
+            buffer[length] = '\0';
+            println("", 0x07);
+            break;
+        }
+
+        if (key == 0x0E && length > 0) {
+            length--;
+            buffer[length] = '\0';
+            delchar();
+            continue;
+        }
+
+        char c;
+        switch (key) {
+            case 0x2A:
+            case 0x36:
+                if (SHIFT_RELEASED) break;
+                if (key == 0x2A) SHIFT_LEFT_PRESSED = 1;
+                if (key == 0x36) SHIFT_RIGHT_PRESSED = 1;
+                continue;
+            default:
+                c = (SHIFT_LEFT_PRESSED || SHIFT_RIGHT_PRESSED) ? shift_keymap[key] : keymap[key];
+                break;
+        }
+
+        if (!c) {
+            continue;
+        }
+
+        if (length < max_length - 1) {
+            buffer[length++] = c;
+            buffer[length] = '\0';
+
+            if (secret) {
+                printchar('*', 0x07);
+            } else {
+                printchar(c, 0x07);
+            }
+        }
+    }
+}
