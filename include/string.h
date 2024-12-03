@@ -1,5 +1,4 @@
-#ifndef STRING_H
-#define STRING_H
+#pragma once
 
 #include <types.h>
 
@@ -10,6 +9,3 @@ int split_str(char *str, char separator, char **result, int max_splits);
 char *strrchr(const char *str, int c);
 char *strcat(char *dest, const char *src);
 void *memcpy(void *dest, const void *src, size_t n);
-
-
-#endif

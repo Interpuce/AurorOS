@@ -1,5 +1,4 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 
 #include <types.h>
 
@@ -10,5 +9,3 @@ void delchar();
 void clearscreen();
 void paintscreen(uint8_t color);
 void printint(uint16_t value, uint8_t color);
-
-#endif
