@@ -33,7 +33,7 @@ void main() {
         printprefix(usr, pcname);
         read_str(buffer, sizeof(buffer), 0);
 
-        int arg_count = splitString(buffer, ' ', args, 10);
+        int arg_count = split_str(buffer, ' ', args, 10);
 
         if (arg_count > 0) {
             char farg[1024] = "";

@@ -22,7 +22,7 @@ int streql(const char *str1, const char *str2) {
     return (*str1 == '\0' && *str2 == '\0') ? 1 : 0;
 }
 
-int splitString(char *str, char separator, char **result, int max_splits) {
+int split_str(char *str, char separator, char **result, int max_splits) {
     int count = 0;
 
     while (*str != '\0') {
