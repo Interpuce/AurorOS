@@ -1,5 +1,5 @@
-#include "screen.h"
-#include "types.h"
+#include <screen.h>
+#include <types.h>
 
 void kernelpanic(const char *errcode) {
     paintscreen(0x44);

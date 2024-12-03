@@ -1,7 +1,7 @@
 #ifndef SCREEN_H
 #define SCREEN_H
 
-#include "types.h"
+#include <types.h>
 
 void printchar(char c, uint8_t color);
 void printstr(const char *str, uint8_t color);

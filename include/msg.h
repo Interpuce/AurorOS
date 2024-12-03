@@ -1,7 +1,7 @@
 #ifndef MSG_H
 #define MSG_H
 
-#include "types.h"
+#include <types.h>
 
 void print_error(const char *str);
 void print_info(const char *str);
