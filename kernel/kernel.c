@@ -1,11 +1,10 @@
 #include "kernel.h"
 
 #include <string.h>
-#include <string.h>
-#include <string.h>
-#include <string.h>
-#include <string.h>
-#include <string.h>
+#include <msg.h>
+#include <panic.h>
+#include <screen.h>
+#include <types.h>
 
 #include "commands/commands.h"
 
