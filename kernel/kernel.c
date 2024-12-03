@@ -11,18 +11,18 @@
 
 void main() {
     clearscreen();
-    printSuccess("Hello, world!");
+    print_ok("Hello, world!");
     const char *version = "AurorOS 0.0.1 (BETA)";
 
     const char *usr = "root";
     const char *pcname = "auror";
-    printCustom("INFO", 0x0A, 0x07);
+    print_custom("INFO", 0x0A, 0x07);
     printstr("logged in as ", 0x07);
     printstr(usr, 0x07);
     printstr("\n", 0x07);
 
     uint16_t permlvl = 4;
-    printCustom("INFO", 0x0A, 0x07);
+    print_custom("INFO", 0x0A, 0x07);
     printstr("Permission level is set to ", 0x07);
     printint(permlvl, 0x07);
     printstr("\n", 0x07);
@@ -31,7 +31,7 @@ void main() {
     char *args[10];
     while (1) {
         printprefix(usr, pcname);
-        readStr(buffer, sizeof(buffer), 0);
+        read_str(buffer, sizeof(buffer), 0);
 
         int arg_count = splitString(buffer, ' ', args, 10);
 
@@ -45,7 +45,7 @@ void main() {
             if (strEql(args[0], "ver")) {
                 println(version, 0x07);
             } else if (strEql(args[0], "passw")) {
-                readStr(buffer, sizeof(buffer), 1);
+                read_str(buffer, sizeof(buffer), 1);
             } else if (arg_count > 0 && strEql(args[0], "print")) {
                 println(farg ,0x07);
             } else if (arg_count > 0 && strEql(args[0], "cowsay")) {
@@ -53,7 +53,7 @@ void main() {
             } else if (arg_count > 0 && strEql(args[0], "map")) {
                 map();
             } else {
-                printError("Invalid command");
+                print_error("Invalid command");
             }
         }
     }
