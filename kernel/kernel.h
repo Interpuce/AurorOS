@@ -1,6 +1,6 @@
-#include "../include/screen.h"
-#include "../include/types.h"
-#include "../include/string.h"
+#include <string.h>
+#include <string.h>
+#include <string.h>
 
 void printprefix(const char *user, const char *pcname) {
     printstr(user, 0x0B);

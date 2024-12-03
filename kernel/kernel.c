@@ -1,11 +1,11 @@
 #include "kernel.h"
 
-#include "../include/screen.h"
-#include "../include/types.h"
-#include "../include/string.h"
-#include "../include/input.h"
-#include "../include/msg.h"
-#include "../include/panic.h"
+#include <string.h>
+#include <string.h>
+#include <string.h>
+#include <string.h>
+#include <string.h>
+#include <string.h>
 
 #include "commands/commands.h"
 
