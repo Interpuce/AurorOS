@@ -15,13 +15,13 @@ gcc -m32 -c include/msg.c -o msg.o -std=gnu99 -ffreestanding -O2 -Wall -Wextra
 nasm -f elf32 boot/boot.asm -o boot.o
 ld -m elf_i386 -T linker.ld -o $KERNEL boot.o kernel.o string.o screen.o ports.o input.o msg.o commands.o
 
-mkdir -p isodir/boot/grub
-cp $KERNEL isodir/boot/
-cat > isodir/boot/grub/grub.cfg << EOF
+mkdir -p iso/boot/grub
+cp $KERNEL iso/boot/
+cat > iso/boot/grub/grub.cfg << EOF
 menuentry "aurorOS 0.0.1" {
     multiboot /boot/kernel.bin
 }
 EOF
-grub-mkrescue -o aurorOS.iso isodir
+grub-mkrescue -o aurorOS.iso iso
 
 rm -r isodir
