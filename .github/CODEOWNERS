@@ -1,1 +1,4 @@
-* @Interpuce/head-developers
+*.c @Interpuce/head-developers
+*.h @Interpuce/head-developers
+*.asm @Interpuce/head-developers
+*.py @Interpuce/head-developers
