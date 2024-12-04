@@ -10,6 +10,8 @@
 
 #include <types.h>
 
+uintptr_t next_free_address = 0x100000;
+
 void *memcpy(void *dest, const void *src, size_t n) {
     unsigned char *d = dest;
     const unsigned char *s = src;
@@ -17,4 +19,10 @@ void *memcpy(void *dest, const void *src, size_t n) {
         d[i] = s[i];
     }
     return dest;
+}
+
+void *allocate_memory(size_t size) {
+    void *allocated_address = (void *)next_free_address;
+    next_free_address += size;
+    return allocated_address;
 }
