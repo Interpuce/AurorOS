@@ -39,7 +39,6 @@ void cowsay(char message[1024]) {
 }
 
 void map() {
-    println("Map - AurorOS color and text debbuging tool", 0x07);
     printstr("\n", 0x07); 
     printstr("0x01", 0x01); printstr(" 0x0A", 0x0A);
     printstr("0x10", 0x10); printstr(" 0xA0", 0xA0);
@@ -62,6 +61,4 @@ void map() {
     printstr("0x07", 0x07);
     printstr("0x70", 0x70);
     printstr("\n", 0x07); 
-    
 }
-
