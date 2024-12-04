@@ -8,7 +8,11 @@
 #  and in current state - `grub-mkrescue`. More about compilation
 #  requirements you can learn in ./CONTRIBUTING.md
 
-.PHONY = all
+.PHONY = all shbuild
 
 all:
 	python3 compile/build.py
+
+shbuild:
+	chmod -x build.sh
+	./build.sh
