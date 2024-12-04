@@ -1,6 +1,16 @@
-#include "../../include/types.h"
-#include "../../include/screen.h"
-#include "../../include/string.h"
+/**
+ * -------------------------------------------------------------------------
+ *                                   AurorOS
+ * (c) 2022-2024 Interpuce
+ * 
+ * You should receive AurorOS license with this source code. If not - check:
+ *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
+ * -------------------------------------------------------------------------
+ */
+
+#include <types.h>
+#include <screen.h>
+#include <string.h>
 
 void cowsay(char message[1024]) {
     int message_length = strlen(message);
