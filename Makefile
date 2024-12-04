@@ -4,6 +4,10 @@
 #  located in /compile/build.py, which goal is to build
 #  correctly AurorOS.
 
+# To correctly compile AurorOS, you will need `gcc`, `nasm`
+#  and in current state - `grub-mkrescue`. More about compilation
+#  requirements you can learn in ./CONTRIBUTING.md
+
 .PHONY = all
 
 all:
