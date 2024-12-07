@@ -4,14 +4,14 @@ set -e
 
 ROOT_DIR=$(pwd)
 ASM_FILE="$ROOT_DIR/boot/boot.asm"
-ASM_OBJECT="$ROOT_DIR/compiled/boot.o"
+ASM_OBJECT="$ROOT_DIR/bin/boot.o"
 LINKER_SCRIPT="$ROOT_DIR/compile/linker.ld"
 KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
 ISO_DIR="iso"
 BOOT_DIR="$ISO_DIR/boot"
 GRUB_DIR="$BOOT_DIR/grub"
-OBJECT_DIR="$ROOT_DIR/compiled"
+OBJECT_DIR="$ROOT_DIR/bin"
 
 mkdir -p "$OBJECT_DIR"
 
