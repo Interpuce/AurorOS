@@ -28,6 +28,14 @@ void print_info(const char *str) {
     printstr("\n", 0x07);
 }
 
+void print_warn(const char *str) {
+    printstr("[  ", 0x07);
+    printstr("WARNING", 0x0E);
+    printstr("  ] ", 0x07);
+    printstr(str, 0x07);
+    printstr("\n", 0x07);
+}
+
 void print_ok(const char *str) {
     printstr("[  ", 0x07);
     printstr("OK", 0x0B);

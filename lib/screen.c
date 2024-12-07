@@ -1,18 +1,9 @@
-/**
- * -------------------------------------------------------------------------
- *                                   AurorOS
- * (c) 2022-2024 Interpuce
- * 
- * You should receive AurorOS license with this source code. If not - check:
- *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
- * -------------------------------------------------------------------------
- */
-
 #include <ports.h>
 #include <screen.h>
 
 #define VIDEO_MEMORY 0xB8000
-#define SCREEN_WIDTH 80
+#define SCREEN_WIDTH 81
+#define SCREEN_HEIGHT 25
 
 static uint16_t *video_memory = (uint16_t *)VIDEO_MEMORY;
 static uint16_t cursor_pos = 0;
@@ -25,12 +16,31 @@ void update_cursor() {
     outb(0x3D5, (uint8_t)((pos >> 8) & 0xFF));
 }
 
+void scroll() {
+    for (uint16_t row = 0; row < SCREEN_HEIGHT - 1; row++) {
+        for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
+            video_memory[row * SCREEN_WIDTH + col] = video_memory[(row + 1) * SCREEN_WIDTH + col];
+        }
+    }
+
+    for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
+        video_memory[(SCREEN_HEIGHT - 1) * SCREEN_WIDTH + col] = ' ' | (0x07 << 8);
+    }
+
+    cursor_pos = (SCREEN_HEIGHT - 1) * SCREEN_WIDTH;
+}
+
 void printchar(char c, uint8_t color) {
     if (c == '\n') {
         cursor_pos += SCREEN_WIDTH - (cursor_pos % SCREEN_WIDTH);
     } else {
         video_memory[cursor_pos++] = (color << 8) | c;
     }
+
+    if (cursor_pos >= SCREEN_WIDTH * SCREEN_HEIGHT) {
+        scroll();
+    }
+
     update_cursor();
 }
 
@@ -56,11 +66,9 @@ void printint(uint16_t value, uint8_t color) {
     }
 }
 
-
-
 void println(const char *str, uint8_t color) {
     printstr(str, color);
-    printchar('\n', 0x07);
+    printchar('\n', color);
 }
 
 void delchar() {
@@ -74,7 +82,7 @@ void delchar() {
 }
 
 void clearscreen() {
-    for (uint16_t i = 0; i < SCREEN_WIDTH * 25; i++) {
+    for (uint16_t i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
         video_memory[i] = ' ' | (0x07 << 8);
     }
     cursor_pos = 0;
@@ -82,7 +90,7 @@ void clearscreen() {
 }
 
 void paintscreen(uint8_t color) {
-    for (uint16_t i = 0; i < SCREEN_WIDTH * 25; i++) {
+    for (uint16_t i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
         video_memory[i] = ' ' | (color << 8);
     }
     cursor_pos = 0;
