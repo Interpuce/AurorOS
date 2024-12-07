@@ -6,12 +6,13 @@
 ;  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
 ; -------------------------------------------------------------------------
 
+; If you are editing this file on a Visual Studio Code, please download
+; extension for x86 assembly syntax, because Visual Studio Code don't
+; highlight Assembly language without additional extensions.
+
 ; boot.asm configures everything (including Multiboot Header required by GRUB
 ; and other bootloaders to see AurorOS) and loads the kernel main function
 ; from /kernel/kernel.c
-
-; If you are editing this file on a Visual Studio Code, please download
-; extension for x86 assembly syntax.
 
 bits 32
 
