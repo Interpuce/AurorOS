@@ -14,5 +14,5 @@ all:
 	python3 compile/build.py
 
 shbuild:
-	chmod -x build.sh
-	./build.sh
+	chmod -x compile/build.sh
+	./compile/build.sh
