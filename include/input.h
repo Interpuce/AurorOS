@@ -12,4 +12,4 @@
 
 #include <types.h>
 
-void read_str(char *buffer, uint16_t max_length, uint8_t secret);
+void readStr(char *buffer, uint16_t max_length, uint8_t secret);
