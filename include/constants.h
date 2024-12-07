@@ -10,9 +10,6 @@
 
 #pragma once
 
-#include <types.h>
-
-#define version "AurorOS Insider preview"
-
-const char *usr = "root";
-const char *pcname = "desktop";
+#define AUROR_NAME "AurorOS Insider Preview"
+#define AUROR_VERSION "1.0.0"
+#define PC_NAME "auror"

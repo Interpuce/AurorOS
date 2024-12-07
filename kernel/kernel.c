@@ -13,29 +13,29 @@
 #include <string.h>
 #include <msg.h>
 #include <panic.h>
-#include <screen.h>
 #include <types.h>
 #include <input.h>
+#include <constants.h>
 
 #include "commands/commands.h"
-#include "envar.h"
 
 void main() {
     clearscreen();
 
     uint16_t permlvl = 4;
     uint16_t betaState = 1;
+    string current_user = "root";
 
-    if (betaState==1) {
-        print_warn("You are running early build of aurorOS!");
+    if (betaState == 1) {
+        print_warn("You are running early build of AurorOS!");
     }
         
 
     char buffer[128];
     char *args[10];
     while (1) {
-        printprefix(usr, pcname);
-        readStr(buffer, sizeof(buffer), 0);
+        printprefix(current_user, PC_NAME);
+        read_str(buffer, sizeof(buffer), 0);
 
         int arg_count = split_str(buffer, ' ', args, 10);
 
@@ -47,7 +47,9 @@ void main() {
             }
 
             if (streql(args[0], "ver")) {
-                println(version, 0x07);
+                print(AUROR_NAME, 0x07);
+                print();
+                println(AUROR_VERSION, 0x07);
             } else if (streql(args[0], "print")) {
                 println(farg ,0x07);
             } else if (streql(args[0], "cowsay")) {
@@ -61,10 +63,7 @@ void main() {
             } else if (streql(args[0], "shutdown")) {
                 shutdown();
             } else {
-                printstr("ERROR ", 0x04);
-                printstr(": ", 0x07);
-                printstr(args[0], 0x07);
-                printstr(" is invalid command! \n", 0x07);
+                print_error("Invalid command!");
             }
         }
     }

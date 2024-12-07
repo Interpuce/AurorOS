@@ -76,9 +76,5 @@ void reboot() {
 }
 
 void shutdown() {
-    void outw(uint16_t port, uint16_t data) {
-        __asm__ __volatile__("outw %0, %1" : : "a"(data), "Nd"(port));
-    }
-
     outw(0x604, 0x2000);
 }

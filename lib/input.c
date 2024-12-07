@@ -37,7 +37,7 @@ static uint8_t readScancode() {
     return inb(0x60);
 }
 
-void readStr(char *buffer, uint16_t max_length, uint8_t secret) {
+void read_str(char *buffer, uint16_t max_length, uint8_t secret) {
     uint16_t length = 0;
 
     while (1) {
