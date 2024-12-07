@@ -10,6 +10,7 @@
 
 #include <string.h>
 #include <screen.h>
+#include "envar.h"
 
 void printprefix(const char* user, const char* pcname) {
     printstr(user, 0x0B);
