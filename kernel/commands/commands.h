@@ -16,3 +16,5 @@
 
 void cowsay(char message[1024]);
 void map();
+void reboot();
+void shutdown();

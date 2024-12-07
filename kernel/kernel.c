@@ -1,13 +1,3 @@
-/**
- * -------------------------------------------------------------------------
- *                                   AurorOS
- * (c) 2022-2024 Interpuce
- * 
- * You should receive AurorOS license with this source code. If not - check:
- *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
- * -------------------------------------------------------------------------
- */
-
 #include "kernel.h"
 
 #include <string.h>
@@ -18,30 +8,24 @@
 #include <input.h>
 
 #include "commands/commands.h"
+#include "envar.h"
 
 void main() {
     clearscreen();
-    print_ok("Hello, world!");
-    const char *version = "AurorOS 0.0.1 (BETA)";
-
-    const char *usr = "root";
-    const char *pcname = "auror";
-    print_custom("INFO", 0x0A, 0x07);
-    printstr("logged in as ", 0x07);
-    printstr(usr, 0x07);
-    printstr("\n", 0x07);
 
     uint16_t permlvl = 4;
-    print_custom("INFO", 0x0A, 0x07);
-    printstr("Permission level is set to ", 0x07);
-    printint(permlvl, 0x07);
-    printstr("\n", 0x07);
+    uint16_t betaState = 1;
+
+    if (betaState==1) {
+        print_warn("You are running early build of aurorOS!");
+    }
+        
 
     char buffer[128];
     char *args[10];
     while (1) {
         printprefix(usr, pcname);
-        read_str(buffer, sizeof(buffer), 0);
+        readStr(buffer, sizeof(buffer), 0);
 
         int arg_count = split_str(buffer, ' ', args, 10);
 
@@ -54,16 +38,23 @@ void main() {
 
             if (streql(args[0], "ver")) {
                 println(version, 0x07);
-            } else if (streql(args[0], "passw")) {
-                read_str(buffer, sizeof(buffer), 1);
-            } else if (arg_count > 0 && streql(args[0], "print")) {
+            } else if (streql(args[0], "print")) {
                 println(farg ,0x07);
-            } else if (arg_count > 0 && streql(args[0], "cowsay")) {
+            } else if (streql(args[0], "cowsay")) {
                 cowsay(farg);
-            } else if (arg_count > 0 && streql(args[0], "map")) {
+            } else if (streql(args[0], "map")) {
                 map();
+            } else if (streql(args[0], "clear")) {
+                clearscreen();
+            } else if (streql(args[0], "reboot")) {
+                reboot();
+            } else if (streql(args[0], "shutdown")) {
+                shutdown();
             } else {
-                print_error("Invalid command");
+                printstr("ERROR ", 0x04);
+                printstr(": ", 0x07);
+                printstr(args[0], 0x07);
+                printstr(" is invalid command! \n", 0x07);
             }
         }
     }
