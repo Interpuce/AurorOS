@@ -16,6 +16,8 @@
 
 bits 32
 
+; Multiboot Header section. Required by some bootloaders (including GRUB, that
+; AurorOS uses in the current state) to see binary as operating system.
 section .multiboot
     align 4
     dd 0x1BADB002
@@ -24,10 +26,12 @@ section .multiboot
 
 section .text
 
+; The main function where AurorOS starts. It is also defined in
+; linker script (/compile/linker.ld).
 global start
 extern main
 
 start:
-    cli
-    call main
-    hlt 
+    cli ; Clear interrupts
+    call main ; Call the main function (from /kernel/kernel.c)
+    hlt ; Halt the proccessor
