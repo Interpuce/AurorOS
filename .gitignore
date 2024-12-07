@@ -18,6 +18,7 @@ iso
 # THE BIN DIRECTORY
 # Final object files and something other
 bin
+compiled
 
 # VSC DIRECTORY
 .vscode
