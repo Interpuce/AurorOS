@@ -1,18 +1,8 @@
-/**
- * -------------------------------------------------------------------------
- *                                   AurorOS
- * (c) 2022-2024 Interpuce
- * 
- * You should receive AurorOS license with this source code. If not - check:
- *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
- * -------------------------------------------------------------------------
- */
-
 #include <ports.h>
 #include <screen.h>
 
 #define VIDEO_MEMORY 0xB8000
-#define SCREEN_WIDTH 81
+#define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 25
 
 static uint16_t *video_memory = (uint16_t *)VIDEO_MEMORY;
