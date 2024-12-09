@@ -39,7 +39,7 @@ static uint8_t readScancode() {
     return inb(0x60);
 }
 
-void readStr(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) {
+void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) {
     uint16_t length = 0;
 
     while (1) {
@@ -110,12 +110,12 @@ void readStr(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) {
     }
 }
 
-uint8_t readYN(char* text, uint8_t color) {
+uint8_t read_yn(char* text, uint8_t color) {
     while (1) {
         printstr(" ", color);
         printstr(text, color);
         char buffer[2];
-        readStr(buffer, sizeof(buffer), 0, color);
+        read_str(buffer, sizeof(buffer), 0, color);
         if (streql(buffer, "Y") || streql(buffer, "y")) {
             return 1;
         } else if (streql(buffer, "N") || streql(buffer, "n")) {
