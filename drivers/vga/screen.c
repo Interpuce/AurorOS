@@ -1,15 +1,6 @@
-/**
- * -------------------------------------------------------------------------
- *                                   AurorOS
- * (c) 2022-2024 Interpuce
- * 
- * You should receive AurorOS license with this source code. If not - check:
- *  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
- * -------------------------------------------------------------------------
- */
-
 #include <ports.h>
 #include <screen.h>
+#include <string.h>
 
 #define VIDEO_MEMORY 0xB8000
 #define SCREEN_WIDTH 80
@@ -72,11 +63,13 @@ void printint(uint16_t value, uint8_t color) {
     } while (value > 0);
 
     for (int i = index + 1; buffer[i] != '\0'; i++) {
+        printchar(' ', 0x07);
         printchar(buffer[i], color);
     }
 }
 
 void println(const char *str, uint8_t color) {
+    printchar(' ', 0x07);
     printstr(str, color);
     printchar('\n', color);
 }
@@ -104,5 +97,57 @@ void paintscreen(uint8_t color) {
         video_memory[i] = ' ' | (color << 8);
     }
     cursor_pos = 0;
+    update_cursor();
+}
+
+
+void clearline(uint16_t line) {
+    if (line >= SCREEN_HEIGHT) {
+        return;
+    }
+
+    for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
+        video_memory[line * SCREEN_WIDTH + col] = ' ' | (0x07 << 8);
+    }
+
+    if (cursor_pos / SCREEN_WIDTH == line) {
+        cursor_pos = line * SCREEN_WIDTH;
+        update_cursor();
+    }
+}
+
+void paintline(uint16_t line, uint8_t color) {
+    if (line >= SCREEN_HEIGHT) {
+        return;
+    }
+
+    for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
+        video_memory[line * SCREEN_WIDTH + col] = ' ' | (color << 8);
+    }
+
+    if (cursor_pos / SCREEN_WIDTH == line) {
+        cursor_pos = line * SCREEN_WIDTH;
+        update_cursor();
+    }
+}
+
+void printct(const char *str, uint8_t color) {
+    int length = strlen(str);
+    if (length > SCREEN_WIDTH) {
+        length = SCREEN_WIDTH;
+    }
+
+    int col = (SCREEN_WIDTH - length) / 2;
+
+    uint16_t row = cursor_pos / SCREEN_WIDTH;
+    cursor_pos =row * SCREEN_WIDTH + col;
+
+    char temp[SCREEN_WIDTH + 1];
+    strcpy(temp, str);
+
+    for (int i = 0; i < length; i++) {
+        video_memory[cursor_pos++] = (color << 8) | temp[i];
+    }
+
     update_cursor();
 }
