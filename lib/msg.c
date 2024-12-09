@@ -56,5 +56,5 @@ void print(const string str, uint8_t color) {
 
 void println(const string str, uint8_t color) {
     printstr(str, color);
-    printchar(str, color);
+    printchar('\n', color);
 }
