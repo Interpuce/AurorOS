@@ -16,6 +16,7 @@
 #include <types.h>
 #include <input.h>
 #include <constants.h>
+#include <asm/power.h>
 
 #include "commands/commands.h"
 
@@ -35,7 +36,7 @@ void main() {
     char *args[10];
     while (1) {
         printprefix(current_user, PC_NAME);
-        read_str(buffer, sizeof(buffer), 0);
+        read_str(buffer, sizeof(buffer), 0, 0x07);
 
         int arg_count = split_str(buffer, ' ', args, 10);
 
