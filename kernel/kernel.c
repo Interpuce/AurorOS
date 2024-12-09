@@ -22,6 +22,7 @@
 
 void main() {
     clearscreen();
+    print("\n", 0x07);
 
     uint16_t beta_state = true;
     string current_user = "root";
