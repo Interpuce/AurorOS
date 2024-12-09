@@ -26,10 +26,10 @@ done
 echo "boot.asm -> boot.o"
 nasm -f elf32 "$ASM_FILE" -o "$ASM_OBJECT"
 
-echo ".o -> kernel.bin"
+echo ".o -> .bin"
 ld -m elf_i386 -T "$LINKER_SCRIPT" -o "$KERNEL_OUTPUT" "${OBJECT_FILES[@]}" "$ASM_OBJECT"
 
-echo "kernel.bin -> aurorOS.iso"
+echo ".bin -> AurorOS.iso"
 mkdir -p "$GRUB_DIR"
 cp "$KERNEL_OUTPUT" "$BOOT_DIR"
 cat > "$GRUB_DIR/grub.cfg" << EOF

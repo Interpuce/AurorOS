@@ -11,7 +11,7 @@
 .PHONY = all shbuild
 
 all:
-	python3 compile/build.py
+	make shbuild
 
 shbuild:
 	chmod -x compile/build.sh
