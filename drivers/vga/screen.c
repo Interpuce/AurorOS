@@ -68,12 +68,6 @@ void printint(uint16_t value, uint8_t color) {
     }
 }
 
-void println(const char *str, uint8_t color) {
-    printchar(' ', 0x07);
-    printstr(str, color);
-    printchar('\n', color);
-}
-
 void delchar() {
     if (cursor_pos > 0) {
         cursor_pos--;

@@ -112,8 +112,8 @@ void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) 
 
 uint8_t read_yn(char* text, uint8_t color) {
     while (1) {
-        printstr(" ", color);
-        printstr(text, color);
+        print(" ", color);
+        print(text, color);
         char buffer[2];
         read_str(buffer, sizeof(buffer), 0, color);
         if (streql(buffer, "Y") || streql(buffer, "y")) {
@@ -123,6 +123,6 @@ uint8_t read_yn(char* text, uint8_t color) {
         } else {
             print_error("Incorrect option!");
         }
-        printstr("\n", 0x07);
+        print("\n", 0x07);
     }
 }

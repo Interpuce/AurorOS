@@ -9,13 +9,13 @@
  */
 
 #include <string.h>
-#include <screen.h>
+#include <msg.h>
 
 void printprefix(const char* user, const char* pcname) {
-    printstr(" [ ", 0x07);
-    printstr(user, 0x01);
-    printstr("@", 0x0F);
-    printstr(pcname, 0x02);
-    printstr(" ]", 0x07);
-    printstr(" $ ", 0x0F);
+    print(" [ ", 0x07);
+    print(user, 0x01);
+    print("@", 0x0F);
+    print(pcname, 0x02);
+    print(" ]", 0x07);
+    print(" $ ", 0x0F);
 }
