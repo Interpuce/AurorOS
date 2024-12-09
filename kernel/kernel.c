@@ -49,7 +49,6 @@ void main() {
 
             if (streql(args[0], "ver")) {
                 print(AUROR_NAME, 0x07);
-                print();
                 println(AUROR_VERSION, 0x07);
             } else if (streql(args[0], "print")) {
                 println(farg ,0x07);
