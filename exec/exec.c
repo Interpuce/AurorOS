@@ -45,8 +45,6 @@ int start_aef_executable(string content) {
     if (!streql(arch, PC_ARCH)) {
         return CODE_EXEC_UNSUPPORTED_ARCH_ON_THIS_DEVICE;
     }
-
-    void* aloc_memory = allocate_memory(512);
 }
 
 // Macro to start the AurorOS Executable Format executable
