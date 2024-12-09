@@ -14,6 +14,7 @@
 
 void printchar(char c, uint8_t color);
 void printstr(const char *str, uint8_t color);
+void println(const char *str, uint8_t color);
 void delchar();
 void clearscreen();
 void paintscreen(uint8_t color);
