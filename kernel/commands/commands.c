@@ -34,7 +34,7 @@ void cowsay(char message[1024]) {
     print("   \\   ^__^\n", 0x07);
     print("    \\  (oo)\\_______\n", 0x07);
     print("       (__)\\       )\\/\n", 0x07);
-    print("           ||----||\n", 0x07);
+    print("           ||---w||\n", 0x07);
     print("           ||    ||\n", 0x07);
 }
 
