@@ -43,7 +43,7 @@ Run this command in AurorOS repo root folder:
 
 ```make```
 
-If you want to use made by Eclair25, manually updated shell script, use:
+or alternatively:
 
 ```make shbuild```
 
