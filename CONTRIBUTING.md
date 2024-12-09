@@ -2,12 +2,16 @@
 
 Thanks for your interest in contributing to AurorOS. This is a quick guide how to contribute to AurorOS.
 
-## Contributing important ToDo's
+## Code writing standards
 
-If you want to help with AurorOS please consider contributing to one of these aspects:
+There are standards in writing code for AurorOS and to not make ten next useless commits reverting the change, please read `AurorOS Code-writing standards` below.
 
-- security system (better and new user system)
-- drivers
+1. Use [snake case](https://en.wikipedia.org/wiki/Snake_case) style.
+2. Never make directory in repo root folder if this is not absolutelly necessary (read [your creation warning](#contributing-to-the-apps)).
+3. Do not use `#include "../include/something_there.h"`. Instead, use `#include <something_there.h>`.
+4. Do not make any C or other non-header files in `include` directory.
+
+Your pull request will be **rejected** if any of standards above is not used in your code.
 
 ## Contributing to AurorOS Kernel
 
@@ -15,7 +19,10 @@ If you want to contribute to AurorOS kernel you need to have previous experience
 
 ## Contributing to the apps
 
-The apps are not that easy to break, so you can do more changes. Avoid creating new apps, because they are **your** creation.
+The apps are not that easy to break, so you can do more changes. 
+
+> [!TIP]
+> Avoid creating new apps, because they are absolutely **your** creation and you have copyright to them.
 
 ## Compiling and running AurorOS
 
