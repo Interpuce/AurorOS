@@ -9,6 +9,7 @@
  */
 
 #include <types.h>
+#include <memory.h>
 
 uintptr_t next_free_address = 0x100000;
 
