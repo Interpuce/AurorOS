@@ -45,6 +45,10 @@ int start_aef_executable(string content) {
     if (!streql(arch, PC_ARCH)) {
         return CODE_EXEC_UNSUPPORTED_ARCH_ON_THIS_DEVICE;
     }
+
+    // For now this does nothing, but I think we need
+    //  to return any value.
+    return 0;
 }
 
 // Macro to start the AurorOS Executable Format executable
