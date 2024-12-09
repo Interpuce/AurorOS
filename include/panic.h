@@ -22,5 +22,8 @@ void kernelpanic(const char *errcode) {
     println(" ", 0x47);
     print(" Error code: ", 0x47);
     print(errcode, 0x4F);
-    while (1) { __asm__("hlt"); }
+    
+    while (true) {
+        asm("hlt");
+    }
 }
