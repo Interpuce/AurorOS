@@ -26,8 +26,9 @@ section .multiboot
 
 section .text
 
-; The main function where AurorOS starts. It is also defined in
-; linker script (/compile/linker.ld).
+; The main function where AurorOS starts. It is also declared in
+; linker script (/compile/linker.ld), defined in /kernel/kernel.c
+; file.
 global start
 extern main
 
