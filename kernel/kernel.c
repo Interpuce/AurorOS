@@ -23,14 +23,12 @@
 void main() {
     clearscreen();
 
-    uint16_t permlvl = 4;
-    uint16_t betaState = 1;
+    uint16_t beta_state = true;
     string current_user = "root";
 
-    if (betaState == 1) {
+    if (beta_state == true) {
         print_warn("You are running early build of AurorOS!");
     }
-        
 
     char buffer[128];
     char *args[10];
