@@ -11,11 +11,11 @@
 #pragma once
 
 #include <types.h>
+#include <string.h>
 
-int strlen(const char *str);
-void strcpy(char *dest, const char *src);
-int streql(const char *str1, const char *str2);
-int split_str(char *str, char separator, char **result, int max_splits);
-char *strrchr(const char *str, int c);
-char *strcat(char *dest, const char *src);
-bool starts_with(const string *str, const string *prefix);
+#define AUROR_EXECUTABLE_HEADER "AEF-"
+#define AUROR_X86_EXECUTABLE_HEADER "ef86-32;"
+#define AUROR_X64_EXECUTABLE_HEADER "ad64-64;"
+
+int start_aef_executable(string content);
+int start_executable(string content);

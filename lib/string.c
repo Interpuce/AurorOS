@@ -81,3 +81,12 @@ char *strcat(char *dest, const char *src) {
     *dest = '\0';
     return start;
 }
+
+bool starts_with(const string *str, const string *prefix) {
+    while (*prefix) {
+        if (*str++ != *prefix++) {
+            return false;
+        }
+    }
+    return true;
+}
