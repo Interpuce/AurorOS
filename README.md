@@ -1,6 +1,6 @@
 # AurorOS
 
-Our lightweight, custom OS - directly from Interpuce!
+Our lightweight, custom OS made without any existing kernel - directly from Interpuce!
 
 ## Downloading
 
