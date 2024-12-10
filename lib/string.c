@@ -90,3 +90,15 @@ bool starts_with(const string *str, const string *prefix) {
     }
     return true;
 }
+
+char* strslice (char *dest, const char *src, size_t n) {
+    char *destp = dest;
+    
+    for (; n != 0 && *src != 0; --n) {
+        *destp++ = *src++;
+    }
+
+    *destp = 0;
+
+    return dest;
+}
