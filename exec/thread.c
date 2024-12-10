@@ -10,14 +10,7 @@
 
 #include <types.h>
 #include <memory.h>
-
-#define STACK_SIZE 4096
-
-typedef struct Thread {
-    uint32_t* stack;
-    uint32_t id;
-    struct Thread* next;
-} Thread;
+#include "thread.h"
 
 Thread* current_thread = NULL;
 Thread* thread_list = NULL;
