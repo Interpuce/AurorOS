@@ -13,6 +13,8 @@
 #include <string.h>
 #include <constants.h>
 #include <codes.h>
+#include <threading/allowed.h>
+#include <panic.h>
 
 #include "exec.h"
 #include "thread.h"
@@ -35,6 +37,26 @@ string determine_aef_executable_architecture(string content) {
     return "invalid"; // cannot define architecture, because file architecture declaration is invalid
 }
 
+void start_executable_thread(string content) {
+    string bytecode_str = strslice("", content, 14);
+
+    uint8_t *bytecode = (uint8_t *)bytecode_str.data;
+    size_t bytecode_size = bytecode_str.length;
+
+    void *executable_memory = malloc(bytecode_size);
+    if (executable_memory == NULL) {
+        kernelpanic("MEMORY_MANAGMENT");
+        return;
+    }
+
+    memcpy(executable_memory, bytecode, bytecode_size);
+
+    void (*start_function)(threading_functions_allowed *) = (void (*)(threading_functions_allowed *))executable_memory;
+    start_function(function_table);
+
+    free(executable_memory);
+}
+
 int start_aef_executable(string content) {
     string arch = determine_aef_executable_architecture(content);
     if (streql(arch, "none")) {
@@ -47,8 +69,8 @@ int start_aef_executable(string content) {
         return CODE_EXEC_UNSUPPORTED_ARCH_ON_THIS_DEVICE;
     }
 
-    // For now this does nothing, but I think we need
-    //  to return any value.
+    create_thread(start_executable_thread, content);
+
     return 0;
 }
 

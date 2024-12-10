@@ -11,7 +11,23 @@
 #include <types.h>
 #include <memory.h>
 
-uintptr_t next_free_address = 0x100000;
+#define MEMORY_POOL_SIZE 1024 * 1024
+
+// Struktura bloku pamięci
+typedef struct memory_block {
+    size_t size;
+    struct memory_block *next;
+    int free; bloku
+} memory_block_t;
+
+static uint8_t memory_pool[MEMORY_POOL_SIZE];
+static memory_block_t *free_list = (memory_block_t *)memory_pool;
+
+void init_memory() {
+    free_list->size = MEMORY_POOL_SIZE - sizeof(memory_block_t);
+    free_list->next = NULL;
+    free_list->free = 1;
+}
 
 void *memcpy(void *dest, const void *src, size_t n) {
     unsigned char *d = dest;
@@ -23,7 +39,44 @@ void *memcpy(void *dest, const void *src, size_t n) {
 }
 
 void *malloc(size_t size) {
-    void *allocated_address = (void *)next_free_address;
-    next_free_address += size;
-    return allocated_address;
+    memory_block_t *current = free_list;
+    while (current != NULL) {
+        if (current->free && current->size >= size) {
+            if (current->size > size + sizeof(memory_block_t)) {
+                memory_block_t *new_block = (void *)((uint8_t *)current + sizeof(memory_block_t) + size);
+                new_block->size = current->size - size - sizeof(memory_block_t);
+                new_block->next = current->next;
+                new_block->free = 1;
+
+                current->size = size;
+                current->next = new_block;
+            }
+            current->free = 0;
+            return (void *)((uint8_t *)current + sizeof(memory_block_t));
+        }
+        current = current->next;
+    }
+    return NULL;
+}
+
+void free(void *ptr) {
+    if (ptr == NULL) return;
+
+    memory_block_t *block = (memory_block_t *)((uint8_t *)ptr - sizeof(memory_block_t));
+    block->free = 1;
+
+    if (block->next != NULL && block->next->free) {
+        block->size += sizeof(memory_block_t) + block->next->size;
+        block->next = block->next->next;
+    }
+
+    memory_block_t *current = free_list;
+    while (current != NULL) {
+        if (current->next == block && current->free) {
+            current->size += sizeof(memory_block_t) + block->size;
+            current->next = block->next;
+            break;
+        }
+        current = current->next;
+    }
 }
