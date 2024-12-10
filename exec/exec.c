@@ -15,6 +15,7 @@
 #include <codes.h>
 
 #include "exec.h"
+#include "thread.h"
 
 string determine_aef_executable_architecture(string content) {
     const string FULL_AUROR_X86_EXECUTABLE_HEADER = strcat(AUROR_EXECUTABLE_HEADER, AUROR_X86_EXECUTABLE_HEADER);
@@ -54,4 +55,10 @@ int start_aef_executable(string content) {
 // Macro to start the AurorOS Executable Format executable
 int start_executable(string content) {
     return start_aef_executable(content);
+}
+
+void init_threads_system() {
+    // The second argument is used in other things, like starting the executable
+    //  and is not required here, so we use simply 1 as argument.
+    create_thread(scheduler, 1);
 }

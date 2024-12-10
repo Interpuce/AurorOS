@@ -20,7 +20,12 @@
 
 #include "commands/commands.h"
 
+extern void init_threads_system();
+
 void main() {
+    // Initialize executables
+    init_threads_system();
+
     clearscreen();
     print("\n", 0x07);
 

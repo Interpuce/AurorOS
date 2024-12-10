@@ -20,5 +20,5 @@ typedef struct Thread {
     struct Thread* next;
 } Thread;
 
-extern void create_thread(void (*entry_point)(void*), void* arg);
-extern void scheduler();
+void create_thread(void (*entry_point)(void*), void* arg);
+void scheduler(int non_used_var);

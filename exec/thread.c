@@ -55,8 +55,11 @@ void switch_thread() {
     );
 }
 
-void scheduler() {
-    while (1) {
+void scheduler(int non_used_var) {
+    if (non_used_var == 0) {
+        return;
+    }
+    while (true) {
         if (current_thread && current_thread->next) {
             switch_thread();
         }
