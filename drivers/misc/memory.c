@@ -22,7 +22,7 @@ void *memcpy(void *dest, const void *src, size_t n) {
     return dest;
 }
 
-void *allocate_memory(size_t size) {
+void *malloc(size_t size) {
     void *allocated_address = (void *)next_free_address;
     next_free_address += size;
     return allocated_address;
