@@ -40,8 +40,8 @@ string determine_aef_executable_architecture(string content) {
 void start_executable_thread(string content) {
     string bytecode_str = strslice("", content, 14);
 
-    uint8_t *bytecode = (uint8_t *)bytecode_str.data;
-    size_t bytecode_size = bytecode_str.length;
+    uint8_t *bytecode = (uint8_t *)bytecode_str;
+    size_t bytecode_size = strlen(bytecode_str);
 
     void *executable_memory = malloc(bytecode_size);
     if (executable_memory == NULL) {
