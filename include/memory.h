@@ -11,4 +11,4 @@
 #include <types.h>
 
 void *memcpy(void *dest, const void *src, size_t n);
-void *allocate_memory(size_t size);
+void *malloc(size_t size);
