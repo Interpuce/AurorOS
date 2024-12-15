@@ -67,6 +67,8 @@ int terminal_main() {
                 reboot();
             } else if (streql(args[0], "shutdown")) {
                 shutdown();
+            } else if (streql(args[0], "eclair")) {
+                eclair(args[1]);
             } else {
                 print_error("Invalid command!");
             }
