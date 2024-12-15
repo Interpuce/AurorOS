@@ -71,3 +71,19 @@ void map() {
     print(" zxcvbnm,./           ZXCVBNM<>? \n", 0x0F);
     print("\n", 0x07); 
 }
+
+
+void eclair(const char *trt) {
+    if (streql(trt, "1")) {
+        print("\n", 0x07);
+        for (uint8_t i = 0; i < 128; i++) {
+            print(" ", 0x07);
+            print("Hello, world! ", i);
+        }
+        print("\n", 0x07);
+    } else if (streql(trt, "2")) {
+        paintscreen(0x91);
+    } else {
+        print_error("Invalid treatment argument provided!");
+    }
+}
