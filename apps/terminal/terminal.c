@@ -70,7 +70,10 @@ int terminal_main() {
             } else if (streql(args[0], "eclair")) {
                 eclair(args[1]);
             } else {
-                print_error("Invalid command!");
+                printstr(" ERROR ", 0x04);
+                printstr(": ", 0x07);
+                printstr(args[0], 0x07);
+                printstr(" is invalid command! \n", 0x07);
             }
         }
     }
