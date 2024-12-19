@@ -14,6 +14,7 @@
 #include <string.h>
 #include <input.h>
 #include <asm/power.h>
+#include <speaker.h>
 
 #include "commands/commands.h"
 
