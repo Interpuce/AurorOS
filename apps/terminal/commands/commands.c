@@ -87,3 +87,12 @@ void eclair(const char *trt) {
         print_error("Invalid treatment argument provided!");
     }
 }
+
+void sound(const char *frequency, const char *duration_ms) {
+    printstr(" Playing sound [ ", 0x07);
+    printstr(frequency, 0x0A);
+    printstr(" , ", 0x07);
+    printstr(duration_ms, 0x0A);
+    printstr(" ]\n", 0x07);
+    speaker(str_to_uint(frequency), str_to_uint(duration_ms));
+}
