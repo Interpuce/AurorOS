@@ -70,6 +70,8 @@ int terminal_main() {
                 shutdown();
             } else if (streql(args[0], "eclair")) {
                 eclair(args[1]);
+            } else if (streql(args[0], "speaker")) {
+                sound(args[1], args[2]);
             } else {
                 printstr(" ERROR ", 0x04);
                 printstr(": ", 0x07);
