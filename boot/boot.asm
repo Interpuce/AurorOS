@@ -36,3 +36,5 @@ start:
     cli ; Clear interrupts
     call main ; Call the main function (from /kernel/kernel.c)
     hlt ; Halt the proccessor
+
+; eclair was here
