@@ -27,9 +27,8 @@ void printprefix(const char* user, const char* pcname) {
     print(" $ ", 0x0F);
 }
 
-int terminal_main() {
+int terminal_main(uint16_t theme) {
     clearscreen();
-    uint8_t theme = 0x0B;
 
     println("", 0x07);
     println("                        @@@@@@@@@                           ", theme);                                                            
@@ -75,7 +74,9 @@ int terminal_main() {
             }
 
             if (streql(args[0], "ver")) {
+                print(" ", 0x07);
                 print(AUROR_NAME, 0x07);
+                print(" ", 0x07);
                 println(AUROR_VERSION, 0x07);
             } else if (streql(args[0], "print")) {
                 println(farg ,0x07);
@@ -93,6 +94,8 @@ int terminal_main() {
                 eclair(args[1]);
             } else if (streql(args[0], "speaker")) {
                 sound(args[1], args[2]);
+            } else if (streql(args[0], "color")) {
+                terminal_main(str_to_uint(args[1]));
             } else {
                 printstr(" ERROR ", 0x04);
                 printstr(": ", 0x07);
@@ -104,3 +107,4 @@ int terminal_main() {
 
     kernelpanic("KERNEL_MAIN_LOOP_EXITED");
 }
+
