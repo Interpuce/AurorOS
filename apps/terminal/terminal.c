@@ -29,7 +29,28 @@ void printprefix(const char* user, const char* pcname) {
 
 int terminal_main() {
     clearscreen();
-    print("\n", 0x07);
+    uint8_t theme = 0x0B
+
+    println("", 0x07);
+    println("                        @@@@@@@@@                           ", theme);                                                            
+    println("                       @@@@@@@@@@@@@@                       ", theme);                                                                 
+    println("                       @@@@@@@@@@@@@@@@                     ", theme);                                 
+    println("                       @@@@@@@@@@@@@@@@                     ", theme);
+    println("                    @@@@@@@@@@@@@@@@@@@     @@@@@           ", theme);
+    println("                    @@@@@@@@@@@@@@@@@@     @@@@@@@@         ", theme);
+    println("                    @@@@@@@@@@@@@@@@      @@@@@@@@@@        ", theme);
+    println("                    @@@@@@@@@@@@@@@@     @@@@@@@@@@@        ", theme);
+    println("                    @@@@@@@@@@@@@@@@    @@@@@   @@@@@       ", theme);
+    println("               @@@@@@@@@@@@@@@@@@@@    @@@@@@   @@@@@@      ", theme);
+    println("               @@@@@@@@@@@@@@@@@@     @@@@@@     @@@@@@     ", theme);
+    println("                @@@@@@@@@@@@@@@@     @@@@@@       @@@@@     ", theme);
+    println("                 @@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@    ", theme);
+    println("                  @@@@@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@   ", theme);
+    println("                      @@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  ", theme);
+    println("                                 @@@@@@             @@@@@@  ", theme);
+    println("                                 @@@@@@             @@@@@@  ", theme);
+    println("                                  @@@@               @@@@   ", theme);
+    println("", 0x07);
 
     uint16_t beta_state = true;
     string current_user = "root";
