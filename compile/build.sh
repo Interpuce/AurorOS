@@ -33,7 +33,7 @@ echo ".bin -> AurorOS.iso"
 mkdir -p "$GRUB_DIR"
 cp "$KERNEL_OUTPUT" "$BOOT_DIR"
 cat > "$GRUB_DIR/grub.cfg" << EOF
-menuentry "AurorOS 0.0.1" {
+menuentry "AurorOS Insider preview" {
     multiboot /boot/kernel.bin
 }
 EOF
