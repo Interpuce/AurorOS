@@ -16,7 +16,7 @@ uint8_t inb(uint16_t port) {
     return result;
 }
 
-uint8_t inw(uint16_t port) {
+uint16_t inw(uint16_t port) {
     uint8_t result;
     asm volatile ("inw %1, %0" : "=a" (result) : "Nd" (port));
     return result;
