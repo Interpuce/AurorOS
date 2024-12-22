@@ -20,7 +20,7 @@
 
 void printprefix(const char* user, const char* pcname) {
     print(" [ ", 0x07);
-    print(user, 0x01);
+    print(user, 0x09);
     print("@", 0x0F);
     print(pcname, 0x02);
     print(" ]", 0x07);
