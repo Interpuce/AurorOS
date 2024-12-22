@@ -6,8 +6,25 @@
 #define PIT_CONTROL_PORT 0x43
 #define PIT_CHANNEL2 0x42
 
+uint8_t vfrg(uint32_t frequency) {
+    return frequency >= 20 && frequency <= 20000;
+}
+
+uint8_t vdur(uint32_t duration) {
+    return duration > 0;
+}
+
 void speaker(uint32_t frequency, uint32_t duration) {
+    if (!vfrg(frequency)) {
+        return;
+    }
+    
+    if (!vdur(duration)) {
+        return;
+    }
+
     uint16_t divisor = 1193180 / frequency;
+
     outb(PIT_CONTROL_PORT, 0xB6);
 
     outb(PIT_CHANNEL2, (uint8_t)(divisor & 0xFF));
