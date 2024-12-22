@@ -15,6 +15,7 @@
  */
 
 #include <types.h>
+#include <speaker.h>
 
 extern void print_error(const string str);
 extern void print_info(const string str);
@@ -49,5 +50,6 @@ threading_functions_allowed function_table[] = {
     {"malloc", malloc},
     {"read_str", read_str},
     {"read_yn", read_yn},
+    {"speaker", speaker},
     {(const char *)NULL, NULL} // table end
 };
