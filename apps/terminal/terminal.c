@@ -29,7 +29,7 @@ void printprefix(const char* user, const char* pcname) {
 
 int terminal_main() {
     clearscreen();
-    uint8_t theme = 0x0B
+    uint8_t theme = 0x0B;
 
     println("", 0x07);
     println("                        @@@@@@@@@                           ", theme);                                                            
