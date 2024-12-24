@@ -19,7 +19,6 @@
 #include <screen.h>
 
 void kernelpanic(const char *errcode) {
-    
     paintscreen(COLOR_3);
     println(" ", COLOR_1);
     println(" Kernel panic!", COLOR_2);
@@ -28,7 +27,7 @@ void kernelpanic(const char *errcode) {
     println(" ", COLOR_1);
     print(" Error code: ", COLOR_1);
     print(errcode, COLOR_2);
-    
+
     while (true) {
         asm("hlt");
     }
