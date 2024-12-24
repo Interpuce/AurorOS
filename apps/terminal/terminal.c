@@ -16,6 +16,8 @@
 #include <asm/power.h>
 #include <speaker.h>
 
+#include <apps/tinypad.h>
+
 #include "commands/commands.h"
 
 void printprefix(const char* user, const char* pcname) {
@@ -51,11 +53,13 @@ int terminal_main(uint16_t theme) {
     println("                                  @@@@               @@@@   ", theme);
     println("", 0x07);
 
-    uint16_t beta_state = true;
+    uint8_t beta_state = 2;
     string current_user = "root";
 
-    if (beta_state == true) {
-        print_warn("You are running early build of AurorOS!");
+    if (beta_state == 1) {
+        print_warn("You are using early build of AurorOS!");
+    } else if (beta_state == 2) {
+        print_warn("You are using pubic beta build of AurorOS!");
     }
 
     char buffer[128];
