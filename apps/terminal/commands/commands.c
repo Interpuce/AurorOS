@@ -96,3 +96,15 @@ void sound(const char *frequency, const char *duration_ms) {
     printstr(" ]\n", 0x07);
     speaker(str_to_uint(frequency), str_to_uint(duration_ms));
 }
+
+void help() {
+    println("", 0x07);
+    println(" ver - displays version info", 0x07);
+    println(" print <arg1> - prints out <arg1>", 0x07);
+    println(" map - prints out every VGA color and every printable character in aurorOS", 0x07);
+    println(" cowsay <arg1> - displays ascii art of an cow saying <arg1>", 0x07);
+    println(" print <arg1> - prints out <arg1>", 0x07);
+    println(" speaker <frequency> <duration in ms> - uses motherboard speaker to play sound specyfied in arguments", 0x07);
+    println(" color <arg1> - changes main theme color to <arg1>", 0x07);
+    println("", 0x07);
+}
