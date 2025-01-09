@@ -3,6 +3,7 @@
 # Please make sure you have acknowledged AurorOS license.
 # It is available at https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
 
+set -e
 
 echo -e "\033[1m[NOTIFY_MULTILINE] AurorOS Build-time Dependencies Manager will now attempt to install missing dependencies.\033[0m"
 echo -e "\033[1m\033[33mNote that dependencies that are already installed will either be updated or reinstalled.\033[0m"
