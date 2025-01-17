@@ -16,6 +16,7 @@
 #include <string.h>
 #include <input.h>
 #include <asm/power.h>
+#include <panic.h>
 
 #include <apps/tinypad.h>
 

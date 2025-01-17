@@ -13,6 +13,10 @@
 #include <types.h>
 #include <msg.h>
 #include <string.h>
+#include <constants.h>
+#include <string.h>
+#include <input.h>
+#include <screen.h>
 
 void cowsay(char message[1024]) {
     int message_length = strlen(message);
