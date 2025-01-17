@@ -14,7 +14,6 @@
 #include <msg.h>
 #include <string.h>
 #include <constants.h>
-#include <string.h>
 #include <input.h>
 #include <screen.h>
 
