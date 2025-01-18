@@ -8,9 +8,14 @@
  * -------------------------------------------------------------------------
  */
 
+#pragma GCC optimize ("O3")
+
 #include <types.h>
 #include <msg.h>
 #include <string.h>
+#include <constants.h>
+#include <input.h>
+#include <screen.h>
 
 void cowsay(char message[1024]) {
     int message_length = strlen(message);
@@ -72,7 +77,6 @@ void map() {
     print("\n", 0x07); 
 }
 
-
 void eclair(const char *trt) {
     if (streql(trt, "1")) {
         print("\n", 0x07);
@@ -88,23 +92,11 @@ void eclair(const char *trt) {
     }
 }
 
-void sound(const char *frequency, const char *duration_ms) {
-    printstr(" Playing sound [ ", 0x07);
-    printstr(frequency, 0x0A);
-    printstr(" , ", 0x07);
-    printstr(duration_ms, 0x0A);
-    printstr(" ]\n", 0x07);
-    speaker(str_to_uint(frequency), str_to_uint(duration_ms));
-}
-
 void help() {
     println("", 0x07);
-    println(" ver - displays version info", 0x07);
+    println(" ver - displays OS version info", 0x07);
     println(" print <arg1> - prints out <arg1>", 0x07);
     println(" map - prints out every VGA color and every printable character in aurorOS", 0x07);
     println(" cowsay <arg1> - displays ascii art of an cow saying <arg1>", 0x07);
-    println(" print <arg1> - prints out <arg1>", 0x07);
-    println(" speaker <frequency> <duration in ms> - uses motherboard speaker to play sound specyfied in arguments", 0x07);
-    println(" color <arg1> - changes main theme color to <arg1>", 0x07);
     println("", 0x07);
 }

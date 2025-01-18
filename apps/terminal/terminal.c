@@ -8,13 +8,15 @@
  * -------------------------------------------------------------------------
  */
 
+#pragma GCC optimize ("O3")
+
 #include <string.h>
 #include <msg.h>
 #include <constants.h>
 #include <string.h>
 #include <input.h>
 #include <asm/power.h>
-#include <speaker.h>
+#include <panic.h>
 
 #include <apps/tinypad.h>
 
@@ -96,10 +98,6 @@ int terminal_main(uint16_t theme) {
                 shutdown();
             } else if (streql(args[0], "eclair")) {
                 eclair(args[1]);
-            } else if (streql(args[0], "speaker")) {
-                sound(args[1], args[2]);
-            } else if (streql(args[0], "color")) {
-                terminal_main(str_to_uint(args[1]));
             } else if (streql(args[0], "tinypad")) {
                 tinypad_main(0x07, 0x9F);
             } else if (streql(args[0], "help")) {
@@ -108,7 +106,7 @@ int terminal_main(uint16_t theme) {
                 printstr(" ERROR ", 0x04);
                 printstr(": ", 0x07);
                 printstr(args[0], 0x07);
-                printstr(" is invalid command! \n", 0x07);
+                printstr(" is neither a known command nor valid AEF binary! \n", 0x07);
             }
         }
     }
