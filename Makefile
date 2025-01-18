@@ -11,7 +11,10 @@ KERNEL_OBJECTS = bin/kernel.o bin/ports.o bin/panic.o bin/input.o bin/memory.o b
 KERNEL_SOURCES_ASM = boot/boot.asm
 KERNEL_OBJECTS_ASM = bin/boot.o
 
-all: $(KERNEL_OBJECTS) $(KERNEL_OBJECTS_ASM) kernel.elf
+all: bin $(KERNEL_OBJECTS) $(KERNEL_OBJECTS_ASM) kernel.elf
+
+bin:
+	mkdir bin
 
 kernel.elf: $(KERNEL_OBJECTS) $(KERNEL_OBJECTS_ASM)
 	$(LD) $(LDFLAGS) $^ -o $@
