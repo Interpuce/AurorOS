@@ -8,6 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
+#pragma GCC optimize ("O3")
+
 #include <types.h>
 #include <msg.h>
 #include <string.h>
@@ -76,7 +78,7 @@ void map() {
 
 void help() {
     println("", 0x07);
-    println(" ver - displays version info", 0x07);
+    println(" ver - displays OS version info", 0x07);
     println(" print <arg1> - prints out <arg1>", 0x07);
     println(" map - prints out every VGA color and every printable character in aurorOS", 0x07);
     println(" cowsay <arg1> - displays ascii art of an cow saying <arg1>", 0x07);

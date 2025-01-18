@@ -108,7 +108,7 @@ int terminal_main(uint16_t theme) {
                 printstr(" ERROR ", 0x04);
                 printstr(": ", 0x07);
                 printstr(args[0], 0x07);
-                printstr(" is invalid command! \n", 0x07);
+                printstr(" is neither a known command nor valid AEF binary! \n", 0x07);
             }
         }
     }
