@@ -8,17 +8,17 @@
  * -------------------------------------------------------------------------
  */
 
-#include <string.h>
 #include <msg.h>
 #include <constants.h>
 #include <string.h>
 #include <input.h>
 #include <asm/power.h>
-#include <speaker.h>
+#include <types.h>
+#include <panic.h>
+#include <screen.h>
+#include <hardware/cpu.h>
 
-#include <apps/tinypad.h>
-
-#include "commands/commands.h"
+#include "commands.h"
 
 void printprefix(const char* user, const char* pcname) {
     print(" [ ", 0x07);
@@ -53,19 +53,15 @@ int terminal_main(uint16_t theme) {
     println("                                  @@@@               @@@@   ", theme);
     println("", 0x07);
 
-    uint8_t beta_state = 2;
-    string current_user = "root";
+    print_info(AUROR_NAME);
 
-    if (beta_state == 1) {
-        print_warn("You are using early build of AurorOS!");
-    } else if (beta_state == 2) {
-        print_warn("You are using pubic beta build of AurorOS!");
-    }
+    char user[4];
+    strcpy(user, "root");
 
     char buffer[128];
     char *args[10];
     while (1) {
-        printprefix(current_user, PC_NAME);
+        printprefix(user, PC_NAME);
         read_str(buffer, sizeof(buffer), 0, 0x07);
 
         int arg_count = split_str(buffer, ' ', args, 10);
@@ -94,14 +90,18 @@ int terminal_main(uint16_t theme) {
                 reboot();
             } else if (streql(args[0], "shutdown")) {
                 shutdown();
-            } else if (streql(args[0], "eclair")) {
-                eclair(args[1]);
-            } else if (streql(args[0], "speaker")) {
-                sound(args[1], args[2]);
-            } else if (streql(args[0], "color")) {
-                terminal_main(str_to_uint(args[1]));
+            } else if (streql(args[0], "changeuser")) {
+                if (strlen(farg) < 1 || strlen(farg) > 8) {
+                    print_error("User name must be between 1 and 8 characters long!");
+                } else {
+                    strcpy(user, farg);
+                }
+            } else if (streql(args[0], "cpu")) {
+                println(get_cpu_name(), 0x07);
             } else if (streql(args[0], "tinypad")) {
                 tinypad_main(0x07, 0x9F);
+            } else if (streql(args[0], "debug_panic")) {
+                kernelpanic("DEBUG_KERNEL_PANIC");
             } else if (streql(args[0], "help")) {
                 help();
             } else {
@@ -112,7 +112,5 @@ int terminal_main(uint16_t theme) {
             }
         }
     }
-
-    kernelpanic("KERNEL_MAIN_LOOP_EXITED");
 }
 

@@ -8,11 +8,10 @@
  * -------------------------------------------------------------------------
  */
 
-extern void init_threads_system(); // from /exec/exec.c
-extern int terminal_main(); // from /apps/terminal/terminal.c
+extern int terminal_main();
+extern void kernelpanic(const char *errcode);
 
 void main() {
-    // Initialize executables
-    init_threads_system();
     terminal_main(0x0B);
+    kernelpanic("KERNEL_MAIN_LOOP_EXITED");
 }

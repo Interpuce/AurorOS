@@ -16,6 +16,5 @@
 
 void cowsay(char message[1024]);
 void map();
-void eclair(const char *trt);
-void sound(const char *frequency, const char *duration_ms);
 void help();
+extern int tinypad_main(uint8_t color, uint8_t barcolor);

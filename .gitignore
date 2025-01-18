@@ -1,24 +1,4 @@
-# BACKUP FILES
-# Backup files created by Interpuce to easily restore not-working function
-*.bak
-*.backup
-
-# ISO DIRECTORY
-# A special directory to build the ISO
-iso
-
-# OBJECT FILES
-# The result of AurorOS first-stage compilation
 *.o
-
-# THE AUROROS ISO
-# Final result of OS compilation
-*.iso
-
-# THE BIN DIRECTORY
-# Final object files and something other
 bin
-compiled
-
-# VSC DIRECTORY
 .vscode
+*.elf

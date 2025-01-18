@@ -19,12 +19,10 @@ If you want to contribute to AurorOS kernel you need to have previous experience
 
 ## Contributing to the apps
 
-The apps are not that easy to break, so you can do more changes. 
+The apps are not that easy to break, so you can do more changes.
 
 > [!TIP]
 > Avoid creating new apps, because they are absolutely **your** creation and you have copyright to them.
-
-Before doing any changes, please learn our [stdlib](https://github.com/Interpuce/stdlib)
 
 ## Compiling and running AurorOS
 
@@ -35,32 +33,25 @@ Before doing any changes, please learn our [stdlib](https://github.com/Interpuce
 
 First - make sure you have Linux distribution installed and you are going to execute these commands on Linux distribution.
 
-To clone, compile and run virtually AurorOS you will need `git`, `make`, `python3`, `gcc`, `nasm`, `binutils` and `qemu-system-x86_64` installed. 
-
-On Debian-based distributions you can install these by executing this command:
-
-```sudo apt install make python3 gcc binutils nasm qemu-system-x86_64```
-
-On Arch-based distributions you can execute this command to install packages:
-```sudo pacman -S make python gcc binutils nasm qemu```
+To clone, compile and run virtually AurorOS you will need `git`, `make`, `lld`, `clang`, `nasm`, `binutils` and `qemu-system-x86_64` installed.
 
 Clone the repository to the current folder skipping unnecessary commit history:
 
-```git clone https://github.com/Interpuce/AurorOS . --depth 1```
+`git clone https://github.com/Interpuce/AurorOS . --depth 1`
 
-Run this command in AurorOS repo root folder:
+Run this command in AurorOS repo to build the OS:
 
-```make```
-
-or alternatively:
-
-```make shbuild```
+`make`
 
 ### Running OS in virtual machine
 
-You can run AurorOS using this command:
+Run this command to run the OS:
 
-```qemu-system-x86_64 -kernel kernel.bin```
+`make run`
+
+or You can run AurorOS using this command:
+
+`qemu-system-x86_64 -kernel kernel.elf`
 
 ### Running OS on a real computer
 

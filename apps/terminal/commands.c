@@ -11,6 +11,9 @@
 #include <types.h>
 #include <msg.h>
 #include <string.h>
+#include <screen.h>
+
+#include "commands.h"
 
 void cowsay(char message[1024]) {
     int message_length = strlen(message);
@@ -37,7 +40,6 @@ void cowsay(char message[1024]) {
     print("           ||---w||\n", 0x07);
     print("           ||    ||\n", 0x07);
 }
-
 
 void map() {
     print("\n", 0x07); 
@@ -72,31 +74,6 @@ void map() {
     print("\n", 0x07); 
 }
 
-
-void eclair(const char *trt) {
-    if (streql(trt, "1")) {
-        print("\n", 0x07);
-        for (uint8_t i = 0; i < 128; i++) {
-            print(" ", 0x07);
-            print("Hello, world! ", i);
-        }
-        print("\n", 0x07);
-    } else if (streql(trt, "2")) {
-        paintscreen(0x91);
-    } else {
-        print_error("Invalid treatment argument provided!");
-    }
-}
-
-void sound(const char *frequency, const char *duration_ms) {
-    printstr(" Playing sound [ ", 0x07);
-    printstr(frequency, 0x0A);
-    printstr(" , ", 0x07);
-    printstr(duration_ms, 0x0A);
-    printstr(" ]\n", 0x07);
-    speaker(str_to_uint(frequency), str_to_uint(duration_ms));
-}
-
 void help() {
     println("", 0x07);
     println(" ver - displays version info", 0x07);
@@ -104,7 +81,6 @@ void help() {
     println(" map - prints out every VGA color and every printable character in aurorOS", 0x07);
     println(" cowsay <arg1> - displays ascii art of an cow saying <arg1>", 0x07);
     println(" print <arg1> - prints out <arg1>", 0x07);
-    println(" speaker <frequency> <duration in ms> - uses motherboard speaker to play sound specyfied in arguments", 0x07);
-    println(" color <arg1> - changes main theme color to <arg1>", 0x07);
+    println(" tinypad - very simple note pad ", 0x07);
     println("", 0x07);
 }
