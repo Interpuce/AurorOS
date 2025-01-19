@@ -8,8 +8,11 @@
  * -------------------------------------------------------------------------
  */
 
+#include <memory.h>
+
 extern int terminal_main(); // from /apps/terminal/terminal.c
 
 void main() {
+    init_memory();
     terminal_main(0x0B);
 }
