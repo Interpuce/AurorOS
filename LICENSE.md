@@ -8,6 +8,8 @@ Everyone is permitted to share this document, but changing it is not allowed.
 
 Failure of the user to be familiar with the rules of this license **does not** relieve the user of the obligation to comply with it.
 
+This license is valid from 02.02.2024 (2 weeks from 19.01.2024), old license can be viewed in commit history.
+
 ## 2. Making an AurorOS distro
 
 1. Distribution (called "distro") of AurorOS is an OS based on AurorOS code, which has custom branding and some changes in the code.
