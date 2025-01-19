@@ -22,3 +22,4 @@ compiled
 
 # VSC DIRECTORY
 .vscode
+*.bin

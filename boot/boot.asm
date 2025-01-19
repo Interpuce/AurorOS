@@ -37,4 +37,4 @@ start:
     call main ; Call the main function (from /kernel/kernel.c)
     hlt ; Halt the proccessor
 
-; eclair was here
+; eclair was here (twice)

@@ -8,10 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-extern void init_threads_system(); // from /exec/exec.c
 extern int terminal_main(); // from /apps/terminal/terminal.c
 
 void main() {
-    // Initialize executables
-    init_threads_system();
+    terminal_main(0x0B);
 }

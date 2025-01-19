@@ -10,7 +10,7 @@
 
 #pragma once
 
-#define AUROR_NAME "AurorOS Insider Preview"
-#define AUROR_VERSION "1.0.0"
+#define AUROR_NAME "AurorOS (Debug & Development Preview)"
+#define AUROR_VERSION "1.0.1"
 #define PC_NAME "auror"
 #define PC_ARCH "x86"

@@ -13,11 +13,10 @@
 
 #define MEMORY_POOL_SIZE 1024 * 1024
 
-// Struktura bloku pamięci
 typedef struct memory_block {
     size_t size;
     struct memory_block *next;
-    int free; bloku
+    int free;
 } memory_block_t;
 
 static uint8_t memory_pool[MEMORY_POOL_SIZE];

@@ -15,7 +15,7 @@ Your pull request will be **rejected** if any of standards above is not used in 
 
 ## Contributing to AurorOS Kernel
 
-If you want to contribute to AurorOS kernel you need to have previous experience with OS-dev. You can break the code very easily, so always [compile the OS](#compiling-auroros) and check the changes. Every change must be described with English and can't rebuild the entire kernel (if you want, make issue as feature request).
+If you want to contribute to AurorOS kernel you need to have previous experience with OS-dev. You can break the code very easily, so always [compile the OS](#compiling-and-running-auroros) and check the changes. Every change must be described with English and can't rebuild the entire kernel (if you want, make issue as feature request).
 
 ## Contributing to the apps
 
@@ -23,6 +23,8 @@ The apps are not that easy to break, so you can do more changes.
 
 > [!TIP]
 > Avoid creating new apps, because they are absolutely **your** creation and you have copyright to them.
+
+Before doing any changes, please learn our [stdlib](https://github.com/Interpuce/stdlib)
 
 ## Compiling and running AurorOS
 

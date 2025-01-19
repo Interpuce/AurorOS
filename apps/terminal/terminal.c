@@ -8,34 +8,60 @@
  * -------------------------------------------------------------------------
  */
 
+#pragma GCC optimize ("O3")
+
 #include <string.h>
 #include <msg.h>
 #include <constants.h>
 #include <string.h>
 #include <input.h>
 #include <asm/power.h>
-#include <speaker.h>
+#include <panic.h>
+
+#include <apps/tinypad.h>
 
 #include "commands/commands.h"
 
 void printprefix(const char* user, const char* pcname) {
     print(" [ ", 0x07);
-    print(user, 0x01);
+    print(user, 0x09);
     print("@", 0x0F);
     print(pcname, 0x02);
     print(" ]", 0x07);
     print(" $ ", 0x0F);
 }
 
-int terminal_main() {
+int terminal_main(uint16_t theme) {
     clearscreen();
-    print("\n", 0x07);
 
-    uint16_t beta_state = true;
+    println("", 0x07);
+    println("                        @@@@@@@@@                           ", theme);                                                            
+    println("                       @@@@@@@@@@@@@@                       ", theme);                                                                 
+    println("                       @@@@@@@@@@@@@@@@                     ", theme);                                 
+    println("                       @@@@@@@@@@@@@@@@                     ", theme);
+    println("                    @@@@@@@@@@@@@@@@@@@     @@@@@           ", theme);
+    println("                    @@@@@@@@@@@@@@@@@@     @@@@@@@@         ", theme);
+    println("                    @@@@@@@@@@@@@@@@      @@@@@@@@@@        ", theme);
+    println("                    @@@@@@@@@@@@@@@@     @@@@@@@@@@@        ", theme);
+    println("                    @@@@@@@@@@@@@@@@    @@@@@   @@@@@       ", theme);
+    println("               @@@@@@@@@@@@@@@@@@@@    @@@@@@   @@@@@@      ", theme);
+    println("               @@@@@@@@@@@@@@@@@@     @@@@@@     @@@@@@     ", theme);
+    println("                @@@@@@@@@@@@@@@@     @@@@@@       @@@@@     ", theme);
+    println("                 @@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@    ", theme);
+    println("                  @@@@@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@   ", theme);
+    println("                      @@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  ", theme);
+    println("                                 @@@@@@             @@@@@@  ", theme);
+    println("                                 @@@@@@             @@@@@@  ", theme);
+    println("                                  @@@@               @@@@   ", theme);
+    println("", 0x07);
+
+    uint8_t beta_state = 2;
     string current_user = "root";
 
-    if (beta_state == true) {
-        print_warn("You are running early build of AurorOS!");
+    if (beta_state == 1) {
+        print_warn("You are using early build of AurorOS!");
+    } else if (beta_state == 2) {
+        print_warn("You are using pubic beta build of AurorOS!");
     }
 
     char buffer[128];
@@ -54,7 +80,9 @@ int terminal_main() {
             }
 
             if (streql(args[0], "ver")) {
+                print(" ", 0x07);
                 print(AUROR_NAME, 0x07);
+                print(" ", 0x07);
                 println(AUROR_VERSION, 0x07);
             } else if (streql(args[0], "print")) {
                 println(farg ,0x07);
@@ -70,16 +98,19 @@ int terminal_main() {
                 shutdown();
             } else if (streql(args[0], "eclair")) {
                 eclair(args[1]);
-            } else if (streql(args[0], "speaker")) {
-                sound(args[1], args[2]);
+            } else if (streql(args[0], "tinypad")) {
+                tinypad_main(0x07, 0x9F);
+            } else if (streql(args[0], "help")) {
+                help();
             } else {
                 printstr(" ERROR ", 0x04);
                 printstr(": ", 0x07);
                 printstr(args[0], 0x07);
-                printstr(" is invalid command! \n", 0x07);
+                printstr(" is neither a known command nor valid AEF binary! \n", 0x07);
             }
         }
     }
 
     kernelpanic("KERNEL_MAIN_LOOP_EXITED");
 }
+
