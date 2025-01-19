@@ -54,12 +54,6 @@ or alternatively:
 
 ```make shbuild```
 
-### Running OS in virtual machine
+# Running AurorOS
 
-You can run AurorOS using this command:
-
-```qemu-system-x86_64 -kernel kernel.bin```
-
-### Running OS on a real computer
-
-This is not currently possible, since we don't have ISO.
+This will generate ISO in iso directory.
