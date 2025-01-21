@@ -58,11 +58,11 @@ int terminal_main(uint16_t theme) {
     string current_user = "root";
 
     if (AUROR_CODE_PHASE == EARLY_BUILD) {
-        print_warn("WARN: You are using early build of AurorOS!");
+        print_warn("You are using early build of AurorOS!");
     } else if (AUROR_CODE_PHASE == PUBLIC_BETA) {
-        print_warn("WARN: You are using public beta build of AurorOS!");
+        print_warn("You are using public beta build of AurorOS!");
     } else if (AUROR_CODE_PHASE == STABLE_BUILD) {
-        print_warn("INFO: You are using stable build of AurorOS.");
+        println("You are using stable build of AurorOS.", theme);
     }
 
     char buffer[128];
