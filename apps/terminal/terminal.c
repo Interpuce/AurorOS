@@ -55,13 +55,14 @@ int terminal_main(uint16_t theme) {
     println("                                  @@@@               @@@@   ", theme);
     println("", 0x07);
 
-    uint8_t beta_state = 2;
     string current_user = "root";
 
-    if (beta_state == 1) {
-        print_warn("You are using early build of AurorOS!");
-    } else if (beta_state == 2) {
-        print_warn("You are using pubic beta build of AurorOS!");
+    if (AUROR_CODE_PHASE == EARLY_BUILD) {
+        print_warn("WARN: You are using early build of AurorOS!");
+    } else if (AUROR_CODE_PHASE == PUBLIC_BETA) {
+        print_warn("WARN: You are using pubic beta build of AurorOS!");
+    } else if (AUROR_CODE_PHASE == STABLE_BUILD) {
+        print_warn("INFO: You are using stable build of AurorOS.");
     }
 
     char buffer[128];
