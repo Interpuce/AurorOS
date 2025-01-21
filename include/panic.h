@@ -31,7 +31,7 @@ void kernelpanic(const char *errcode) {
     println(" ", COLOR_1);
     println(" ", COLOR_1);
     
-    println("Additional info:", COLOR_2);
+    println(" Additional info:", COLOR_2);
         
     if (AUROR_CODE_PHASE == EARLY_BUILD) {
         println(" AurorOS release type: Early Build", COLOR_1);
