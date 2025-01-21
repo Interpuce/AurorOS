@@ -17,6 +17,6 @@ typedef enum {
     PUBLIC_BETA,
     STABLE_BUILD
 } BuildPhase;
-#define AUROR_CODE_PHASE "PUBLIC_BETA"
+#define AUROR_CODE_PHASE PUBLIC_BETA
 #define PC_NAME "auror"
 #define PC_ARCH "x86"
