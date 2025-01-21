@@ -17,6 +17,7 @@
 #include <msg.h>
 #include <types.h>
 #include <screen.h>
+#include <constants.h>
 
 void kernelpanic(const char *errcode) {
     paintscreen(COLOR_3);
@@ -27,7 +28,22 @@ void kernelpanic(const char *errcode) {
     println(" ", COLOR_1);
     print(" Error code: ", COLOR_1);
     print(errcode, COLOR_2);
+    println(" ", COLOR_1);
+    println(" ", COLOR_1);
+    
+    println("Additional info:", COLOR_2);
+        
+    if (AUROR_CODE_PHASE == EARLY_BUILD) {
+        println("AurorOS release type: Early Build", COLOR_1);
+    } else if (AUROR_CODE_PHASE == PUBLIC_BETA) {
+        println("AurorOS release type: Public Beta Build", COLOR_1);
+    } else if (AUROR_CODE_PHASE == STABLE_BUILD) {
+        println("AurorOS release type: Stable Build", COLOR_1);
+    }
 
+    print(" AurorOS version: ", COLOR_1);
+    print(AUROR_VERSION, COLOR_2);
+    
     while (true) {
         asm("hlt");
     }
