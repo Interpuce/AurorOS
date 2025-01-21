@@ -12,6 +12,11 @@
 
 #define AUROR_NAME "AurorOS (Debug & Development Preview)"
 #define AUROR_VERSION "1.0.1"
+typedef enum {
+    EARLY_BUILD,
+    PUBLIC_BETA,
+    STABLE_BUILD
+} BuildPhase;
 #define AUROR_CODE_PHASE "PUBLIC_BETA"
 #define PC_NAME "auror"
 #define PC_ARCH "x86"
