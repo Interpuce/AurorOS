@@ -12,5 +12,6 @@
 
 #define AUROR_NAME "AurorOS (Debug & Development Preview)"
 #define AUROR_VERSION "1.0.1"
+#define AUROR_CODE_PHASE "PUBLIC BETA"
 #define PC_NAME "auror"
 #define PC_ARCH "x86"
