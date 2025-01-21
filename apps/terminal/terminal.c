@@ -60,7 +60,7 @@ int terminal_main(uint16_t theme) {
     if (AUROR_CODE_PHASE == EARLY_BUILD) {
         print_warn("WARN: You are using early build of AurorOS!");
     } else if (AUROR_CODE_PHASE == PUBLIC_BETA) {
-        print_warn("WARN: You are using pubic beta build of AurorOS!");
+        print_warn("WARN: You are using public beta build of AurorOS!");
     } else if (AUROR_CODE_PHASE == STABLE_BUILD) {
         print_warn("INFO: You are using stable build of AurorOS.");
     }
