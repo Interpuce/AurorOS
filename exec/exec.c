@@ -27,10 +27,10 @@ string replace_aef_arch(string what) {
 }
 
 int check_aef_arch(string content) {
-    string full_arch_beginning = AEF_BEGIN;
+    const string full_arch_beginning = AEF_BEGIN;
     strcpy(full_arch_beginning, replace_aef_arch(PC_ARCH));
 
-    string unsupported_arch = AEF_BEGIN;
+    const string unsupported_arch = AEF_BEGIN;
     strcpy(unsupported_arch, "------");
 
     if (streql(full_arch_beginning, unsupported_arch)) {

@@ -20,8 +20,10 @@ int strlen(const char *str) {
     return len;
 }
 
-void strcpy(char *dest, const char *src) {
+char *strcpy(char *dest, const char *src) {
+    char *orig = dest;
     while ((*dest++ = *src++) != '\0');
+    return orig;
 }
 
 int streql(const char *str1, const char *str2) {
@@ -82,7 +84,7 @@ char *strcat(char *dest, const char *src) {
     return start;
 }
 
-bool starts_with(const string *str, const string *prefix) {
+bool starts_with(const char *str, const char *prefix) {
     while (*prefix) {
         if (*str++ != *prefix++) {
             return false;
