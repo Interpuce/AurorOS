@@ -26,18 +26,18 @@ while true; do
     [Aa])
       echo -e "\033[1m[NOTIFY]\033[0m Proceeding with pacman."
       sudo --user=root pacman -Sy
-      sudo --user=root pacman -S make python gcc binutils nasm qemu
+      sudo --user=root pacman -S make python gcc binutils nasm xorriso qemu
       break
       ;;
     [Dd])
       echo -e "\033[1m[NOTIFY]\033[0m Proceeding with APT."
       sudo --user=root apt update
-      sudo --user=root apt install make python3 gcc binutils nasm qemu-system-x86_64
+      sudo --user=root apt install make python3 gcc binutils nasm xorriso qemu-system-x86_64
       break
       ;;
       [Ff])
       echo -e "\033[1m[NOTIFY]\033[0m Proceeding with DNF."
-      sudo --user=root dnf install make python3 gcc binutils nasm qemu
+      sudo --user=root dnf install make python3 gcc binutils nasm xorriso qemu
       break
       ;;
     *)
