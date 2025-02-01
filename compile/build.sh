@@ -1,38 +1,10 @@
 #!/bin/bash
 
-
 # Begin with compile-time dependencies check
-
-required=("gcc" "grub-mkrescue" "nasm" "ld")
-missing=()
-
-for utility in "${required[@]}"; do
-    if ! command -v "$utility" &>/dev/null; then
-        missing+=("$utility")  # Add any missing utilities to the list
-    fi
-done
-
-# Print warn if anything is missing
-if [ ${#missing[@]} -gt 0 ]; then
-    missing_list=""
-    
-    for utility in "${missing[@]}"; do
-        if [ -n "$missing_list" ]; then
-            missing_list+=", "
-        fi
-        missing_list+="$utility"
-    done
-    
-    # Warn lines formatted with ANSI escape sequences
-    echo -e "\033[1mWARN: Following utilities are \033[31mmissing\033[0m: \033[1m$missing_list. Build may result in partial or total failure.\033[0m"
-    echo -e "\033[1mMake sure all build-time dependencies are installed and properly configured.\033[0m"
-fi
 
 set -e
 
-# Begin with compile-time dependencies check
-
-dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
+dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld" "xorriso") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
 dependencies_missing=()
 
 for utility in "${dependencies_required[@]}"; do
