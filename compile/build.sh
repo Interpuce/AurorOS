@@ -4,7 +4,7 @@
 
 set -e
 
-dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld" "xorriso") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
+dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld" "xorriso" "git") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
 dependencies_missing=()
 
 for utility in "${dependencies_required[@]}"; do
