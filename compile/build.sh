@@ -41,6 +41,11 @@ for SOURCE_FILE in $(find "$ROOT_DIR/kernel/" -type f -name '*.c' ! -name '*.exc
     gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Ikernel/include -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
+if [ ! -d "$ROOT_DIR/apps/include" ]; then
+    echo "Directory apps/include does not exist. Cloning repository..."
+    git clone https://github.com/Interpuce/stdlib "$ROOT_DIR/apps/include"
+fi
+
 echo ".c -> .o [user-level]"
 for SOURCE_FILE in $(find "$ROOT_DIR/apps/" -type f -name '*.c' ! -name '*.excluded.c'); do
     OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.c}.o")"
