@@ -2,7 +2,7 @@
 # Backup files created by Interpuce to easily restore not-working function
 *.bak
 *.backup
-apps/include
+apps/stdlib
 
 # ISO DIRECTORY
 # A special directory to build the ISO
