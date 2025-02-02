@@ -53,7 +53,7 @@ echo ".c -> .o [user-level]"
 for SOURCE_FILE in $(find "$ROOT_DIR/apps/" -type f -name '*.c' ! -name '*.excluded.c'); do
     OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.c}.o")"
     OBJECT_FILES+=("$OBJECT_FILE")
-    gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iapps/std/include -nostdlib  -c "$SOURCE_FILE" -o "$OBJECT_FILE"
+    gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iapps/stdlib/include -nostdlib  -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
 echo "boot.asm -> boot.o"
