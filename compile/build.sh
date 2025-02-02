@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Please make sure you have acknowledged AurorOS license.
+# It is available at https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
+
 # Begin with compile-time dependencies check
 
 set -e
