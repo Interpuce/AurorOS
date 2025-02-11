@@ -45,8 +45,8 @@ for SOURCE_FILE in $(find "$ROOT_DIR/kernel/" -type f -name '*.c' ! -name '*.exc
 done
 
 if [ ! -d "$ROOT_DIR/apps/include" ]; then
-    echo "Directory apps/include does not exist. Cloning repository..."
-    git clone https://github.com/Interpuce/stdlib "$ROOT_DIR/apps/stdlib"
+    echo "Directory apps/include does not exist. Cloning repository (shadow clone, not for contributing)..."
+    git clone https://github.com/Interpuce/stdlib "$ROOT_DIR/apps/stdlib" --depth 1
 fi
 
 echo ".c -> .o [user-level]"
