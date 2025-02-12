@@ -11,6 +11,7 @@
 #include "fat32.h"
 #include <ports.h>
 #include <msg.h>
+#include <string.h>
 
 static FAT32_BPB bpb;
 static uint32_t fat_start, data_start;
