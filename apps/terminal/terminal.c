@@ -8,55 +8,51 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma GCC optimize ("O3")
-
+#include <stdio.h>
+#include <sys/auth.h>
+#include <sys/crash.h>
 #include <string.h>
-#include <msg.h>
-#include <constants.h>
-#include <string.h>
-#include <input.h>
-#include <asm/power.h>
-#include <panic.h>
 
-#include <apps/tinypad.h>
+int tinypad_main(uint8_t color, uint8_t barcolor);
 
 #include "commands/commands.h"
 
 void printprefix(const char* user, const char* pcname) {
-    print(" [ ", 0x07);
-    print(user, 0x09);
-    print("@", 0x0F);
-    print(pcname, 0x02);
-    print(" ]", 0x07);
-    print(" $ ", 0x0F);
+    cprint(" [ ", 0x07);
+    cprint(user, 0x09);
+    cprint("@", 0x0F);
+    cprint(pcname, 0x02);
+    cprint(" ]", 0x07);
+    cprint(" $ ", 0x0F);
 }
 
 int terminal_main(uint16_t theme) {
     clearscreen();
 
-    println("", 0x07);
-    println("                        @@@@@@@@@                           ", theme);                                                            
-    println("                       @@@@@@@@@@@@@@                       ", theme);                                                                 
-    println("                       @@@@@@@@@@@@@@@@                     ", theme);                                 
-    println("                       @@@@@@@@@@@@@@@@                     ", theme);
-    println("                    @@@@@@@@@@@@@@@@@@@     @@@@@           ", theme);
-    println("                    @@@@@@@@@@@@@@@@@@     @@@@@@@@         ", theme);
-    println("                    @@@@@@@@@@@@@@@@      @@@@@@@@@@        ", theme);
-    println("                    @@@@@@@@@@@@@@@@     @@@@@@@@@@@        ", theme);
-    println("                    @@@@@@@@@@@@@@@@    @@@@@   @@@@@       ", theme);
-    println("               @@@@@@@@@@@@@@@@@@@@    @@@@@@   @@@@@@      ", theme);
-    println("               @@@@@@@@@@@@@@@@@@     @@@@@@     @@@@@@     ", theme);
-    println("                @@@@@@@@@@@@@@@@     @@@@@@       @@@@@     ", theme);
-    println("                 @@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@    ", theme);
-    println("                  @@@@@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@   ", theme);
-    println("                      @@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  ", theme);
-    println("                                 @@@@@@             @@@@@@  ", theme);
-    println("                                 @@@@@@             @@@@@@  ", theme);
-    println("                                  @@@@               @@@@   ", theme);
-    println("", 0x07);
+    cprintln("", 0x07);
+    cprintln("                        @@@@@@@@@                           ", theme);                                                            
+    cprintln("                       @@@@@@@@@@@@@@                       ", theme);                                                                 
+    cprintln("                       @@@@@@@@@@@@@@@@                     ", theme);                                 
+    cprintln("                       @@@@@@@@@@@@@@@@                     ", theme);
+    cprintln("                    @@@@@@@@@@@@@@@@@@@     @@@@@           ", theme);
+    cprintln("                    @@@@@@@@@@@@@@@@@@     @@@@@@@@         ", theme);
+    cprintln("                    @@@@@@@@@@@@@@@@      @@@@@@@@@@        ", theme);
+    cprintln("                    @@@@@@@@@@@@@@@@     @@@@@@@@@@@        ", theme);
+    cprintln("                    @@@@@@@@@@@@@@@@    @@@@@   @@@@@       ", theme);
+    cprintln("               @@@@@@@@@@@@@@@@@@@@    @@@@@@   @@@@@@      ", theme);
+    cprintln("               @@@@@@@@@@@@@@@@@@     @@@@@@     @@@@@@     ", theme);
+    cprintln("                @@@@@@@@@@@@@@@@     @@@@@@       @@@@@     ", theme);
+    cprintln("                 @@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@    ", theme);
+    cprintln("                  @@@@@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@   ", theme);
+    cprintln("                      @@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  ", theme);
+    cprintln("                                 @@@@@@             @@@@@@  ", theme);
+    cprintln("                                 @@@@@@             @@@@@@  ", theme);
+    cprintln("                                  @@@@               @@@@   ", theme);
+    cprintln("", 0x07);
 
     uint8_t beta_state = 2;
-    string current_user = "root";
+    string current_user = "root"; // THIS IS NOT THE AUROROS PERMISSION SYSTEM NOW
+    string pc_name = get_pc_name();
 
     if (beta_state == 1) {
         print_warn("You are using early build of AurorOS!");
@@ -67,8 +63,8 @@ int terminal_main(uint16_t theme) {
     char buffer[128];
     char *args[10];
     while (1) {
-        printprefix(current_user, PC_NAME);
-        read_str(buffer, sizeof(buffer), 0, 0x07);
+        printprefix(current_user, pc_name);
+        read(buffer, sizeof(buffer));
 
         int arg_count = split_str(buffer, ' ', args, 10);
 
@@ -80,12 +76,12 @@ int terminal_main(uint16_t theme) {
             }
 
             if (streql(args[0], "ver")) {
-                print(" ", 0x07);
-                print(AUROR_NAME, 0x07);
-                print(" ", 0x07);
-                println(AUROR_VERSION, 0x07);
+                cprint(" ", 0x07);
+                cprint(get_auror_name(), 0x07);
+                cprint(" ", 0x07);
+                cprintln(get_auror_version(), 0x07);
             } else if (streql(args[0], "print")) {
-                println(farg ,0x07);
+                cprintln(farg, 0x07);
             } else if (streql(args[0], "cowsay")) {
                 cowsay(farg);
             } else if (streql(args[0], "map")) {
@@ -111,6 +107,5 @@ int terminal_main(uint16_t theme) {
         }
     }
 
-    kernelpanic("KERNEL_MAIN_LOOP_EXITED");
+    crash_os();
 }
-
