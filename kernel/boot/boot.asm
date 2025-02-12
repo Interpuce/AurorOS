@@ -38,3 +38,12 @@ start:
     hlt ; Halt the proccessor
 
 ; eclair was here (twice)
+; gorciu was here (once)
+
+global idt_load
+idt_load:
+    lidt [idtp]
+    sti
+    ret
+
+; new file end

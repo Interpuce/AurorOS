@@ -8,11 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <memory.h>
+#pragma once
 
-extern int terminal_main(); // from /apps/terminal/terminal.c
+#include <types.h>
 
-void main() {
-    init_memory();
-    terminal_main(0x0B);
-}
+extern int translate_permission_level(string user);

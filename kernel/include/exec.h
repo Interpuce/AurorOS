@@ -8,13 +8,3 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
-
-#define AUROR_NAME "AurorOS"
-#define AUROR_VERSION "Public Beta 3"
-#define PC_NAME "auror"
-#define PC_ARCH "x86"
-
-#define PERMISSION_LEVEL_NORMAL_USER 1
-#define PERMISSION_LEVEL_MUSEABLER 2
-#define PERMISSION_LEVEL_MAIN 3

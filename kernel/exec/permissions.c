@@ -8,13 +8,13 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
+#include <types.h>
+#include <constants.h>
 
-#define AUROR_NAME "AurorOS"
-#define AUROR_VERSION "Public Beta 3"
-#define PC_NAME "auror"
-#define PC_ARCH "x86"
-
-#define PERMISSION_LEVEL_NORMAL_USER 1
-#define PERMISSION_LEVEL_MUSEABLER 2
-#define PERMISSION_LEVEL_MAIN 3
+int translate_permission_level(string user) {
+    if (user == "main") {
+        return PERMISSION_LEVEL_MAIN; // already a main user
+    } else {
+        return PERMISSION_LEVEL_MUSEABLER; // can execute muse (main user shell execute)
+    }
+}

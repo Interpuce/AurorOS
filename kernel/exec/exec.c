@@ -15,6 +15,9 @@
 #include <codes.h>
 #include <msg.h>
 #include <panic.h>
+#include <memory.h>
+
+int current_thread = -1;
 
 string replace_aef_arch(string what) {
     if (streql("x86", what)) {
@@ -30,8 +33,8 @@ int check_aef_arch(string content) {
     const string full_arch_beginning = AEF_BEGIN;
     strcpy(full_arch_beginning, replace_aef_arch(PC_ARCH));
 
-    const string unsupported_arch = AEF_BEGIN;
-    strcpy(unsupported_arch, "------");
+    string unsupported_arch = AEF_BEGIN;
+    strcpy(unsupported_arch, AEF_ARCHITECTURE_NOTHING);
 
     if (streql(full_arch_beginning, unsupported_arch)) {
         return CODE_EXEC_INVALID_ARCH;
@@ -48,7 +51,12 @@ int check_aef_arch(string content) {
     }
 }
 
-int start_aef_binary(string content) {
+int start_aef_binary(string content, int permission_level) {
+    if (permission_level != PERMISSION_LEVEL_MAIN && permission_level != PERMISSION_LEVEL_MUSEABLER && permission_level != PERMISSION_LEVEL_NORMAL_USER) {
+        print_error("Invalid permissions. Please contact us on GitHub issues.");
+        return 675;
+    }
+
     int is_arch_ok = check_aef_arch(content);
 
     if (is_arch_ok == CODE_EXEC_UNSUPPORTED_ARCH_ON_THIS_DEVICE) {
@@ -67,4 +75,26 @@ int start_aef_binary(string content) {
         kernelpanic("EXEC_ARCH_CHECK_ERROR");
         return 673;
     }
+
+    size_t prefix_len = strlen(AEF_BEGIN) + strlen(AEF_ARCHITECTURE_NOTHING);
+    char *new_content = content + prefix_len;
+
+    void* binary_memory = malloc(strlen(new_content));
+    if (binary_memory == NULL) {
+        print_error("Failed to allocate memory for AEF binary.");
+        return 674;
+    }
+    
+    memcpy(binary_memory, new_content, strlen(content));
+
+    void (*execute)() = (void (*)())binary_memory;
+    execute();
+}
+
+int get_current_thread() {
+    return current_thread;
+}
+
+void syscall_handler() {
+    // i'll write this later
 }

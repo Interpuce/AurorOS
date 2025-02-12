@@ -51,7 +51,7 @@ int terminal_main(uint16_t theme) {
     cprintln("", 0x07);
 
     uint8_t beta_state = 2;
-    string current_user = "root"; // THIS IS NOT THE AUROROS PERMISSION SYSTEM NOW
+    string current_user = "user"; // THIS IS NOT THE AUROROS PERMISSION SYSTEM NOW
     string pc_name = get_pc_name();
 
     if (beta_state == 1) {

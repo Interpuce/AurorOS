@@ -15,3 +15,6 @@
 #define AEF_BEGIN "\033\033AEF--"
 #define AEF_ARCHITECTURE_X86 "386---"
 #define AEF_ARCHITECTURE_X64 "amd64-"
+#define AEF_ARCHITECTURE_NOTHING "------"
+
+extern int get_current_thread();
