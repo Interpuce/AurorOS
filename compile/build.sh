@@ -20,6 +20,12 @@ if [ ${#dependencies_missing[@]} -gt 0 ]; then
 	    ./compile/dep_install.sh
 fi
 
+if [ -n "$GCC_SUFFIX" ]; then
+  GCC="gcc${GCC_SUFFIX}"
+else
+  GCC="gcc"
+fi
+
 ROOT_DIR=$(pwd)
 ASM_FILE="$ROOT_DIR/boot/boot.asm"
 ASM_OBJECT="$ROOT_DIR/bin/boot.o"
@@ -38,7 +44,7 @@ OBJECT_FILES=()
 for SOURCE_FILE in $(find "$ROOT_DIR" -type f -name '*.c' ! -name '*.excluded.c'); do
     OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.c}.o")"
     OBJECT_FILES+=("$OBJECT_FILE")
-    gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
+    $GCC -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
 echo "boot.asm -> boot.o"
