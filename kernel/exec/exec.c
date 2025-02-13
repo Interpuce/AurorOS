@@ -16,6 +16,9 @@
 #include <msg.h>
 #include <panic.h>
 #include <memory.h>
+#include <speaker.h>
+#include <asm/power.h>
+#include <input.h>
 
 int current_thread = -1;
 
@@ -96,5 +99,55 @@ int get_current_thread() {
 }
 
 void syscall_handler() {
-    // i'll write this later
+    int syscall_id = 0;
+    asm("movl %%eax, %0" : "=r" (syscall_id));
+    switch (syscall_id) {
+        case 4:
+            char *str = NULL;
+            asm("movl %%ecx, %0" : "=r" (str));
+            uint8_t color = 7;
+            asm("movl %%edx, %0" : "=r" (color));
+            print(str, color);
+            break;
+        case 5:
+            uint32_t frequency = 10000;
+            uint32_t duration = 10;
+            asm("movl %%ebx, %0" : "=r" (frequency));
+            asm("movl %%ecx, %0" : "=r" (duration));
+            speaker(frequency, duration);
+            break;
+        case 6:
+            kernelpanic("REPORTED_CRASH");
+            break;
+        case 7:
+            shutdown();
+            break;
+        case 8:
+            reboot();
+            break;
+        case 9:
+            clearscreen();
+            break;
+        case 10:
+            char *buffer = NULL;
+            int max_len = 0;
+            asm("movl %%ebx, %0" : "=r" (buffer));
+            asm("movl %%ecx, %0" : "=r" (max_len));
+            if (buffer == NULL || max_len == 0) {
+                print_warn("The reading system call executed by the application does not make sense");
+                break;
+            }
+            read_str(buffer, max_len, 0, 0x07);
+            break;
+        case 11:
+            char *str = NULL;
+            asm("movl %%ebx, %0" : "=r" (str));
+            uint8_t color = 7;
+            asm("movl %%ecx, %0" : "=r" (color));
+            printct(str, color);
+            break;
+        default:
+            print_warn("Application tried to execute unimplemented system call");
+            break;
+    }
 }
