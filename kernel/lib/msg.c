@@ -50,7 +50,7 @@ void print_custom(const string str, uint8_t color, uint8_t scolor) {
     printstr(" ] ", scolor);
 }
 
-void print(const string str, uint8_t color) {
+void print(const char* str, uint8_t color) {
     printstr(str, color);
 }
 
