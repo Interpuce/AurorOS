@@ -13,7 +13,6 @@
 
 int tinypad_main(uint8_t color, uint8_t barcolor) {
     clearscreen();
-    paintline(0, barcolor);
     printct("Tinypad", barcolor);
     cprintln(" ", 0x07);
     char buffer[1762];
