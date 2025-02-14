@@ -170,6 +170,7 @@ void syscall_handler() {
             asm("movl %%ebx, %0" : "=r" (program_str));
             string program = disk_read_file(program_str); // command line arguments will be introducted probably, for now the disk_read_file is placeholder
             start_aef_binary(program, current_thread_permissions);
+            break;
         default:
             print_warn("Application tried to execute unimplemented system call");
             break;
