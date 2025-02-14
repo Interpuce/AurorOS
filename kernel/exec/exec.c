@@ -92,6 +92,8 @@ int start_aef_binary(string content, int permission_level) {
 
     void (*execute)() = (void (*)())binary_memory;
     execute();
+
+    return 0;
 }
 
 int get_current_thread() {
@@ -103,11 +105,11 @@ void syscall_handler() {
     asm("movl %%eax, %0" : "=r" (syscall_id));
     switch (syscall_id) {
         case 4:
-            char *str = NULL;
-            asm("movl %%ecx, %0" : "=r" (str));
-            uint8_t color = 7;
-            asm("movl %%edx, %0" : "=r" (color));
-            print(str, color);
+            char *print_str = NULL;
+            asm("movl %%ecx, %0" : "=r" (print_str));
+            uint32_t color_print = 7;
+            asm("movl %%edx, %0" : "=r" (color_print));
+            print(print_str, color_print);
             break;
         case 5:
             uint32_t frequency = 10000;
@@ -140,11 +142,11 @@ void syscall_handler() {
             read_str(buffer, max_len, 0, 0x07);
             break;
         case 11:
-            char *str = NULL;
-            asm("movl %%ebx, %0" : "=r" (str));
-            uint8_t color = 7;
-            asm("movl %%ecx, %0" : "=r" (color));
-            printct(str, color);
+            char *center_print_str = NULL;
+            asm("movl %%ebx, %0" : "=r" (center_print_str));
+            uint32_t color_center_print = 7;
+            asm("movl %%ecx, %0" : "=r" (color_center_print));
+            printct(center_print_str, color_center_print);
             break;
         default:
             print_warn("Application tried to execute unimplemented system call");
