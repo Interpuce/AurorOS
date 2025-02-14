@@ -19,8 +19,10 @@
 #include <speaker.h>
 #include <asm/power.h>
 #include <input.h>
+#include <fs.h>
 
 int current_thread = -1;
+int current_thread_permissions = PERMISSION_LEVEL_NORMAL_USER;
 
 string replace_aef_arch(string what) {
     if (streql("x86", what)) {
@@ -79,6 +81,9 @@ int start_aef_binary(string content, int permission_level) {
         return 673;
     }
 
+    current_thread++;
+    current_thread_permissions = permission_level;
+
     size_t prefix_len = strlen(AEF_BEGIN) + strlen(AEF_ARCHITECTURE_NOTHING);
     char *new_content = content + prefix_len;
 
@@ -119,12 +124,24 @@ void syscall_handler() {
             speaker(frequency, duration);
             break;
         case 6:
+            if (current_thread_permissions != PERMISSION_LEVEL_MAIN) {
+                print_error("Sorry, crash reporting syscall is not available in this permission level");
+                break;
+            }
             kernelpanic("REPORTED_CRASH");
             break;
         case 7:
+            if (current_thread_permissions != PERMISSION_LEVEL_MAIN) {
+                print_error("Sorry, shutdown syscall is not available in this permission level");
+                break;
+            }
             shutdown();
             break;
         case 8:
+            if (current_thread_permissions != PERMISSION_LEVEL_MAIN) {
+                print_error("Sorry, reboot syscall is not available in this permission level");
+                break;
+            }
             reboot();
             break;
         case 9:
@@ -148,6 +165,11 @@ void syscall_handler() {
             asm("movl %%ecx, %0" : "=r" (color_center_print));
             printct(center_print_str, color_center_print);
             break;
+        case 12:
+            char *program_str = NULL;
+            asm("movl %%ebx, %0" : "=r" (program_str));
+            string program = disk_read_file(program_str); // command line arguments will be introducted probably, for now the disk_read_file is placeholder
+            start_aef_binary(program, current_thread_permissions);
         default:
             print_warn("Application tried to execute unimplemented system call");
             break;
