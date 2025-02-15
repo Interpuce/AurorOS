@@ -12,7 +12,7 @@ int snprintf(char* buffer, size_t size, const char* format, ...) {
             int num = *(int*)ptr;
             ptr += sizeof(int);
 
-            char numStr[20];
+            char num_str[20];
             int j = 0, negative = 0;
             if (num < 0) {
                 negative = 1;
@@ -20,45 +20,45 @@ int snprintf(char* buffer, size_t size, const char* format, ...) {
             }
 
             do {
-                numStr[j++] = '0' + (num % 10);
+                num_str[j++] = '0' + (num % 10);
                 num /= 10;
             } while (num > 0);
             
             if (negative) {
-                numStr[j++] = '-';
+                num_str[j++] = '-';
             }
 
             for (int k = 0; k < j / 2; k++) {
-                char temp = numStr[k];
-                numStr[k] = numStr[j - k - 1];
-                numStr[j - k - 1] = temp;
+                char temp = num_str[k];
+                num_str[k] = num_str[j - k - 1];
+                num_str[j - k - 1] = temp;
             }
 
             for (int k = 0; k < j && written < size - 1; k++) {
-                buffer[written++] = numStr[k];
+                buffer[written++] = num_str[k];
             }
             i++;
         } else if (format[i] == '%' && format[i + 1] == 'x') {
             int num = *(int*)ptr;
             ptr += sizeof(int);
 
-            char numStr[20];
+            char num_str[20];
             int j = 0;
             
             do {
                 int digit = num % 16;
-                numStr[j++] = (digit < 10) ? '0' + digit : 'a' + (digit - 10);
+                num_str[j++] = (digit < 10) ? '0' + digit : 'a' + (digit - 10);
                 num /= 16;
             } while (num > 0);
 
             for (int k = 0; k < j / 2; k++) {
-                char temp = numStr[k];
-                numStr[k] = numStr[j - k - 1];
-                numStr[j - k - 1] = temp;
+                char temp = num_str[k];
+                num_str[k] = num_str[j - k - 1];
+                num_str[j - k - 1] = temp;
             }
 
             for (int k = 0; k < j && written < size - 1; k++) {
-                buffer[written++] = numStr[k];
+                buffer[written++] = num_str[k];
             }
             i++;
         } else if (format[i] == '%' && format[i + 1] == 's') {
