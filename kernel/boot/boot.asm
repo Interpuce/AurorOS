@@ -33,7 +33,7 @@ global start
 extern main
 
 start:
-    cli ; Clear interrupts
+    cli ; Clear interrupts (i thought i forgot) 
     call main ; Call the main function (from /kernel/kernel.c)
     hlt ; Halt the proccessor
 
