@@ -21,3 +21,7 @@ AurorOS is created by Interpuce. This is the Interpuce presented in alphabetical
 ## Contributions
 
 Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blob/main/CONTRIBUTING.md) about contributing to AurorOS.
+
+Current contributors (click to see more):
+
+[![auror contributors](https://contrib.rocks/image?repo=Interpuce/AurorOS)](https://github.com/Interpuce/AurorOS/graphs/contributors)
