@@ -8,16 +8,9 @@
  * -------------------------------------------------------------------------
  */
 
-#include <memory.h>
-#include <panic.h>
-#include <asm/idt.h>
-#include <pci.h>
+#include <types.h>
+#include <msg.h>
 
-// extern because everything is still linked :(
-extern int terminal_main(uint16_t theme);
-
-void main() {
-    init_memory();
-    idt_install();
-    terminal_main(0x0B);
+void arp_handle_packet(uint8_t *packet, uint32_t length) {
+    print_warn("Sorry, uninplemented (received ARP packet)");
 }

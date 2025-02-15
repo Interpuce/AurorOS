@@ -8,16 +8,14 @@
  * -------------------------------------------------------------------------
  */
 
-#include <memory.h>
-#include <panic.h>
-#include <asm/idt.h>
-#include <pci.h>
+#pragma once
 
-// extern because everything is still linked :(
-extern int terminal_main(uint16_t theme);
+typedef struct {
+    uint8_t bus;
+    uint8_t slot;
+    uint16_t vendor_id;
+    uint16_t device_id;
+} pci_device_t;
 
-void main() {
-    init_memory();
-    idt_install();
-    terminal_main(0x0B);
-}
+extern pci_device_t* pci_get_devices(uint16_t* count);
+extern uint16_t pci_scan_bus();

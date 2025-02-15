@@ -8,16 +8,17 @@
  * -------------------------------------------------------------------------
  */
 
-#include <memory.h>
-#include <panic.h>
-#include <asm/idt.h>
-#include <pci.h>
+#pragma once
 
-// extern because everything is still linked :(
-extern int terminal_main(uint16_t theme);
+#include <types.h>
 
-void main() {
-    init_memory();
-    idt_install();
-    terminal_main(0x0B);
-}
+#define ETH_HEADER_LEN 14
+
+#define ETH_TYPE_IP 0x0800
+#define ETH_TYPE_ARP 0x0806
+
+struct eth_header {
+    uint8_t dest_mac[6];
+    uint8_t src_mac[6];
+    uint16_t ethertype;
+};

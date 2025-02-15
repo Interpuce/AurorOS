@@ -8,16 +8,14 @@
  * -------------------------------------------------------------------------
  */
 
-#include <memory.h>
-#include <panic.h>
-#include <asm/idt.h>
-#include <pci.h>
+#pragma once
 
-// extern because everything is still linked :(
-extern int terminal_main(uint16_t theme);
+#include <types.h>
 
-void main() {
-    init_memory();
-    idt_install();
-    terminal_main(0x0B);
-}
+typedef struct {
+    uint8_t mac[6];
+} ethernet_device_t;
+
+extern void ethernet_init();
+extern void ethernet_send(uint8_t *data, uint32_t length);
+extern uint32_t ethernet_receive(uint8_t *buffer, uint32_t max_len);

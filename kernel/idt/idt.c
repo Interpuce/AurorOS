@@ -30,6 +30,7 @@ struct idt_ptr idtp;
 
 extern void idt_load(); // can be found in the assembly file
 extern void syscall_handler(); // exec/exec.c
+extern void rtl_irq_handler(); // net/rtl8139.c
 
 void set_idt_gate(int num, uint32_t base, uint16_t sel, uint8_t flags) {
     idt[num].base_low = base & 0xFFFF;
@@ -48,6 +49,7 @@ void idt_install() {
     }
 
     set_idt_gate(0x80, (uint32_t)syscall_handler, 0x08, 0x8E);
+    set_idt_gate(11, (uint32_t)rtl_irq_handler, 0x08, 0x8E);
 
     idt_load();
 }

@@ -38,7 +38,7 @@ start:
     hlt ; Halt the proccessor
 
 ; eclair was here (twice)
-; gorciu was here (once)
+; gorciu was here (twice)
 
 global idt_load
 idt_load:

@@ -13,6 +13,7 @@ dependencies_missing=()
 for utility in "${dependencies_required[@]}"; do
     if ! command -v "$utility" &>/dev/null; then
 	echo "Some dependencies are missing!"
+    echo "If you are building AurorOS in Termux please stop! It won't work."
 	sleep 0.2        
 	dependencies_missing+=("$utility")  # Add any missing utilities to the list
     fi
