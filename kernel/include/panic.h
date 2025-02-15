@@ -39,10 +39,9 @@ void kernelpanic(const char *paniccode) {
         "xor %%edx, %%edx\n"
         "xor %%esi, %%esi\n"
         "xor %%edi, %%edi\n"
-        "xor %%ebp, %%ebp\n"
         : 
         : 
-        : "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi", "%ebp"
+        : "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi"
     );
 
     while (true) {
