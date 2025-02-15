@@ -10,7 +10,7 @@
 
 #include <types.h>
 
-struct fat32_boot_sector {
+struct fat12_boot_sector {
     uint8_t jump[3];
     uint8_t OEM_name[8];
     uint16_t bytes_per_sector;
