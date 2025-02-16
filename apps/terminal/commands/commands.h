@@ -10,10 +10,6 @@
 
 #pragma once
 
-#include <types.h>
-#include <screen.h>
-#include <string.h>
-
 void cowsay(char message[1024]);
 void map();
 void eclair(const char *trt);
