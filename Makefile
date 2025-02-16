@@ -5,8 +5,8 @@
 all: shbuild
 
 help:
-	@echo "To compile the AurorOS, please run `make`."
-	@echo "To force installing dependencies, run `make depinstall`."
+	@echo "To compile the AurorOS, please run make."
+	@echo "To force installing dependencies, run make depinstall."
 
 shbuild:
 	chmod +x compile/build.sh
