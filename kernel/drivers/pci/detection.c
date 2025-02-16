@@ -26,7 +26,7 @@ uint32_t pci_read_config(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset
 
 uint16_t pci_scan_bus() {
     pci_device_count = 0;
-    for (uint8_t bus = 0; bus < 256; bus++) {
+    for (uint32_t bus = 0; bus < 256; bus++) {
         for (uint8_t slot = 0; slot < 32; slot++) {
             uint32_t vendor_device = pci_read_config(bus, slot, 0, 0);
             if ((vendor_device & 0xFFFF) != 0xFFFF) {
