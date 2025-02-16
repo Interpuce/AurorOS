@@ -18,7 +18,7 @@ void cowsay(char message[1024]) {
 
     cprint("  ", 0x07);
     for (int i = 0; i < message_length + 2; i++) {
-        cprint('-', 0x07);
+        cprint("-", 0x07);
     }
     cprintln("", 0x07);
 
@@ -28,7 +28,7 @@ void cowsay(char message[1024]) {
 
     cprint("  ", 0x07);
     for (int i = 0; i < message_length + 2; i++) {
-        printchar('-', 0x07);
+        cprint("-", 0x07);
     }
     cprintln("", 0x07);
 
