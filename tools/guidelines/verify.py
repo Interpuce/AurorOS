@@ -83,7 +83,7 @@ def check_includes(files):
 
 base_path = "." 
 
-with open("trademark.txt", "r", encoding="utf-8") as f:
+with open("tools/guidelines/trademark.txt", "r", encoding="utf-8") as f:
     trademark = f.read().strip()
 
 directory_structure = list_directory(base_path)
