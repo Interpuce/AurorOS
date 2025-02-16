@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <types.h>
+
 typedef struct {
     uint8_t bus;
     uint8_t slot;
