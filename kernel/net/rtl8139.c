@@ -14,6 +14,10 @@
 #include <msg.h>
 #include "spec.h"
 
+// from ip.c and arp.c
+extern void arp_handle_packet(uint8_t *packet, uint32_t length);
+extern void ip_handle_packet(uint8_t *packet, uint32_t length);
+
 uint16_t rtl_io_base; // base card address
 uint8_t tx_cur = 0;   // current TX buffer index
 
