@@ -101,10 +101,10 @@ int terminal_main(uint16_t theme) {
             } else if (streql(args[0], "help")) {
                 help();
             } else {
-                printstr(" ERROR ", 0x04);
-                printstr(": ", 0x07);
-                printstr(args[0], 0x07);
-                printstr(" is neither a known command nor valid AEF binary! \n", 0x07);
+                cprint(" ERROR ", 0x04);
+                cprint(": ", 0x07);
+                cprint(args[0], 0x07);
+                cprint(" is neither a known command nor valid AEF binary! \n", 0x07);
             }
         }
     }
