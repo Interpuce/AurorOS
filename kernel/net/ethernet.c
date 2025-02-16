@@ -29,7 +29,7 @@ void ethernet_init() {
     uint16_t count;
     pci_device_t* eth_device = find_ethernet_device(&count);
     if (eth_device != NULL) {
-        rtl8139_init((eth_device->bus << 8) | eth_device->slot);
+        rtl_init((eth_device->bus << 8) | eth_device->slot);
         print_ok("Internet connection initialized.");
     } else {
         print_warn("AurorOS could not find the ethernet device to connect to it. Any Internet integrations");
@@ -38,9 +38,9 @@ void ethernet_init() {
 }
 
 void ethernet_send(uint8_t *data, uint32_t length) {
-    rtl8139_send_packet(data, length);
+    rtl_send_packet(data, length);
 }
 
 uint32_t ethernet_receive(uint8_t *buffer, uint32_t max_len) {
-    return rtl8139_receive_packet(buffer, max_len);
+    return rtl_receive_packet(buffer, max_len);
 }
