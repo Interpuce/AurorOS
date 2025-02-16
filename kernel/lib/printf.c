@@ -13,7 +13,7 @@
 
 int snprintf(char* buffer, size_t size, const char* format, ...) {
     char* ptr = (char*)&format + sizeof(char*);
-    int written = 0;
+    size_t written = 0;
 
     for (int i = 0; format[i] != '\0'; i++) {
         if (written >= size - 1) break; 

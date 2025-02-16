@@ -13,8 +13,6 @@
 #include <msg.h>
 #include "rtl8139.h"
 
-static ethernet_device_t device;
-
 pci_device_t* find_ethernet_device(uint16_t* count) {
     pci_device_t* devices = pci_get_devices(count);
     for (uint16_t i = 0; i < *count; i++) {
