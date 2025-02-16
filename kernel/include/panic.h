@@ -31,20 +31,19 @@ void kernelpanic(const char *paniccode) {
     println(" ", COLOR_1);
     print(" System halted and will not power off automatically. \n You can turn off your device manually by holding the power button.", COLOR_1);
 
-    // Zeroing General-Purpose registers for sake of security - all potentially sensitive stuff shall be removed
-    asm(
-        "xor %%eax, %%eax\n"
-        "xor %%ebx, %%ebx\n"
-        "xor %%ecx, %%ecx\n"
-        "xor %%edx, %%edx\n"
-        "xor %%esi, %%esi\n"
-        "xor %%edi, %%edi\n"
-        : 
-        : 
-        : "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi"
-    );
-
     while (true) {
+        // zeroing general-purpose registers for sake of security - all potentially sensitive stuff shall be removed
+        asm(
+            "xor %%eax, %%eax\n"
+            "xor %%ebx, %%ebx\n"
+            "xor %%ecx, %%ecx\n"
+            "xor %%edx, %%edx\n"
+            "xor %%esi, %%esi\n"
+            "xor %%edi, %%edi\n"
+            : 
+            : 
+            : "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi"
+        );
         asm("hlt\n");
     }
 }
