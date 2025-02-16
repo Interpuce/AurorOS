@@ -11,6 +11,8 @@
 #include <stdio.h>
 #include <sys/auth.h>
 #include <sys/crash.h>
+#include <sys/display.h>
+#include <sys/power.h>
 #include <string.h>
 
 int tinypad_main(uint8_t color, uint8_t barcolor);
