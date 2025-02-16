@@ -82,7 +82,7 @@ void eclair(const char *trt) {
         }
         cprint("\n", 0x07);
     } else if (streql(trt, "2")) {
-        paintscreen(0x91);
+        print_warn("It won't work");
     } else {
         print_error("Invalid treatment argument provided!");
     }
