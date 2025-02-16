@@ -26,7 +26,7 @@ fi
 
 ROOT_DIR=$(pwd)
 ASM_FILE="$ROOT_DIR/kernel/boot/boot.asm"
-ASM_OBJECT="$ROOT_DIR/kernel/bin/boot.o"
+ASM_OBJECT="$ROOT_DIR/bin/boot.o"
 LINKER_SCRIPT="$ROOT_DIR/compile/linker.ld"
 KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
