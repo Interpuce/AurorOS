@@ -1,6 +1,6 @@
 # AurorOS Makefile
 
-.PHONY = all help shbuild depinstall
+.PHONY: all help shbuild depinstall
 
 all: shbuild
 
