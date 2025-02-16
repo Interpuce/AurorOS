@@ -53,6 +53,34 @@ def check_naming_convention(files):
             print(f"⚠️ ERROR reading {file}: {e}")
             was_there_error = True
 
+def check_include_folder():
+    global allow_merging
+    include_path = os.path.join(base_path, "include")
+
+    if os.path.exists(include_path) and os.path.isdir(include_path):
+        for item in os.listdir(include_path):
+            if not item.endswith(".h"):
+                print(f"❌ Forbidden file in 'include/' folder: {item}")
+                allow_merging = False
+    else:
+        print("✅ 'include/' folder check skipped (not found)")
+
+def check_includes(files):
+    global allow_merging
+
+    include_pattern = re.compile(r'#include\s+"../include/([^"]+)"')
+
+    for file in files:
+        try:
+            with open(file, "r", encoding="utf-8") as f:
+                content = f.read()
+                if include_pattern.search(content):
+                    print(f"❌ Invalid include found (use <something.h> instead of \"../include/something.h\"): {file}")
+                    allow_merging = False
+        except Exception as e:
+            print(f"⚠️ ERROR reading {file}: {e}")
+            was_there_error = True
+
 base_path = "." 
 
 with open("trademark.txt", "r", encoding="utf-8") as f:
@@ -72,11 +100,14 @@ extract_files(directory_structure)
 
 check_trademark(files_to_check, trademark)
 check_naming_convention(files_to_check)
+check_include_folder()
+check_includes(files_to_check)
 
 if was_there_error:
     print("[ ⚠️ RESULT ⚠️ ] Our guidelines verify tool cannot check if your code follows standards.")
 elif allow_merging:
     print("[ ✅ RESULT ✅ ] Your code follows the guidelines of AurorOS!")
-    print("                  Submit your code here: https://github.com/Interpuce/AurorOS/pulls")
+    print("[ ✅ RESULT ✅ ] Submit your code here: https://github.com/Interpuce/AurorOS/pulls")
+    print("[ ✅ RESULT ✅ ] Your code still can be rejected for a lot of reasons.")
 else:
     print("[ ❌ RESULT ❌ ] Your code does not follow the guidelines of AurorOS!")
