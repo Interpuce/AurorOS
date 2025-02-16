@@ -34,13 +34,14 @@ extern main
 
 start:
     cli ; Clear interrupts (i thought i forgot) 
-    call main ; Call the main function (from /kernel/kernel.c)
+    call main ; Call the main function (from /kernel/loader/kernel.c)
     hlt ; Halt the proccessor
 
 ; eclair was here (twice)
-; gorciu was here (twice)
+; gorciu was here (three times)
 
 global idt_load
+extern idtp ; kernel/idt/idt.c
 idt_load:
     lidt [idtp]
     sti
