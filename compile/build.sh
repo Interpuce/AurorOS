@@ -45,8 +45,8 @@ for SOURCE_FILE in $(find "$ROOT_DIR/kernel/" -type f -name '*.c' ! -name '*.exc
     gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Ikernel/include -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
-if [ ! -d "$ROOT_DIR/apps/include" ]; then
-    echo "Directory apps/include does not exist. Cloning repository (shadow clone, not for contributing)..."
+if [ ! -d "$ROOT_DIR/apps/stdlib" ]; then
+    echo "Directory apps/stdlib does not exist. Cloning repository (shadow clone, not for contributing)..."
     git clone https://github.com/Interpuce/stdlib "$ROOT_DIR/apps/stdlib" --depth 1
 fi
 
