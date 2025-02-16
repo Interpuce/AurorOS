@@ -16,7 +16,6 @@ int tinypad_main(uint8_t color, uint8_t barcolor) {
     printct("Tinypad", barcolor);
     cprintln(" ", 0x07);
     char buffer[1762];
-    char *args[10];
     while (1) {
         read(buffer, sizeof(buffer));
         if (streql(buffer, ".exit")) {
