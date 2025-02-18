@@ -18,7 +18,7 @@
 #include <types.h>
 #include <screen.h>
 
-void kernelpanic(const char *paniccode) {
+void kernelpanic(const char *paniccode, const char *devnote) {
     paintscreen(COLOR_3);
     println(" ", COLOR_1);
     println(" Kernel panic!", COLOR_2);
@@ -28,9 +28,21 @@ void kernelpanic(const char *paniccode) {
     print(" Kernel panic code: ", COLOR_1);
     print(paniccode, COLOR_2);
     println(" ", COLOR_1);
+    
+/* If a developer note is provided, print it after the panic code.
+        Please note that VGA resolution doesn't provide much space, so notes should be short and formatted properly. */
+    
+    if (devnote != NULL) {
+        println(" ", COLOR_1);
+        print(" Developer note: ", COLOR_1);
+        print(devnote, COLOR_2);
+        println(" ", COLOR_1);
+    }
+    
     println(" ", COLOR_1);
     print(" System halted and will not power off automatically. \n You can turn off your device manually by holding the power button.", COLOR_1);
-
+    
+    
     while (true) {
         // zeroing general-purpose registers for sake of security - all potentially sensitive stuff shall be removed
         asm(
