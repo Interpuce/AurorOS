@@ -77,7 +77,7 @@ int start_aef_binary(string content, int permission_level) {
         return 672;
     }
     if (is_arch_ok != CODE_EXEC_ARCH_OK) {
-        kernelpanic("EXEC_ARCH_CHECK_ERROR");
+        kernelpanic("EXEC_ARCH_CHECK_ERROR", "Exec binary check has failed unexpectedly. \n Please attempt a reboot and avoid running this particular binary. \n If this is a system binary or this panic appears during system boot, \n contact developers on GitHub to report a bug.");
         return 673;
     }
 
