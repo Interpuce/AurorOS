@@ -10,9 +10,9 @@
 
 #pragma once
 
-#define COLOR_1 0x47
+#define COLOR_1 0x4E
 #define COLOR_2 0x4F
-#define COLOR_3 0x44
+#define COLOR_3 0x48
 
 #include <msg.h>
 #include <types.h>
@@ -30,7 +30,19 @@ void kernelpanic(const char *paniccode, const char *devnote) {
     println(" ", COLOR_1);
     
 /* If a developer note is provided, print it after the panic code.
-        Please note that VGA resolution doesn't provide much space, so notes should be short and formatted properly. */
+        Please note that VGA resolution doesn't provide much space, so notes should be short and formatted properly. 
+        Developers are encouraged to use adjacent string literals when writing devnotes. For example, every newline in devnote can be a start of next string literal, just like below:
+
+kernelpanic("GRAPHICS_PROCESSOR_FAILURE", 
+		"GPU has malfunctioned and system has crashed." 
+		"\n This may be caused by recent hardware changes, " 
+		"\n loose GPU power cable (if applicable to your graphics processor), " 
+		"\n or by faulty/corrupted driver (if occurs after an update). " 
+        "\n You can attempt to reboot after restoring last working hardware configuration " 
+		"\n and making sure everything (power cable/the GPU itself) is connected correctly. " 
+		"\n If none of this works, you might need to revert to earlier version of AurorOS.");
+        
+        This way, code is much more readable than if it was written in a single long line.*/
     
     if (devnote != NULL) {
         println(" ", COLOR_1);
