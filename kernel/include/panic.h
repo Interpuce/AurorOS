@@ -68,6 +68,6 @@ kernelpanic("GRAPHICS_PROCESSOR_FAILURE",
             : 
             : "%eax", "%ebx", "%ecx", "%edx", "%esi", "%edi"
         );
-        asm("hlt\n");
+        asm("cli; hlt\n");
     }
 }
