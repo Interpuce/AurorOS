@@ -131,7 +131,7 @@ void syscall_handler() {
                 print_error("Sorry, crash reporting syscall is not available in this permission level");
                 break;
             }
-            kernelpanic("REPORTED_CRASH");
+            kernelpanic("REPORTED_CRASH", "Exec subsystem has reported a crash [syscall_hancler(), case 6]");
             break;
         case 7:
             if (current_thread_permissions != PERMISSION_LEVEL_MAIN) {
