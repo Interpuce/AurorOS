@@ -26,17 +26,16 @@ fi
 ROOT_DIR=$(pwd)
 ASM_FILE="$ROOT_DIR/kernel/boot/boot.asm"
 ASM_OBJECT="$ROOT_DIR/bin/boot.o"
-LINKER_KERNEL_SCRIPT="$ROOT_DIR/compile/linker_kernel.ld"
-LINKER_USER_SCRIPT="$ROOT_DIR/compile/linker_user.ld"
-KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
-USER_OUTPUT="$ROOT_DIR/user.bin"
+KERNEL_OUTPUT="$ROOT_DIR/out/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
 ISO_DIR="iso"
 BOOT_DIR="$ISO_DIR/boot"
 GRUB_DIR="$BOOT_DIR/grub"
 OBJECT_DIR="$ROOT_DIR/bin"
+USER_OUT_DIR="$ROOT_DIR/out"
 
 mkdir -p "$OBJECT_DIR"
+mkdir -p "$USER_OUT_DIR"
 
 # Kernel mode compilation
 echo ".c -> .o [kernel-mode]"
@@ -47,6 +46,13 @@ for SOURCE_FILE in $(find "$ROOT_DIR/kernel/" -type f -name '*.c' ! -name '*.exc
     gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Ikernel/include -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
+echo "boot.asm -> boot.o"
+nasm -f elf32 "$ASM_FILE" -o "$ASM_OBJECT"
+
+# Linking kernel
+echo ".o -> kernel.bin"
+ld -m elf_i386 -T "$ROOT_DIR/compile/linker.ld" -o "$KERNEL_OUTPUT" "${KERNEL_OBJECT_FILES[@]}" "$ASM_OBJECT"
+
 # User mode compilation
 echo ".c -> .o [user-mode]"
 if [ ! -d "$ROOT_DIR/apps/stdlib" ]; then
@@ -54,29 +60,26 @@ if [ ! -d "$ROOT_DIR/apps/stdlib" ]; then
     git clone https://github.com/Interpuce/stdlib "$ROOT_DIR/apps/stdlib" --depth 1
 fi
 
-USER_OBJECT_FILES=()
-for SOURCE_FILE in $(find "$ROOT_DIR/apps/" -type f -name '*.c' ! -name '*.excluded.c'); do
-    OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.c}.o")"
-    USER_OBJECT_FILES+=("$OBJECT_FILE")
-    gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iapps/stdlib/include -nostdlib -c "$SOURCE_FILE" -o "$OBJECT_FILE"
+for APP_DIR in "$ROOT_DIR/apps"/*; do
+    if [ -d "$APP_DIR" ] && [ "$(basename "$APP_DIR")" != "stdlib" ]; then
+        APP_NAME=$(basename "$APP_DIR")
+        APP_OBJECT_FILES=()
+        for SOURCE_FILE in $(find "$APP_DIR" -type f -name '*.c' ! -name '*.excluded.c'); do
+            OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.c}.o")"
+            APP_OBJECT_FILES+=("$OBJECT_FILE")
+            gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iapps/stdlib/include -nostdlib -c "$SOURCE_FILE" -o "$OBJECT_FILE"
+        done
+        echo ".o -> $APP_NAME.bin"
+        gcc -m32 -nostdlib -o "$USER_OUT_DIR/$APP_NAME.bin" "${APP_OBJECT_FILES[@]}"
+    fi
 done
-
-echo "boot.asm -> boot.o"
-nasm -f elf32 "$ASM_FILE" -o "$ASM_OBJECT"
-
-# Linking kernel
-echo ".o -> kernel.bin"
-ld -m elf_i386 -T "$LINKER_KERNEL_SCRIPT" -o "$KERNEL_OUTPUT" "${KERNEL_OBJECT_FILES[@]}" "$ASM_OBJECT"
-
-# Linking user-space programs
-echo ".o -> user.bin"
-ld -m elf_i386 -T "$LINKER_USER_SCRIPT" -o "$USER_OUTPUT" "${USER_OBJECT_FILES[@]}"
 
 # Creating ISO
 echo ".bin -> AurorOS.iso"
 mkdir -p "$GRUB_DIR"
 cp "$KERNEL_OUTPUT" "$BOOT_DIR"
-cp "$USER_OUTPUT" "$BOOT_DIR"
+cp "$USER_OUT_DIR"/*.bin "$BOOT_DIR" 2>/dev/null || true
+
 cat > "$GRUB_DIR/grub.cfg" << EOF
 menuentry "AurorOS" {
     multiboot /boot/kernel.bin
