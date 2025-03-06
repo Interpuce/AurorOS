@@ -20,3 +20,6 @@ extern char *strrchr(const char *str, int c);
 extern char *strcat(char *dest, const char *src);
 extern bool starts_with(const char *str, const char *prefix);
 extern char* strslice(char *dest, const char *src, size_t n);
+extern int strncmp(const char *s1, const char *s2, size_t n);
+extern uint8_t toupper(uint8_t c);
+extern char *strchr(const char *s, int c);
