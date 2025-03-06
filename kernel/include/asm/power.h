@@ -16,7 +16,7 @@
 #include <ports.h>
 
 void shutdown() {
-    outw(0x604, 0x2000);
+    outw(0x604, 0x2000); // If shutdown was attempted on QEMU, it should work without issues. If it didn't work, proceed to the screen
     clearscreen();
     paintscreen(0x00);
     print(" \n \n \n \n \n \n \n \n \n Shutting down outside of QEMU has not been implemented yet.\n", 0x06); // TODO: Implement damn real-hardware shutdown.
