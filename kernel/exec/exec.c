@@ -77,10 +77,7 @@ int start_aef_binary(string content, int permission_level) {
         return 672;
     }
     if (is_arch_ok != CODE_EXEC_ARCH_OK) {
-        kernelpanic("EXEC_ARCH_CHECK_ERROR", "Exec binary check has failed unexpectedly." 
-            "\n Please attempt a reboot and avoid running this particular binary. " 
-            "\n If this is a system binary or this panic appears during system boot, " 
-            "\n contact developers on GitHub to report a bug.");
+        kernelpanic("EXEC_ARCH_CHECK_ERROR");
         return 673;
     }
 
@@ -131,7 +128,7 @@ void syscall_handler() {
                 print_error("Sorry, crash reporting syscall is not available in this permission level");
                 break;
             }
-            kernelpanic("REPORTED_CRASH", "Exec subsystem has reported a crash [syscall_hancler(), case 6]");
+            kernelpanic("REPORTED_CRASH");
             break;
         case 7:
             if (current_thread_permissions != PERMISSION_LEVEL_MAIN) {

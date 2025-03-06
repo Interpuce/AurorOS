@@ -18,7 +18,7 @@
 #include <types.h>
 #include <screen.h>
 
-void kernelpanic(const char *paniccode, const char *devnote) {
+void kernelpanic(const char *paniccode) {
     paintscreen(COLOR_3);
     println(" ", COLOR_1);
     println(" Kernel panic!", COLOR_2);
@@ -28,21 +28,15 @@ void kernelpanic(const char *paniccode, const char *devnote) {
     print(" Kernel panic code: ", COLOR_1);
     print(paniccode, COLOR_2);
     println(" ", COLOR_1);
-    
-/* If a developer note is provided, print it after the panic code.
-        Please note that VGA resolution doesn't provide much space, so notes should be short and formatted properly. 
-        Developers are encouraged to use adjacent string literals when writing devnotes. For example, every newline in devnote can be a start of next string literal, just like below:
 
-kernelpanic("GRAPHICS_PROCESSOR_FAILURE", 
-		"GPU has malfunctioned and system has crashed." 
-		"\n This may be caused by recent hardware changes, " 
-		"\n loose GPU power cable (if applicable to your graphics processor), " 
-		"\n or by faulty/corrupted driver (if occurs after an update). " 
-        "\n You can attempt to reboot after restoring last working hardware configuration " 
-		"\n and making sure everything (power cable/the GPU itself) is connected correctly. " 
-		"\n If none of this works, you might need to revert to earlier version of AurorOS.");
-        
-        This way, code is much more readable than if it was written in a single long line.*/
+    const char *devnote = NULL;
+
+    if (paniccode == "EXEC_ARCH_CHECK_ERROR") {
+        devnote = "Executable binary check has failed unexpectedly.\n This should not be visible at any time, so please\n contact developers on GitHub to report a bug.";
+    } else if (paniccode == "REPORTED_CRASH") {
+        devnote = "An AurorOS binary working on the highest permissions\n reported the crash. Please investigate any\n logs of that binary or try to do\n not run it with the highest privileges.";
+    }
+    
     
     if (devnote != NULL) {
         println(" ", COLOR_1);
