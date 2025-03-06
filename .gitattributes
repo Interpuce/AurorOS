@@ -1,4 +1,4 @@
-# fuck crlf
+# fuck crlf, really
 *.md text eol=lf
 *.c text eol=lf
 *.h text eol=lf
