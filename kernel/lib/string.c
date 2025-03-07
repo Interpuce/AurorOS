@@ -20,13 +20,13 @@ int strlen(const string str) {
     return len;
 }
 
-string strcpy(string dest, const string src) {
+string strcpy(char* dest, const char* src) {
     string orig = dest;
     while ((*dest++ = *src++) != '\0');
     return orig;
 }
 
-bool streql(const string str1, const string str2) {
+bool streql(const char* str1, const char* str2) {
     while (*str1 && *str2) {
         if (*str1++ != *str2++) {
             return false;
@@ -57,11 +57,11 @@ int split_str(string str, char separator, string *result, int max_splits) {
     return count;
 }
 
-string strrchr(const string str, int c) {
+string strrchr(const char* str, int c) {
     string last = NULL;
     while (*str) {
         if (*str == (char)c) {
-            last = (string )str;
+            last = (string)str;
         }
         str++;
     }
@@ -69,7 +69,7 @@ string strrchr(const string str, int c) {
 }
 
 
-string strcat(string dest, const string src) {
+string strcat(string dest, const char* src) {
     string start = dest;
 
     while (*dest) {
@@ -84,7 +84,7 @@ string strcat(string dest, const string src) {
     return start;
 }
 
-bool starts_with(const string str, const string prefix) {
+bool starts_with(const char* str, const char* prefix) {
     while (*prefix) {
         if (*str++ != *prefix++) {
             return false;
@@ -93,7 +93,7 @@ bool starts_with(const string str, const string prefix) {
     return true;
 }
 
-string strslice (string dest, const string src, size_t n) {
+string strslice(string dest, const char* src, size_t n) {
     string destp = dest;
     
     for (; n != 0 && *src != 0; --n) {
@@ -124,7 +124,7 @@ uint8_t toupper(uint8_t c) {
     return c;
 }
 
-string strchr(const string s, int c) {
+string strchr(const char* s, int c) {
     while (*s != '\0') {
         if (*s == (char)c) { 
             return (string )s;
