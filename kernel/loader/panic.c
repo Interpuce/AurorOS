@@ -24,7 +24,7 @@ void kernelpanic(const char *paniccode, char* override_devnote) {
     const char *devnote = NULL;
 
     if (override_devnote != NULL) {
-        devnote = override_devnote;
+        devnote = override_devnote; // allow devs to override devnote
     } else if (paniccode == "EXEC_ARCH_CHECK_ERROR") {
         devnote = "Executable binary check has failed unexpectedly.\n This should not be visible at any time, so please\n contact developers on GitHub to report a bug.";
     } else if (paniccode == "REPORTED_CRASH") {
