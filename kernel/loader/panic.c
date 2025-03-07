@@ -12,6 +12,7 @@
 #include <types.h>
 #include <msg.h>
 #include <screen.h>
+#include <string.h>
 
 void kernelpanic(const string paniccode, string override_devnote) {
     paintscreen(COLOR_3);
@@ -28,9 +29,9 @@ void kernelpanic(const string paniccode, string override_devnote) {
 
     if (override_devnote != NULL) {
         devnote = override_devnote; // allow devs to override devnote
-    } else if (paniccode == "EXEC_ARCH_CHECK_ERROR") {
+    } else if (streql(paniccode, "EXEC_ARCH_CHECK_ERROR")) {
         devnote = "Executable binary check has failed unexpectedly.\n This should not be visible at any time, so please\n contact developers on GitHub to report a bug.";
-    } else if (paniccode == "REPORTED_CRASH") {
+    } else if (streql(paniccode, "REPORTED_CRASH")) {
         devnote = "An AurorOS binary working on the highest permissions\n reported the crash. Please investigate any\n logs of that binary or try to do\n not run it with the highest privileges.";
     }
     

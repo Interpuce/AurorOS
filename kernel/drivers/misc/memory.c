@@ -79,3 +79,25 @@ void free(void *ptr) {
         current = current->next;
     }
 }
+
+void *memset(void *ptr, int value, size_t num) {
+    uint8_t *p = (uint8_t *)ptr;
+    while (num--) {
+        *p++ = (uint8_t)value;
+    }
+    return ptr;
+}
+
+int memcmp(const void *ptr1, const void *ptr2, size_t num) {
+    const uint8_t *p1 = (const uint8_t *)ptr1;
+    const uint8_t *p2 = (const uint8_t *)ptr2;
+
+    while (num--) {
+        if (*p1 != *p2) {
+            return (*p1 > *p2) ? 1 : -1;
+        }
+        p1++;
+        p2++;
+    }
+    return 0;
+}

@@ -10,6 +10,8 @@
 
 #pragma once
 
+#include <types.h>
+
 #define COLOR_1 0x4E
 #define COLOR_2 0x4F
 #define COLOR_3 0x48

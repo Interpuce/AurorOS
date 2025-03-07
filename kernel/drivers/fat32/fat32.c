@@ -14,6 +14,7 @@
 #include <ports.h>
 #include <types.h>
 #include <string.h>
+#include <memory.h>
 
 static struct {
     fat32_bpb_t bpb;
@@ -113,26 +114,26 @@ int fat32_read_file(const string name, uint8_t *buffer, uint32_t size) {
                 entry = (fat32_dir_entry_t*)(sector + j*32);
                 
                 if (entry->name[0] == 0x00) return -1; 
-                if (entry->name[0] == 0xE5) continue; 
+                // if (entry->name[0] == 0xE5) continue; 
+                // ^ removed because impossible to become true
                 if (memcmp(entry->name, target_name, 11)) continue;
 
-                // Znaleziono plik
                 uint32_t file_cluster = (entry->cluster_high << 16) | entry->cluster_low;
                 uint32_t bytes_read = 0;
                 
                 while (file_cluster < 0x0FFFFFF8 && bytes_read < entry->file_size) {
-                    lba = cluster_to_lba(file_cluster);
+                    lba = fat32_cluster_to_lba(file_cluster);
                     for (int k = 0; k < fat32.sectors_per_cluster; k++) {
                         disk_read_sector(lba + k, buffer + bytes_read);
                         bytes_read += 512;
                         if (bytes_read >= entry->file_size) break;
                     }
-                    file_cluster = get_next_cluster(file_cluster);
+                    file_cluster = fat32_get_next_cluster(file_cluster);
                 }
                 return bytes_read > size ? size : bytes_read;
             }
         }
-        current_cluster = get_next_cluster(current_cluster);
+        current_cluster = fat32_get_next_cluster(current_cluster);
     } while (current_cluster < 0x0FFFFFF8);
 
     return -1;
