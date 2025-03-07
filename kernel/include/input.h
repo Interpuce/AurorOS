@@ -12,5 +12,5 @@
 
 #include <types.h>
 
-extern void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color);
+extern void read_str(char *buffer, uint16_t max_length, bool secret, uint8_t color);
 extern bool read_yn(char *text, uint8_t color);
