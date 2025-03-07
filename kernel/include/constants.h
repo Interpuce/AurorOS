@@ -12,9 +12,7 @@
 
 #define AUROR_NAME "AurorOS"
 #define AUROR_VERSION "Public Beta 3"
-#define AUROR_BRANCH "project-vernon"
-// Perhaps future version reporting might also include branch info.
-// So I will leave it here just in case.
+#define AUROR_ORIGIN_BRANCH "project-vernon" // Name of branch that latest code changes originated from
 #define PC_NAME "auror"
 #define PC_ARCH "x86"
 
