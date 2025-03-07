@@ -37,7 +37,7 @@ while true; do
       ;;
       [Ff])
       echo -e "\033[1m[NOTIFY]\033[0m Proceeding with DNF."
-      sudo --user=root dnf install make python3 gcc binutils nasm xorriso qemu
+      sudo --user=root dnf install make python3 gcc binutils nasm xorriso qemu-system
       break
       ;;
     *)
