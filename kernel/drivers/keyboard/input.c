@@ -110,16 +110,16 @@ void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) 
     }
 }
 
-uint8_t read_yn(char* text, uint8_t color) {
-    while (1) {
+bool read_yn(char* text, uint8_t color) {
+    while (true) {
         print(" ", color);
         print(text, color);
         char buffer[2];
         read_str(buffer, sizeof(buffer), 0, color);
         if (streql(buffer, "Y") || streql(buffer, "y")) {
-            return 1;
+            return true;
         } else if (streql(buffer, "N") || streql(buffer, "n")) {
-            return 0;
+            return false;
         } else {
             print_error("Incorrect option!");
         }
