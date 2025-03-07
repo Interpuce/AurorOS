@@ -77,7 +77,7 @@ int start_aef_binary(string content, int permission_level) {
         return 672;
     }
     if (is_arch_ok != CODE_EXEC_ARCH_OK) {
-        kernelpanic("EXEC_ARCH_CHECK_ERROR");
+        kernelpanic("EXEC_ARCH_CHECK_ERROR", NULL);
         return 673;
     }
 
@@ -128,7 +128,7 @@ void syscall_handler() {
                 print_error("Sorry, crash reporting syscall is not available in this permission level");
                 break;
             }
-            kernelpanic("REPORTED_CRASH");
+            kernelpanic("REPORTED_CRASH", NULL);
             break;
         case 7:
             if (current_thread_permissions != PERMISSION_LEVEL_MAIN) {

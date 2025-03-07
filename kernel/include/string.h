@@ -14,7 +14,7 @@
 
 extern int strlen(const char *str);
 extern char *strcpy(char *dest, const char *src);
-extern int streql(const char *str1, const char *str2);
+extern bool streql(const char *str1, const char *str2);
 extern int split_str(char *str, char separator, char **result, int max_splits);
 extern char *strrchr(const char *str, int c);
 extern char *strcat(char *dest, const char *src);

@@ -26,13 +26,13 @@ char *strcpy(char *dest, const char *src) {
     return orig;
 }
 
-int streql(const char *str1, const char *str2) {
+bool streql(const char *str1, const char *str2) {
     while (*str1 && *str2) {
         if (*str1++ != *str2++) {
-            return 0;
+            return false;
         }
     }
-    return (*str1 == '\0' && *str2 == '\0') ? 1 : 0;
+    return (*str1 == '\0' && *str2 == '\0');
 }
 
 int split_str(char *str, char separator, char **result, int max_splits) {

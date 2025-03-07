@@ -13,7 +13,7 @@
 #include <string.h>
 
 int translate_permission_level(string user) {
-    if (streql(user, "main") == 0) {
+    if (streql(user, "main")) {
         return PERMISSION_LEVEL_MAIN; // already a main user
     } else {
         return PERMISSION_LEVEL_MUSEABLER; // can execute muse (main user shell execute)
