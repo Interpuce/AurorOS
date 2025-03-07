@@ -14,6 +14,4 @@
 #define COLOR_2 0x4F
 #define COLOR_3 0x48
 
-#include <msg.h>
-#include <types.h>
-#include <screen.h>
+extern void kernelpanic(const string paniccode, string override_devnote);

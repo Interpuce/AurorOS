@@ -9,6 +9,9 @@
  */
 
 #include <panic.h>
+#include <types.h>
+#include <msg.h>
+#include <screen.h>
 
 void kernelpanic(const string paniccode, string override_devnote) {
     paintscreen(COLOR_3);
@@ -21,7 +24,7 @@ void kernelpanic(const string paniccode, string override_devnote) {
     print(paniccode, COLOR_2);
     println(" ", COLOR_1);
 
-    const string devnote = NULL;
+    string devnote = NULL;
 
     if (override_devnote != NULL) {
         devnote = override_devnote; // allow devs to override devnote
