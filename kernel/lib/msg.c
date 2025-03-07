@@ -8,6 +8,7 @@
  * -------------------------------------------------------------------------
  */
 
+#include <types.h>
 #include <screen.h>
 #include <string.h>
 #include <msg.h>
@@ -18,7 +19,7 @@ void print(const string str, uint8_t color) {
 
 void println(const string str, uint8_t color) {
     print(str, color);
-    print('\n', color);
+    print("\n", color);
 }
 
 void print_error(const string str) {
