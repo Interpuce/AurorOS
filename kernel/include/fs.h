@@ -12,10 +12,13 @@
 
 #include <types.h>
 
-// placeholders
+extern int fat32_read_file(const string name, uint8_t *buffer, uint32_t size);
 
 string disk_read_file(string path) {
-    return path;
+    uint32_t max = 0xFFFFFFFF;
+    string buffer;
+    fat32_read_file(path, buffer, max);
+    return buffer;
 }
 
 bool disk_write_file(string path, string what) {
