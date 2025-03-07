@@ -20,7 +20,9 @@ for utility in "${dependencies_required[@]}"; do
 done
 
 if [ ${#dependencies_missing[@]} -gt 0 ]; then
-    ./compile/dep_install.sh
+    echo "It is recommended to run dep_install.sh in case of missing dependencies."
+    echo "You can run it by typing 'make dep_install' in your shell."
+    exit 1
 fi
 
 ROOT_DIR=$(pwd)

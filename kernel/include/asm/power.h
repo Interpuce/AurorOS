@@ -16,7 +16,7 @@
 #include <ports.h>
 
 void shutdown() {
-    outw(0x604, 0x2000);
+    outw(0x604, 0x2000); // If shutdown was attempted on QEMU, it should work without issues. If it didn't work, proceed to the screen
     clearscreen();
     paintscreen(0x00);
     print(" \n \n \n \n \n \n \n \n \n Shutting down outside of QEMU has not been implemented yet.\n", 0x06); // TODO: Implement damn real-hardware shutdown.
@@ -32,7 +32,8 @@ void reboot() {
     const uint16_t REBOOT_MAGIC2 = 0xdead;
     
 /*
-Technically, it shouldn't be visible on QEMU because the reboot is very rapid (at least as for AurorOS version 1.0.1). It cannot show unless the host machine is very weak.
+Technically, the "not supported outside QEMU" screen shouldn't be visible on QEMU because the reboot is very rapid (at least as for AurorOS version 1.0.1). But it could theoretically show if the host machine is weak or running at its limits...
+We don't want that screen to display for QEMU users, since it's only intended for non-QEMU users.
 I would move it under QEMU reboot ASM logic, but it doesn't show on real hardware then.
 TODO: Write a better implementation that will migitate the risk of this stuff displaying on weaker-host QEMU VMs.
 */
