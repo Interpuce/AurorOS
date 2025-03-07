@@ -55,7 +55,7 @@ void printchar(char c, uint8_t color) {
     update_cursor();
 }
 
-void printstr(const string str, uint8_t color) {
+void printstr(const char* str, uint8_t color) {
     while (*str) {
         printchar(*str++, color);
     }
