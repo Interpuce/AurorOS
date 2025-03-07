@@ -13,7 +13,7 @@
 #include <types.h>
 
 extern void printchar(char c, uint8_t color);
-extern void printstr(const string str, uint8_t color);
+extern void printstr(const char* str, uint8_t color);
 extern void delchar();
 extern void clearscreen();
 extern void paintscreen(uint8_t color);
