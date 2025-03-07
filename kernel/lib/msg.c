@@ -12,49 +12,49 @@
 #include <string.h>
 #include <msg.h>
 
-void print_error(const string str) {
-    printstr(" [ ", 0x07);
-    printstr("ERROR", 0x04);
-    printstr(" ] ", 0x07);
-    printstr(str, 0x07);
-    printstr("\n", 0x07);
-}
-
-void print_info(const string str) {
-    printstr(" [ ", 0x07);
-    printstr("INFO", 0x01);
-    printstr(" ] ", 0x07);
-    printstr(str, 0x07);
-    printstr("\n", 0x07);
-}
-
-void print_warn(const string str) {
-    printstr(" [ ", 0x07);
-    printstr("WARNING", 0x0E);
-    printstr(" ] ", 0x07);
-    printstr(str, 0x07);
-    printstr("\n", 0x07);
-}
-
-void print_ok(const string str) {
-    printstr(" [ ", 0x07);
-    printstr("OK", 0x0B);
-    printstr(" ] ", 0x07);
-    printstr(str, 0x07);
-    printstr("\n", 0x07);
-}
-
-void print_custom(const string str, uint8_t color, uint8_t scolor) {
-    printstr(" [ ", scolor);
-    printstr(str, color);
-    printstr(" ] ", scolor);
-}
-
 void print(const string str, uint8_t color) {
     printstr(str, color);
 }
 
 void println(const string str, uint8_t color) {
-    printstr(str, color);
-    printchar('\n', color);
+    print(str, color);
+    print('\n', color);
+}
+
+void print_error(const string str) {
+    print(" [ ", 0x07);
+    print("ERROR", 0x04);
+    print(" ] ", 0x07);
+    print(str, 0x07);
+    print("\n", 0x07);
+}
+
+void print_info(const string str) {
+    print(" [ ", 0x07);
+    print("INFO", 0x01);
+    print(" ] ", 0x07);
+    print(str, 0x07);
+    print("\n", 0x07);
+}
+
+void print_warn(const string str) {
+    print(" [ ", 0x07);
+    print("WARNING", 0x0E);
+    print(" ] ", 0x07);
+    print(str, 0x07);
+    print("\n", 0x07);
+}
+
+void print_ok(const string str) {
+    print(" [ ", 0x07);
+    print("OK", 0x0B);
+    print(" ] ", 0x07);
+    print(str, 0x07);
+    print("\n", 0x07);
+}
+
+void print_custom(const string str, uint8_t color, uint8_t scolor) {
+    print(" [ ", scolor);
+    print(str, color);
+    print(" ] ", scolor);
 }
