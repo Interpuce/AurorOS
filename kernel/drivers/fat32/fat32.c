@@ -79,9 +79,9 @@ int fat32_init() {
     return 0;
 }
 
-static void fat32_to_83_name(const char *name, char *out) {
+static void fat32_to_83_name(const string name, string out) {
     memset(out, ' ', 11);
-    const char *dot = strchr(name, '.');
+    const string dot = strchr(name, '.');
     
     int name_len = dot ? (dot - name) : strlen(name);
     if (name_len > 8) name_len = 8;
@@ -96,7 +96,7 @@ static void fat32_to_83_name(const char *name, char *out) {
     }
 }
 
-int fat32_read_file(const char *name, uint8_t *buffer, uint32_t size) {
+int fat32_read_file(const string name, uint8_t *buffer, uint32_t size) {
     char target_name[11];
     fat32_to_83_name(name, target_name);
     

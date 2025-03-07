@@ -17,6 +17,6 @@ extern void print_info(const string str);
 extern void print_ok(const string str);
 extern void print_warn(const string str);
 extern void print_custom(const string str, uint8_t color, uint8_t scolor);
-extern void print(const char* str, uint8_t color);
+extern void print(const string str, uint8_t color);
 extern void println(const string str, uint8_t color);
-extern void printf(const char* format, ...);
+extern void printf(const string format, ...);

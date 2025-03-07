@@ -85,7 +85,7 @@ int start_aef_binary(string content, int permission_level) {
     current_thread_permissions = permission_level;
 
     size_t prefix_len = strlen(AEF_BEGIN) + strlen(AEF_ARCHITECTURE_NOTHING);
-    char *new_content = content + prefix_len;
+    string new_content = content + prefix_len;
 
     void* binary_memory = malloc(strlen(new_content));
     if (binary_memory == NULL) {
@@ -110,7 +110,7 @@ void syscall_handler() {
     asm("movl %%eax, %0" : "=r" (syscall_id));
     switch (syscall_id) {
         case 4:
-            char *print_str = NULL;
+            string print_str = NULL;
             asm("movl %%ecx, %0" : "=r" (print_str));
             uint32_t color_print = 7;
             asm("movl %%edx, %0" : "=r" (color_print));
@@ -148,7 +148,7 @@ void syscall_handler() {
             clearscreen();
             break;
         case 10:
-            char *buffer = NULL;
+            string buffer = NULL;
             int max_len = 0;
             asm("movl %%ebx, %0" : "=r" (buffer));
             asm("movl %%ecx, %0" : "=r" (max_len));
@@ -159,14 +159,14 @@ void syscall_handler() {
             read_str(buffer, max_len, 0, 0x07);
             break;
         case 11:
-            char *center_print_str = NULL;
+            string center_print_str = NULL;
             asm("movl %%ebx, %0" : "=r" (center_print_str));
             uint32_t color_center_print = 7;
             asm("movl %%ecx, %0" : "=r" (color_center_print));
             printct(center_print_str, color_center_print);
             break;
         case 12:
-            char *program_str = NULL;
+            string program_str = NULL;
             asm("movl %%ebx, %0" : "=r" (program_str));
             string program = disk_read_file(program_str); // command line arguments will be introducted probably, for now the disk_read_file is placeholder
             start_aef_binary(program, current_thread_permissions);

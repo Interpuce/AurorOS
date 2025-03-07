@@ -73,7 +73,7 @@ void map() {
     cprint("\n", 0x07); 
 }
 
-void eclair(const char *trt) {
+void eclair(const string trt) {
     if (streql(trt, "1")) {
         cprint("\n", 0x07);
         for (uint8_t i = 0; i < 128; i++) {

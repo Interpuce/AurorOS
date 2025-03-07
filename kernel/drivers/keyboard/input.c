@@ -39,7 +39,7 @@ static uint8_t read_scancode() {
     return inb(0x60);
 }
 
-void read_str(char *buffer, uint16_t max_length, bool secret, uint8_t color) {
+void read_str(string buffer, uint16_t max_length, bool secret, uint8_t color) {
     uint16_t length = 0;
 
     while (1) {
@@ -110,7 +110,7 @@ void read_str(char *buffer, uint16_t max_length, bool secret, uint8_t color) {
     }
 }
 
-bool read_yn(char* text, uint8_t color) {
+bool read_yn(string text, uint8_t color) {
     while (true) {
         print(" ", color);
         print(text, color);

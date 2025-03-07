@@ -23,7 +23,7 @@ typedef unsigned int uint32;
 typedef signed long long int64;
 typedef unsigned long long uint64;
 
-typedef char* string; 
+typedef string string; 
 
 typedef unsigned long size_t;
 typedef unsigned int uintptr_t;

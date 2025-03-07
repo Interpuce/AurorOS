@@ -19,7 +19,7 @@ int tinypad_main(uint8_t color, uint8_t barcolor);
 
 #include "commands/commands.h"
 
-void printprefix(const char* user, const char* pcname) {
+void printprefix(const string user, const string pcname) {
     cprint(" [ ", 0x07);
     cprint(user, 0x09);
     cprint("@", 0x0F);
@@ -63,7 +63,7 @@ int terminal_main(uint16_t theme) {
     }
 
     char buffer[128];
-    char *args[10];
+    string args[10];
     while (1) {
         printprefix(current_user, pc_name);
         read(buffer, sizeof(buffer));

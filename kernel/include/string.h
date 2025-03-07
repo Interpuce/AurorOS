@@ -12,14 +12,14 @@
 
 #include <types.h>
 
-extern int strlen(const char *str);
-extern char *strcpy(char *dest, const char *src);
-extern bool streql(const char *str1, const char *str2);
-extern int split_str(char *str, char separator, char **result, int max_splits);
-extern char *strrchr(const char *str, int c);
-extern char *strcat(char *dest, const char *src);
-extern bool starts_with(const char *str, const char *prefix);
-extern char* strslice(char *dest, const char *src, size_t n);
-extern int strncmp(const char *s1, const char *s2, size_t n);
+extern int strlen(const string str);
+extern string strcpy(string dest, const string src);
+extern bool streql(const string str1, const string str2);
+extern int split_str(string str, char separator, string *result, int max_splits);
+extern string strrchr(const string str, int c);
+extern string strcat(string dest, const string src);
+extern bool starts_with(const string str, const string prefix);
+extern string strslice(string dest, const string src, size_t n);
+extern int strncmp(const string s1, const string s2, size_t n);
 extern uint8_t toupper(uint8_t c);
-extern char *strchr(const char *s, int c);
+extern string strchr(const string s, int c);

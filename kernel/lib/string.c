@@ -12,7 +12,7 @@
 #include <types.h>
 #include <memory.h>
 
-int strlen(const char *str) {
+int strlen(const string str) {
     int len = 0;
     while (str[len] != '\0') {
         len++;
@@ -20,13 +20,13 @@ int strlen(const char *str) {
     return len;
 }
 
-char *strcpy(char *dest, const char *src) {
-    char *orig = dest;
+string strcpy(string dest, const string src) {
+    string orig = dest;
     while ((*dest++ = *src++) != '\0');
     return orig;
 }
 
-bool streql(const char *str1, const char *str2) {
+bool streql(const string str1, const string str2) {
     while (*str1 && *str2) {
         if (*str1++ != *str2++) {
             return false;
@@ -35,7 +35,7 @@ bool streql(const char *str1, const char *str2) {
     return (*str1 == '\0' && *str2 == '\0');
 }
 
-int split_str(char *str, char separator, char **result, int max_splits) {
+int split_str(string str, char separator, string *result, int max_splits) {
     int count = 0;
 
     while (*str != '\0') {
@@ -57,11 +57,11 @@ int split_str(char *str, char separator, char **result, int max_splits) {
     return count;
 }
 
-char *strrchr(const char *str, int c) {
-    char *last = NULL;
+string strrchr(const string str, int c) {
+    string last = NULL;
     while (*str) {
         if (*str == (char)c) {
-            last = (char *)str;
+            last = (string )str;
         }
         str++;
     }
@@ -69,8 +69,8 @@ char *strrchr(const char *str, int c) {
 }
 
 
-char *strcat(char *dest, const char *src) {
-    char *start = dest;
+string strcat(string dest, const string src) {
+    string start = dest;
 
     while (*dest) {
         dest++;
@@ -84,7 +84,7 @@ char *strcat(char *dest, const char *src) {
     return start;
 }
 
-bool starts_with(const char *str, const char *prefix) {
+bool starts_with(const string str, const string prefix) {
     while (*prefix) {
         if (*str++ != *prefix++) {
             return false;
@@ -93,8 +93,8 @@ bool starts_with(const char *str, const char *prefix) {
     return true;
 }
 
-char* strslice (char *dest, const char *src, size_t n) {
-    char *destp = dest;
+string strslice (string dest, const string src, size_t n) {
+    string destp = dest;
     
     for (; n != 0 && *src != 0; --n) {
         *destp++ = *src++;
@@ -105,7 +105,7 @@ char* strslice (char *dest, const char *src, size_t n) {
     return dest;
 }
 
-int strncmp(const char *s1, const char *s2, size_t n) {
+int strncmp(const string s1, const string s2, size_t n) {
     for (size_t i = 0; i < n; i++) {
         if (s1[i] != s2[i]) {
             return (unsigned char)s1[i] - (unsigned char)s2[i];
@@ -124,15 +124,15 @@ uint8_t toupper(uint8_t c) {
     return c;
 }
 
-char *strchr(const char *s, int c) {
+string strchr(const string s, int c) {
     while (*s != '\0') {
         if (*s == (char)c) { 
-            return (char *)s;
+            return (string )s;
         }
         s++;
     }
     if ((char)c == '\0') {
-        return (char *)s;
+        return (string )s;
     }
     return NULL;
 }

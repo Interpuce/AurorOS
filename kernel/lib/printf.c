@@ -11,8 +11,8 @@
 #include <msg.h>
 #include <types.h>
 
-int snprintf(char* buffer, size_t size, const char* format, ...) {
-    char* ptr = (char*)&format + sizeof(char*);
+int snprintf(string buffer, size_t size, const string format, ...) {
+    string ptr = (string)&format + sizeof(string);
     size_t written = 0;
 
     for (int i = 0; format[i] != '\0'; i++) {
@@ -72,7 +72,7 @@ int snprintf(char* buffer, size_t size, const char* format, ...) {
             }
             i++;
         } else if (format[i] == '%' && format[i + 1] == 's') {
-            char* str = *(char**)ptr;
+            string str = *(string*)ptr;
             ptr += sizeof(char);
 
             while (*str != '\0' && written < size - 1) {
@@ -89,14 +89,14 @@ int snprintf(char* buffer, size_t size, const char* format, ...) {
     return written;
 }
 
-void printf(const char* format, ...) {
-    char* ptr = (char*)&format + sizeof(char*);
+void printf(const string format, ...) {
+    string ptr = (string)&format + sizeof(string);
 
     for (int i = 0; format[i] != '\0'; i++) {
         if (format[i] == '%' && format[i + 1] == 's') {
-            char* str = *(char**)ptr;
+            string str = *(string*)ptr;
             print(str, 0x07);
-            ptr += sizeof(char*);
+            ptr += sizeof(string);
             i++;
         } else if (format[i] == '%' && format[i + 1] == 'd') {
             int num = *(int*)ptr;
@@ -120,7 +120,7 @@ void printf(const char* format, ...) {
             ptr += sizeof(int);
             i++;
         } else if (format[i] == '%' && format[i + 1] == 'c') {
-            char c = *(char*)ptr;
+            char c = *(string)ptr;
             char str[2] = {c, '\0'};
             print(str, 0x07);
             ptr += sizeof(char);

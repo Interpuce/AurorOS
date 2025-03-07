@@ -55,7 +55,7 @@ void printchar(char c, uint8_t color) {
     update_cursor();
 }
 
-void printstr(const char *str, uint8_t color) {
+void printstr(const string str, uint8_t color) {
     while (*str) {
         printchar(*str++, color);
     }
@@ -135,7 +135,7 @@ void paintline(uint16_t line, uint8_t color) {
     }
 }
 
-void printct(const char *str, uint8_t color) {
+void printct(const string str, uint8_t color) {
     int length = strlen(str);
     if (length > SCREEN_WIDTH) {
         length = SCREEN_WIDTH;

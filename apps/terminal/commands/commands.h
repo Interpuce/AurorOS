@@ -12,5 +12,5 @@
 
 void cowsay(char message[1024]);
 void map();
-void eclair(const char *trt);
+void eclair(const string trt);
 void help();

@@ -10,7 +10,7 @@
 
 #include <panic.h>
 
-void kernelpanic(const char *paniccode, char* override_devnote) {
+void kernelpanic(const string paniccode, string override_devnote) {
     paintscreen(COLOR_3);
     println(" ", COLOR_1);
     println(" Kernel panic!", COLOR_2);
@@ -21,7 +21,7 @@ void kernelpanic(const char *paniccode, char* override_devnote) {
     print(paniccode, COLOR_2);
     println(" ", COLOR_1);
 
-    const char *devnote = NULL;
+    const string devnote = NULL;
 
     if (override_devnote != NULL) {
         devnote = override_devnote; // allow devs to override devnote
