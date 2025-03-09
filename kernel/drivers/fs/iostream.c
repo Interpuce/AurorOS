@@ -30,8 +30,8 @@ typedef struct {
     bool is_atapi;
 } filesystem_t;
 
-extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size);
-extern int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition);
+extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size, bool is_atapi);
+extern int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition, bool is_atapi);
 extern bool disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi);
 
 filesystem_t *fs;
@@ -57,9 +57,8 @@ bool detect_atapi(disk_t disk) {
     return (inb(base_port + 4) == 0x14 && inb(base_port + 5) == 0xEB);
 }
 
-fs_type_t detect_filesystem(disk_t disk, uint8_t partition) {
+fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
     uint8_t mbr[512];
-    bool is_atapi = detect_atapi(disk);
     
     if (!disk_read_sector(disk, 0, mbr, is_atapi)) return FS_UNKNOWN;
 
@@ -95,11 +94,12 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition) {
 
 void init_fs() {
     fs = malloc(sizeof(filesystem_t));
-    fs->type = detect_filesystem(DISK_PRIMARY_MASTER, 0);
+    fs->is_atapi = detect_atapi(DISK_PRIMARY_MASTER);
+    fs->type = detect_filesystem(DISK_PRIMARY_MASTER, 0, fs->is_atapi);
     
     switch(fs->type) {
         case FS_FAT32:
-            fat32_init(&fs->fat32, DISK_PRIMARY_MASTER, 0);
+            fat32_init(&fs->fat32, DISK_PRIMARY_MASTER, 0, fs->is_atapi);
             print_ok("Successfully initialized FAT32 partition!");
             break;
         case FS_NTFS:
@@ -123,7 +123,7 @@ FileReadResult disk_read_file(string path) {
     uint32_t max = 0xFFFFFFFF;
     switch(fs->type) {
         case FS_FAT32:
-            result.bytes_read = fat32_read_file(&fs->fat32, path, (uint8_t*)result.content, max);
+            result.bytes_read = fat32_read_file(&fs->fat32, path, (uint8_t*)result.content, max, fs->is_atapi);
             result.success = true;
             break;
         case FS_NTFS:
