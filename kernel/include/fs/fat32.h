@@ -8,6 +8,9 @@
  * -------------------------------------------------------------------------
  */
 
+#include <types.h>
+#include <fs/disk.h>
+
 #define FAT32_ATTR_READ_ONLY 0x01
 #define FAT32_ATTR_HIDDEN    0x02
 #define FAT32_ATTR_SYSTEM    0x04
@@ -59,3 +62,12 @@ typedef struct __attribute__((packed)) {
     uint16_t cluster_low;
     uint32_t file_size;
 } fat32_dir_entry_t;
+
+typedef struct {
+    disk_t disk;
+    fat32_bpb_t bpb;
+    uint32_t partition_start;
+    uint32_t fat_start;
+    uint32_t data_start;
+    uint8_t sectors_per_cluster;
+} fat32_t;

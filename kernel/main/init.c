@@ -12,7 +12,7 @@
 #include <panic.h>
 #include <asm/idt.h>
 #include <pci.h>
-#include <fs.h>
+#include <fs/iostream.h>
 #include <exec.h>
 #include <constants.h>
 

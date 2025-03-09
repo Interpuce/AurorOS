@@ -19,7 +19,7 @@
 #include <speaker.h>
 #include <asm/power.h>
 #include <input.h>
-#include <fs.h>
+#include <fs/iostream.h>
 
 int current_thread = -1;
 int current_thread_permissions = PERMISSION_LEVEL_NORMAL_USER;

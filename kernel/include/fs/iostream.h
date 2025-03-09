@@ -11,8 +11,9 @@
 #pragma once
 
 #include <types.h>
+#include <fs/fat32.h>
 
-extern int fat32_read_file(const string name, uint8_t *buffer, uint32_t size);
+extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size);
 
 typedef struct {
     uint32_t bytes_read;
