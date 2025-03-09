@@ -11,7 +11,7 @@
 #include <fs/disk.h>
 #include <ports.h>
 
-int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer) {
+int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi) {
     uint16_t base_port;
     uint8_t drive;
 
@@ -36,19 +36,59 @@ int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer) {
             return -1;
     }
 
-    outb(base_port + 6, 0x40 | (drive << 4) | ((lba >> 24) & 0x0F));
-    outb(base_port + 2, 1);
-    outb(base_port + 3, (uint8_t)(lba & 0xFF));
-    outb(base_port + 4, (uint8_t)((lba >> 8) & 0xFF));
-    outb(base_port + 5, (uint8_t)((lba >> 16) & 0xFF));
-    outb(base_port + 7, 0x20);
+    if (is_atapi) {
+        outb(base_port + 6, 0x40 | (drive << 4) | ((lba >> 24) & 0x0F));
+        outb(base_port + 7, 0xA0);
 
-    while (inb(base_port + 7) & 0x80) continue;
+        while (inb(base_port + 7) & 0x80);
+        while (!(inb(base_port + 7) & 0x08)); 
 
-    for (uint16_t i = 0; i < 256; i++) {
-        uint16_t data = inw(base_port);
-        *buffer++ = (uint8_t)(data & 0xFF);
-        *buffer++ = (uint8_t)(data >> 8);
+        uint8_t cmd_packet[12] = {
+            0xA8,
+            0x00,
+            (uint8_t)((lba >> 24) & 0xFF), 
+            (uint8_t)((lba >> 16) & 0xFF),
+            (uint8_t)((lba >> 8) & 0xFF),
+            (uint8_t)(lba & 0xFF),
+            0x00,
+            0x00,
+            0x00,
+            0x01,
+            0x00,
+            0x00
+        };
+
+        for (int i = 0; i < 6; i++) {
+            outw(base_port, *(uint16_t*)(&cmd_packet[i * 2]));
+        }
+
+        while (inb(base_port + 7) & 0x80);
+
+        if (inb(base_port + 7) & 0x01) return -1;
+
+        uint16_t byte_count = (inb(base_port + 4) << 8) | inb(base_port + 5);
+        uint16_t words = byte_count / 2;
+
+        for (uint16_t i = 0; i < words; i++) {
+            uint16_t data = inw(base_port);
+            *buffer++ = (uint8_t)(data & 0xFF);
+            *buffer++ = (uint8_t)(data >> 8);
+        }
+    } else {
+        outb(base_port + 6, 0x40 | (drive << 4) | ((lba >> 24) & 0x0F));
+        outb(base_port + 2, 1);
+        outb(base_port + 3, (uint8_t)(lba & 0xFF));
+        outb(base_port + 4, (uint8_t)((lba >> 8) & 0xFF));
+        outb(base_port + 5, (uint8_t)((lba >> 16) & 0xFF));
+        outb(base_port + 7, 0x20);
+
+        while (inb(base_port + 7) & 0x80);
+
+        for (uint16_t i = 0; i < 256; i++) {
+            uint16_t data = inw(base_port);
+            *buffer++ = (uint8_t)(data & 0xFF);
+            *buffer++ = (uint8_t)(data >> 8);
+        }
     }
 
     return 0;
