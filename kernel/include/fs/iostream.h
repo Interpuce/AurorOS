@@ -16,6 +16,7 @@ typedef struct {
     uint32_t bytes_read;
     string content;
     bool continous;
+    bool success;
 } FileReadResult;
 
 extern void init_fs();
