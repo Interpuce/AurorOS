@@ -8,8 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include "fat32.h"
-#include "disk.h"
+#include <fs/fat32.h>
+#include <fs/disk.h>
 #include <types.h>
 #include <string.h>
 #include <memory.h>

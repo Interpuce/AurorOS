@@ -8,7 +8,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include "disk.h"
+#include <fs/disk.h>
 #include <ports.h>
 
 int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer) {
