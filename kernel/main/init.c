@@ -45,8 +45,8 @@ void start_system_loader() {
     // while it contains binary code, it won't be recognised, so it will
     // fuck out with the kernel panic
 
-    const string terminal_binary = disk_read_file('boot/terminal.bin'); // for some reason it compiles to boot so have this fucking boot
-    const int terminal_exit_code = start_aef_binary(terminal_binary, PERMISSION_LEVEL_MAIN);
+    const FileReadResult terminal_binary = disk_read_file('boot/terminal.bin'); // for some reason it compiles to boot so have this fucking boot
+    const int terminal_exit_code = start_aef_binary(terminal_binary.content, terminal_binary.bytes_read, PERMISSION_LEVEL_MAIN);
     if (terminal_exit_code != 0) {
         kernelpanic("INIT_FAILURE", NULL);
     }

@@ -10,4 +10,4 @@
 
 #include <types.h>
 
-extern int start_aef_binary(string content, int permission_level);
+extern int start_aef_binary(string content, uint32_t content_safe_strlen, int permission_level);

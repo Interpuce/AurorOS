@@ -56,7 +56,7 @@ int check_aef_arch(string content) {
     }
 }
 
-int start_aef_binary(string content, int permission_level) {
+int start_aef_binary(string content, uint32_t content_safe_strlen, int permission_level) {
     if (permission_level != PERMISSION_LEVEL_MAIN && permission_level != PERMISSION_LEVEL_MUSEABLER && permission_level != PERMISSION_LEVEL_NORMAL_USER) {
         print_error("Invalid permissions. Please contact us on GitHub issues.");
         return 675;
@@ -87,7 +87,7 @@ int start_aef_binary(string content, int permission_level) {
     size_t prefix_len = strlen(AEF_BEGIN) + strlen(AEF_ARCHITECTURE_NOTHING);
     string new_content = content + prefix_len;
 
-    void* binary_memory = malloc(strlen(new_content));
+    void* binary_memory = malloc(new_content - prefix_len);
     if (binary_memory == NULL) {
         print_error("Failed to allocate memory for AEF binary.");
         return 674;
@@ -168,8 +168,8 @@ void syscall_handler() {
         case 12:
             string program_str = NULL;
             asm("movl %%ebx, %0" : "=r" (program_str));
-            string program = disk_read_file(program_str); // command line arguments will be introducted probably, for now the disk_read_file is placeholder
-            start_aef_binary(program, current_thread_permissions);
+            FileReadResult program = disk_read_file(program_str); // command line arguments will be introducted probably, for now the disk_read_file is placeholder
+            start_aef_binary(program.content, program.bytes_read, current_thread_permissions);
             break;
         default:
             print_warn("Application tried to execute unimplemented system call");
