@@ -15,12 +15,18 @@
 #include <fs/iostream.h>
 #include <exec.h>
 #include <constants.h>
+#include <screen.h>
 
 // extern int terminal_main(uint16_t theme);
 // ^ LEGACY CODE LINE
 //    for now using fat32 support to load the terminal binary
 
+// this function is really documented at every single point, so if this is a problem
+// for you, you can always pull request deleting these comments
 bool init_os() {
+    // clears the screen, since functions below can output to the console
+    // and that can without this lead to an unexpected behavior
+    clearscreen();
     // initializes the memory to make `malloc` and `free` functions work; they
     // will ALWAYS fail without this
     init_memory();
