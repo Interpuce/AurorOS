@@ -30,6 +30,8 @@ bool init_os() {
     // restart, so they probably need to be checked only during system startup;
     // the result of this function is later used in `pci_get_devices()`
     pci_scan_bus();
+    // loads the filesystem module
+    init_fs();
 
     return true;
 }
