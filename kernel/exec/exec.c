@@ -69,7 +69,7 @@ int start_aef_binary(string content, uint32_t content_safe_strlen, int permissio
         return 670;
     }
     if (is_arch_ok == CODE_EXEC_INVALID_ARCH) {
-        print_error("This AEF binary is written for architecture that AurorOS does not recognise.");
+        print_error("This AEF binary is written for an architecture that AurorOS does not recognize.");
         return 671;
     }
     if (is_arch_ok == CODE_EXEC_NOT_AN_EXECUTABLE) {
@@ -85,18 +85,26 @@ int start_aef_binary(string content, uint32_t content_safe_strlen, int permissio
     current_thread_permissions = permission_level;
 
     size_t prefix_len = strlen(AEF_BEGIN) + strlen(AEF_ARCHITECTURE_NOTHING);
+    if (content_safe_strlen <= prefix_len) {
+        print_error("This AEF binary is not a valid AEF executable.");
+        return 672;
+    }
+
+    size_t new_content_len = content_safe_strlen - prefix_len;
     string new_content = content + prefix_len;
 
-    void* binary_memory = malloc(new_content - prefix_len);
+    void* binary_memory = malloc(new_content_len);
     if (binary_memory == NULL) {
         print_error("Failed to allocate memory for AEF binary.");
         return 674;
     }
-    
-    memcpy(binary_memory, new_content, strlen(content));
+
+    memcpy(binary_memory, new_content, new_content_len);
 
     void (*execute)() = (void (*)())binary_memory;
     execute();
+
+    free(binary_memory);
 
     return 0;
 }
