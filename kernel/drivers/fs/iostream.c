@@ -14,6 +14,7 @@
 #include <string.h>
 #include <msg.h>
 #include <memory.h>
+#include <ports.h>
 
 typedef enum {
     FS_UNKNOWN,
@@ -32,7 +33,7 @@ typedef struct {
 
 extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size, bool is_atapi);
 extern int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition, bool is_atapi);
-extern bool disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi);
+extern int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi);
 
 filesystem_t *fs;
 

@@ -19,4 +19,4 @@ typedef enum {
     DISK_SECONDARY_SLAVE
 } disk_t;
 
-int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi);
+extern int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi);
