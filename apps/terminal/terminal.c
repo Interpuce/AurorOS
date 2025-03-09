@@ -29,8 +29,6 @@ void printprefix(const string user, const string pcname) {
 }
 
 int terminal_main(uint16_t theme) {
-    clearscreen();
-
     cprintln("", 0x07);
     cprintln("                        @@@@@@@@@                           ", theme);                                                            
     cprintln("                       @@@@@@@@@@@@@@                       ", theme);                                                                 
