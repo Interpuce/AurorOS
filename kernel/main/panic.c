@@ -33,6 +33,8 @@ void kernelpanic(const string paniccode, string override_devnote) {
         devnote = "Executable binary check has failed unexpectedly.\n This should not be visible at any time, so please\n contact developers on GitHub to report a bug.";
     } else if (streql(paniccode, "REPORTED_CRASH")) {
         devnote = "An AurorOS binary working on the highest permissions\n reported the crash. Please investigate any\n logs of that binary or try to do\n not run it with the highest privileges.";
+    } else if (streql(paniccode, "INIT_FAILURE")) {
+        devnote = "There were some problems while initializing AurorOS\n in the early booting state. Please submit an issue or\n reinstall (if installed) AurorOS.";
     }
     
     if (devnote != NULL) {

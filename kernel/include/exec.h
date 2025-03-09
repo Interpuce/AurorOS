@@ -8,3 +8,6 @@
  * -------------------------------------------------------------------------
  */
 
+#include <types.h>
+
+extern int start_aef_binary(string content, int permission_level);
