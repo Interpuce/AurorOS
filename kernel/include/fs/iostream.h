@@ -11,16 +11,6 @@
 #pragma once
 
 #include <types.h>
-#include <fs/fat32.h>
-
-extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size);
-extern int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition);
-
-fat32_t *fs;
-
-void init_fs() {
-    fat32_init(fs, DISK_PRIMARY_MASTER, 0);
-}
 
 typedef struct {
     uint32_t bytes_read;
@@ -28,13 +18,6 @@ typedef struct {
     bool continous;
 } FileReadResult;
 
-FileReadResult disk_read_file(string path) {
-    FileReadResult result = {0, "", false};
-    uint32_t max = 0xFFFFFFFF;
-    result.bytes_read = fat32_read_file(fs, path, result.content, max);
-    return result;
-}
-
-bool disk_write_file(string path, string what) {
-    return false;
-}
+extern void init_fs();
+extern FileReadResult disk_read_file(string path);
+extern bool disk_write_file(string path, string what);
