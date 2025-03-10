@@ -16,10 +16,10 @@
 #include <ports.h>
 
 void shutdown() {
-    outw(0x604, 0x2000); // If shutdown was attempted on QEMU, it should work without issues. If it didn't work, proceed to the screen
+    outw(0x604, 0x2000); // If shutdown was attempted on QEMU, it should work without issues. If it didn't work, proceed to the screen. However, the FAT32 thing did something with QEMU boot. I don't know. So replacing it with generic screen in case shutdown failed.
     clearscreen();
     paintscreen(0x00);
-    print(" \n \n \n \n \n \n \n \n \n Shutting down outside of QEMU has not been implemented yet.\n", 0x06); // TODO: Implement damn real-hardware shutdown.
+    print(" \n \n \n \n \n \n \n \n \n Shutting down on your platform has not been implemented yet.\n", 0x06); // TODO: Implement damn real-hardware shutdown.
     println(" ", 0x00);
     print(" System executed an intentional halt instruction in response to the CLI command.\n", 0x06);
     println(" ", 0x00);
@@ -31,16 +31,10 @@ void reboot() {
     const uint16_t REBOOT_MAGIC1 = 0xfee1;
     const uint16_t REBOOT_MAGIC2 = 0xdead;
     
-/*
-Technically, the "not supported outside QEMU" screen shouldn't be visible on QEMU because the reboot is very rapid (at least as for AurorOS version 1.0.1). But it could theoretically show if the host machine is weak or running at its limits...
-We don't want that screen to display for QEMU users, since it's only intended for non-QEMU users.
-I would move it under QEMU reboot ASM logic, but it doesn't show on real hardware then.
-TODO: Write a better implementation that will migitate the risk of this stuff displaying on weaker-host QEMU VMs.
-*/
 
     clearscreen();
     paintscreen(0x00);
-    print(" \n \n \n \n \n \n \n \n \n Rebooting outside of QEMU has not been implemented yet.\n", 0x06); // TODO: Implement real-hardware reboot, too.
+    print(" \n \n \n \n \n \n \n \n \n Rebooting on your platform has not been implemented yet.\n", 0x06); // TODO: Implement real-hardware reboot, too.
     println(" ", 0x00);
     print(" System executed an intentional halt instruction in response to the CLI command.\n", 0x06);
     println(" ", 0x00);
@@ -54,6 +48,6 @@ TODO: Write a better implementation that will migitate the risk of this stuff di
         : "r"(REBOOT_MAGIC1), "r"(REBOOT_MAGIC2)
     );
 
-    while (true) {asm("cli; hlt\n");} // If reboot attempt was made on QEMU, the VM has already rebooted. If it's on real hardware and QEMU reboot is uneffective, system clears interrupts flag and halts.
+    while (true) {asm("cli; hlt\n");} // system clears interrupts flag and halts.
 
 }
