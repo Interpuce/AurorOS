@@ -36,7 +36,7 @@ typedef struct {
 
 extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size, bool is_atapi);
 extern int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition, bool is_atapi);
-extern int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi, bool is_sata); // also in disk.h
+extern int disk_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer); // also in disk.h
 
 filesystem_t *fs;
 
@@ -53,17 +53,17 @@ bool detect_atapi(disk_t disk) {
     return (inb(base_port + 4) == 0x14 && inb(base_port + 5) == 0xEB);
 }
 
-fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
+fs_type_t detect_filesystem(disk_t disk, uint8_t partition) {
     uint8_t mbr[512];
     
-    if (!disk_read_sector(disk, 0, mbr, is_atapi, false)) return FS_UNKNOWN;
+    if (!disk_read_sector(&disk, 0, mbr)) return FS_UNKNOWN;
 
     uint8_t *partition_entry = mbr + 0x1BE + (partition * 16);
     uint8_t type = partition_entry[4];
     uint32_t lba_start = *(uint32_t*)(partition_entry + 8);
 
     uint8_t boot_sector[512];
-    if (!disk_read_sector(disk, lba_start, boot_sector, is_atapi, false)) return FS_UNKNOWN;
+    if (!disk_read_sector(&disk, lba_start, boot_sector)) return FS_UNKNOWN;
 
     if (type == 0x0B || type == 0x0C) {
         if (strncmp((char*)boot_sector + 0x52, "FAT32   ", 8) == 0) {
@@ -79,7 +79,7 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
 
     if (type == 0x83) {
         uint8_t superblock[512];
-        if (disk_read_sector(disk, lba_start + 2, superblock, is_atapi, false)) {
+        if (disk_read_sector(&disk, lba_start + 2, superblock)) {
             uint16_t magic = *(uint16_t*)(superblock + 0x38);
             if (magic == 0xEF53) return FS_EXT2;
         }
@@ -111,7 +111,7 @@ void init_fs() {
     disk_t *ahci_disks = ahci_get_disks(&ahci_count);
     
     for (int i=0; i<4; i++) {
-        fs_type_t type = detect_filesystem(ide_disks[i], 0, detect_atapi(ide_disks[i]));
+        fs_type_t type = detect_filesystem(ide_disks[i], 0);
         if(type != FS_UNKNOWN) {
             fs = init_filesystem(&ide_disks[i], type);
             break;
@@ -119,7 +119,7 @@ void init_fs() {
     }
     
     for (int i=0; i<ahci_count; i++) {
-        fs_type_t type = detect_filesystem(ahci_disks[i], 0, false);
+        fs_type_t type = detect_filesystem(ahci_disks[i], 0);
         if(type != FS_UNKNOWN) {
             fs = init_filesystem(&ahci_disks[i], type);
             break;
