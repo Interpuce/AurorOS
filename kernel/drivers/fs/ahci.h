@@ -85,7 +85,6 @@ typedef struct {
     uint8_t counth;
     uint8_t icc;
     uint8_t control;
-    
     uint8_t rsv1[4];
 } FIS_REG_H2D;
 
