@@ -88,15 +88,6 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition) {
     return FS_UNKNOWN;
 }
 
-int ahci_init(uint32_t *ahci_base) {
-    pci_dev_t dev = pci_find_class(0x1, 0x6);
-    if(dev.vendor_id == 0xFFFF) return -1;
-    *ahci_base = pci_read(dev, 0x24) & 0xFFFFFFF0;
-    HBA_MEM *hba = (HBA_MEM*)*ahci_base;
-    hba->ghc |= 0x80000000;
-    return 0;
-}
-
 void init_fs() {
     disk_t ide_disks[] = {
         {DISK_TYPE_IDE, .ide={0x1F0, 0}, .is_atapi=detect_atapi((disk_t){DISK_TYPE_IDE, .ide={0x1F0, 0}})},
