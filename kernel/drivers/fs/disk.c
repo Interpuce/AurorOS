@@ -48,11 +48,11 @@ int ahci_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer) {
     FIS_REG_H2D *fis = (FIS_REG_H2D*)cmdtbl->cfis;
     fis->type = FIS_TYPE_REG_H2D;
     fis->c = 1;
-    fis->command = 0x25; // READ DMA EXT
+    fis->command = 0x25; 
     fis->lba0 = (uint8_t)lba;
     fis->lba1 = (uint8_t)(lba >> 8);
     fis->lba2 = (uint8_t)(lba >> 16);
-    fis->device = 1 << 6; // LBA mode
+    fis->device = 1 << 6;
     fis->lba3 = (uint8_t)(lba >> 24);
     fis->lba4 = (uint8_t)(lba >> 32);
     fis->lba5 = (uint8_t)(lba >> 40);

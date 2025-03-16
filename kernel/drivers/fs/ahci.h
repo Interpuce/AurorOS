@@ -88,5 +88,38 @@ typedef struct {
     uint8_t rsv1[4];
 } FIS_REG_H2D;
 
+typedef struct HBA_CMD_HEADER {
+    uint8_t  cfl:5; 
+    uint8_t  a:1;
+    uint8_t  w:1;
+    uint8_t  p:1; 
+    uint8_t  r:1;
+    uint8_t  b:1; 
+    uint8_t  c:1;
+    uint8_t  rsv0:1;
+    uint8_t  pmp:4; 
+    uint16_t prdtl; 
+    uint32_t prdbc; 
+    uint32_t ctba; 
+    uint32_t ctbau;
+    uint32_t rsv1[4];
+} __attribute__((packed)) HBA_CMD_HEADER;
+
+typedef struct HBA_PRDT_ENTRY {
+    uint32_t dba; 
+    uint32_t dbau;
+    uint32_t rsv0;
+    uint32_t dbc:22; 
+    uint32_t rsv1:9;
+    uint32_t i:1;
+} __attribute__((packed)) HBA_PRDT_ENTRY;
+
+typedef struct HBA_CMD_TBL {
+    uint8_t  cfis[64];
+    uint8_t  acmd[16]; 
+    uint8_t  rsv[48];
+    HBA_PRDT_ENTRY prdt_entry[];
+} __attribute__((packed)) HBA_CMD_TBL;
+
 void ahci_init();
 disk_t* ahci_get_disks(uint8_t *count);
