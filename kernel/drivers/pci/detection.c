@@ -24,7 +24,6 @@ uint32_t pci_read_config(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset
     return inl(PCI_CONFIG_DATA);
 }
 
-// Zmodyfikowana funkcja skanująca z pobieraniem klas
 uint16_t pci_scan_bus() {
     pci_device_count = 0;
     for (uint32_t bus = 0; bus < 256; bus++) {
