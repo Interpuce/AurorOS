@@ -37,7 +37,6 @@ uint16_t pci_scan_bus() {
                 dev->vendor_id = vendor_device & 0xFFFF;
                 dev->device_id = (vendor_device >> 16) & 0xFFFF;
                 
-                // Pobierz informacje o klasie
                 uint32_t class_reg = pci_read_config(bus, slot, 0, 0x08);
                 dev->class = (class_reg >> 24) & 0xFF;
                 dev->subclass = (class_reg >> 16) & 0xFF;
