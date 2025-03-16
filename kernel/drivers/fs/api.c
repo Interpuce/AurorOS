@@ -15,6 +15,7 @@
 #include <msg.h>
 #include <memory.h>
 #include <ports.h>
+#include "ahci.h"
 
 typedef enum {
     FS_UNKNOWN,
@@ -91,6 +92,16 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
     }
 
     return FS_UNKNOWN;
+}
+
+int ahci_init(uint32_t *ahci_base) {
+    ahci_registers_t *ahci = (ahci_registers_t *)ahci_base;
+
+    if (ahci->CAP & 0x0001) {
+        outl(ahci->GHC, 0x80000000);
+        return 0;
+    }
+    return -1;
 }
 
 void init_fs() {
