@@ -10,11 +10,13 @@
 
 #include <types.h>
 #include <fs/fat32.h>
+#include <fs/disk.h>
 #include <fs/iostream.h>
 #include <string.h>
 #include <msg.h>
 #include <memory.h>
 #include <ports.h>
+#include <pci.h>
 #include "ahci.h"
 
 typedef enum {
@@ -39,16 +41,8 @@ extern int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_
 filesystem_t *fs;
 
 bool detect_atapi(disk_t disk) {
-    uint16_t base_port;
-    uint8_t drive;
-
-    switch (disk) {
-        case DISK_PRIMARY_MASTER: base_port=0x1F0; drive=0; break;
-        case DISK_PRIMARY_SLAVE:  base_port=0x1F0; drive=1; break;
-        case DISK_SECONDARY_MASTER: base_port=0x170; drive=0; break;
-        case DISK_SECONDARY_SLAVE: base_port=0x170; drive=1; break;
-        default: return false;
-    }
+    uint16_t base_port = disk.ide.base_port;
+    uint8_t drive = disk.ide.drive;
 
     outb(base_port + 6, 0xA0 | (drive << 4));
     outb(base_port + 7, 0xA1);
@@ -96,7 +90,7 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
 
 int ahci_init(uint32_t *ahci_base) {
     pci_dev_t dev = pci_find_class(0x1, 0x6);
-    if(dev.vendor == 0xFFFF) return -1;
+    if(dev.vendor_id == 0xFFFF) return -1;
     *ahci_base = pci_read(dev, 0x24) & 0xFFFFFFF0;
     HBA_MEM *hba = (HBA_MEM*)*ahci_base;
     hba->ghc |= 0x80000000;
@@ -111,20 +105,21 @@ void init_fs() {
         {DISK_TYPE_IDE, .ide={0x170, 1}, .is_atapi=detect_atapi_ide(0x170, 1)},
     };
     
-    ahci_init();
+    uint32_t ahci_base;
+    ahci_init(&ahci_base);
     uint8_t ahci_count;
     disk_t *ahci_disks = ahci_get_disks(&ahci_count);
     
-    for(int i=0; i<4; i++) {
-        fs_type_t type = detect_filesystem(&ide_disks[i], 0);
+    for (int i=0; i<4; i++) {
+        fs_type_t type = detect_filesystem(ide_disks[i], 0, detect_atapi(ide_disks[i]));
         if(type != FS_UNKNOWN) {
             fs = init_filesystem(&ide_disks[i], type);
             break;
         }
     }
     
-    for(int i=0; i<ahci_count; i++) {
-        fs_type_t type = detect_filesystem(&ahci_disks[i], 0);
+    for (int i=0; i<ahci_count; i++) {
+        fs_type_t type = detect_filesystem(ahci_disks[i], 0, false);
         if(type != FS_UNKNOWN) {
             fs = init_filesystem(&ahci_disks[i], type);
             break;
