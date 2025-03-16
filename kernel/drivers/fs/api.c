@@ -95,13 +95,12 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
 }
 
 int ahci_init(uint32_t *ahci_base) {
-    ahci_registers_t *ahci = (ahci_registers_t *)ahci_base;
-
-    if (ahci->CAP & 0x0001) {
-        outl(ahci->GHC, 0x80000000);
-        return 0;
-    }
-    return -1;
+    pci_dev_t dev = pci_find_class(0x1, 0x6);
+    if(dev.vendor == 0xFFFF) return -1;
+    *ahci_base = pci_read(dev, 0x24) & 0xFFFFFFF0;
+    HBA_MEM *hba = (HBA_MEM*)*ahci_base;
+    hba->ghc |= 0x80000000;
+    return 0;
 }
 
 void init_fs() {
