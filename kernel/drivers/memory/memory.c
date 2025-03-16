@@ -12,6 +12,9 @@
 #include <memory.h>
 
 #define MEMORY_POOL_SIZE 1024 * 1024
+#define PAGE_SIZE 4096
+#define PAGE_TABLE_ENTRIES 1024
+#define PAGE_DIR_ENTRIES 1024
 
 typedef struct memory_block {
     size_t size;
@@ -22,19 +25,27 @@ typedef struct memory_block {
 static uint8_t memory_pool[MEMORY_POOL_SIZE];
 static memory_block_t *free_list = (memory_block_t *)memory_pool;
 
+uint32_t page_directory[PAGE_DIR_ENTRIES] __attribute__((aligned(4096)));
+uint32_t page_tables[PAGE_DIR_ENTRIES][PAGE_TABLE_ENTRIES] __attribute__((aligned(4096)));
+
 void init_memory() {
     free_list->size = MEMORY_POOL_SIZE - sizeof(memory_block_t);
     free_list->next = NULL;
     free_list->free = 1;
 }
 
-void *memcpy(void *dest, const void *src, size_t n) {
-    unsigned char* d = dest;
-    const unsigned char* s = src;
-    for (size_t i = 0; i < n; i++) {
-        d[i] = s[i];
+void init_paging() {
+    for (int i = 0; i < PAGE_DIR_ENTRIES; i++) {
+        page_directory[i] = (uint32_t)&page_tables[i] | 0x03;
+        for (int j = 0; j < PAGE_TABLE_ENTRIES; j++) {
+            page_tables[i][j] = (i * PAGE_TABLE_ENTRIES + j) * PAGE_SIZE | 0x03;
+        }
     }
-    return dest;
+    asm volatile("mov %0, %%cr3" :: "r"(page_directory));
+    uint32_t cr0;
+    asm volatile("mov %%cr0, %0" : "=r"(cr0));
+    cr0 |= 0x80000000;
+    asm volatile("mov %0, %%cr0" :: "r"(cr0));
 }
 
 void *malloc(size_t size) {
@@ -78,26 +89,4 @@ void free(void *ptr) {
         }
         current = current->next;
     }
-}
-
-void *memset(void *ptr, int value, size_t num) {
-    uint8_t *p = (uint8_t *)ptr;
-    while (num--) {
-        *p++ = (uint8_t)value;
-    }
-    return ptr;
-}
-
-int memcmp(const void *ptr1, const void *ptr2, size_t num) {
-    const uint8_t *p1 = (const uint8_t *)ptr1;
-    const uint8_t *p2 = (const uint8_t *)ptr2;
-
-    while (num--) {
-        if (*p1 != *p2) {
-            return (*p1 > *p2) ? 1 : -1;
-        }
-        p1++;
-        p2++;
-    }
-    return 0;
 }
