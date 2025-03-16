@@ -99,10 +99,10 @@ int ahci_init(uint32_t *ahci_base) {
 
 void init_fs() {
     disk_t ide_disks[] = {
-        {DISK_TYPE_IDE, .ide={0x1F0, 0}, .is_atapi=detect_atapi_ide(0x1F0, 0)},
-        {DISK_TYPE_IDE, .ide={0x1F0, 1}, .is_atapi=detect_atapi_ide(0x1F0, 1)},
-        {DISK_TYPE_IDE, .ide={0x170, 0}, .is_atapi=detect_atapi_ide(0x170, 0)},
-        {DISK_TYPE_IDE, .ide={0x170, 1}, .is_atapi=detect_atapi_ide(0x170, 1)},
+        {DISK_TYPE_IDE, .ide={0x1F0, 0}, .is_atapi=detect_atapi((disk_t){DISK_TYPE_IDE, .ide={0x1F0, 0}})},
+        {DISK_TYPE_IDE, .ide={0x1F0, 1}, .is_atapi=detect_atapi((disk_t){DISK_TYPE_IDE, .ide={0x1F0, 1}})},
+        {DISK_TYPE_IDE, .ide={0x170, 0}, .is_atapi=detect_atapi((disk_t){DISK_TYPE_IDE, .ide={0x170, 0}})},
+        {DISK_TYPE_IDE, .ide={0x170, 1}, .is_atapi=detect_atapi((disk_t){DISK_TYPE_IDE, .ide={0x170, 1}})},
     };
     
     uint32_t ahci_base;
