@@ -13,10 +13,23 @@
 #include <types.h>
 
 typedef enum {
-    DISK_PRIMARY_MASTER = 0,
-    DISK_PRIMARY_SLAVE,
-    DISK_SECONDARY_MASTER,
-    DISK_SECONDARY_SLAVE
+    DISK_TYPE_IDE,
+    DISK_TYPE_AHCI
+} disk_type_t;
+
+typedef struct {
+    disk_type_t type;
+    union {
+        struct {
+            uint16_t base_port;
+            uint8_t drive;  // 0 - master, 1 - slave
+        } ide;
+        struct {
+            uint32_t ahci_base;
+            uint8_t port;
+        } ahci;
+    };
+    bool is_atapi;
 } disk_t;
 
-extern int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi, bool is_sata); // also in api.c
+extern int disk_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer);
