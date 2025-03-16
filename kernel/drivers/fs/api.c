@@ -105,26 +105,31 @@ int ahci_init(uint32_t *ahci_base) {
 }
 
 void init_fs() {
-    fs = malloc(sizeof(filesystem_t));
-    fs->is_atapi = detect_atapi(DISK_PRIMARY_MASTER);
-    fs->type = detect_filesystem(DISK_PRIMARY_MASTER, 0, fs->is_atapi);
+    disk_t ide_disks[] = {
+        {DISK_TYPE_IDE, .ide={0x1F0, 0}, .is_atapi=detect_atapi_ide(0x1F0, 0)},
+        {DISK_TYPE_IDE, .ide={0x1F0, 1}, .is_atapi=detect_atapi_ide(0x1F0, 1)},
+        {DISK_TYPE_IDE, .ide={0x170, 0}, .is_atapi=detect_atapi_ide(0x170, 0)},
+        {DISK_TYPE_IDE, .ide={0x170, 1}, .is_atapi=detect_atapi_ide(0x170, 1)},
+    };
     
-    switch(fs->type) {
-        case FS_FAT32:
-            fat32_init(&fs->fat32, DISK_PRIMARY_MASTER, 0, fs->is_atapi);
-            print_ok("Successfully initialized FAT32 partition!");
+    ahci_init();
+    uint8_t ahci_count;
+    disk_t *ahci_disks = ahci_get_disks(&ahci_count);
+    
+    for(int i=0; i<4; i++) {
+        fs_type_t type = detect_filesystem(&ide_disks[i], 0);
+        if(type != FS_UNKNOWN) {
+            fs = init_filesystem(&ide_disks[i], type);
             break;
-        case FS_NTFS:
-            print_info("Unfortunately the NTFS filesystem is not supported.");
-            print_info("Skipping the partition...");
+        }
+    }
+    
+    for(int i=0; i<ahci_count; i++) {
+        fs_type_t type = detect_filesystem(&ahci_disks[i], 0);
+        if(type != FS_UNKNOWN) {
+            fs = init_filesystem(&ahci_disks[i], type);
             break;
-        case FS_EXT2:
-            print_info("Unfortunately the EXT2 filesystem is not supported.");
-            print_info("Skipping the partition...");
-            break;
-        default:
-            fs->type = FS_UNKNOWN;
-            break;
+        }
     }
 }
 

@@ -9,122 +9,69 @@
  */
 
 #include <fs/disk.h>
-#include <ports.h> 
+#include <ports.h>
 
-uint16_t ata_get_disk_base_port(disk_t disk, uint8_t *drive) {
-    switch (disk) {
-        case DISK_PRIMARY_MASTER:
-            *drive = 0;
-            return 0x1F0;
-        case DISK_PRIMARY_SLAVE:
-            *drive = 1;
-            return 0x1F0;
-        case DISK_SECONDARY_MASTER:
-            *drive = 0;
-            return 0x170;
-        case DISK_SECONDARY_SLAVE:
-            *drive = 1;
-            return 0x170;
-        default:
-            return 0; 
-    }
-}
-
-int sata_disk_read_sector(uint16_t base_port, uint8_t drive, uint32_t lba, uint8_t *buffer) {
-    outb(base_port + 6, 0x40 | (drive << 4));
+int ide_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer) {
+    uint16_t base = disk->ide.base_port;
+    uint8_t drive = 0xA0 | (disk->ide.drive << 4) | ((lba >> 24) & 0x0F);
     
-    outb(base_port + 2, 0);
-    outb(base_port + 3, (lba >> 24) & 0xFF);
-    outb(base_port + 4, 0); 
-    outb(base_port + 5, 0);
+    outb(base + 6, drive);
+    outb(base + 2, 1);
+    outb(base + 3, (uint8_t)lba);
+    outb(base + 4, (uint8_t)(lba >> 8));
+    outb(base + 5, (uint8_t)(lba >> 16));
+    outb(base + 7, 0x20);
 
-    outb(base_port + 2, 1); 
-    outb(base_port + 3, lba & 0xFF);
-    outb(base_port + 4, (lba >> 8) & 0xFF);
-    outb(base_port + 5, (lba >> 16) & 0xFF);
-
-    outb(base_port + 7, 0x24); 
-
-    while (inb(base_port + 7) & 0x80);
-
-    if (inb(base_port + 7) & 0x01) return -1;
-
-    while (!(inb(base_port + 7) & 0x08));
-
-    for (uint16_t i = 0; i < 256; i++) {
-        uint16_t data = inw(base_port);
-        *buffer++ = (uint8_t)(data & 0xFF);
-        *buffer++ = (uint8_t)(data >> 8);
+    while((inb(base + 7) & 0x80));
+    
+    for(int i=0; i<256; i++) {
+        uint16_t data = inw(base);
+        *buffer++ = data & 0xFF;
+        *buffer++ = data >> 8;
     }
-
     return 0;
 }
 
-int atapi_disk_read_sector(uint16_t base_port, uint8_t drive, uint32_t lba, uint8_t *buffer) {
-    outb(base_port + 6, 0x40 | (drive << 4) | ((lba >> 24) & 0x0F));
-    outb(base_port + 7, 0xA0);
-
-    while (inb(base_port + 7) & 0x80);
-    while (!(inb(base_port + 7) & 0x08));
-
-    uint8_t cmd_packet[12] = {
-        0xA8, 0x00,
-        (uint8_t)((lba >> 24) & 0xFF),
-        (uint8_t)((lba >> 16) & 0xFF),
-        (uint8_t)((lba >> 8) & 0xFF),
-        (uint8_t)(lba & 0xFF),
-        0x00, 0x00, 0x00, 0x01, 0x00, 0x00
-    };
-
-    for (int i = 0; i < 6; i++) {
-        outw(base_port, *(uint16_t*)(&cmd_packet[i * 2]));
-    }
-
-    while (inb(base_port + 7) & 0x80);
-    if (inb(base_port + 7) & 0x01) return -1;
-
-    uint16_t byte_count = (inb(base_port + 4) << 8) | inb(base_port + 5);
-    for (uint16_t i = 0; i < byte_count / 2; i++) {
-        uint16_t data = inw(base_port);
-        *buffer++ = (uint8_t)(data & 0xFF);
-        *buffer++ = (uint8_t)(data >> 8);
-    }
-
-    return 0;
+int ahci_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer) {
+    HBA_MEM *hba = (HBA_MEM*)disk->ahci.ahci_base;
+    HBA_PORT *port = &hba->ports[disk->ahci.port];
+    
+    HBA_CMD_HEADER *cmdheader = (HBA_CMD_HEADER*)port->clb;
+    cmdheader->cfl = sizeof(FIS_REG_H2D)/4;
+    cmdheader->w = 0;
+    cmdheader->prdtl = 1;
+    
+    HBA_CMD_TBL *cmdtbl = (HBA_CMD_TBL*)cmdheader->ctba;
+    memset(cmdtbl, 0, sizeof(HBA_CMD_TBL));
+    
+    FIS_REG_H2D *fis = (FIS_REG_H2D*)cmdtbl->cfis;
+    fis->type = FIS_TYPE_REG_H2D;
+    fis->c = 1;
+    fis->command = 0x25; // READ DMA EXT
+    fis->lba0 = (uint8_t)lba;
+    fis->lba1 = (uint8_t)(lba >> 8);
+    fis->lba2 = (uint8_t)(lba >> 16);
+    fis->device = 1 << 6; // LBA mode
+    fis->lba3 = (uint8_t)(lba >> 24);
+    fis->lba4 = (uint8_t)(lba >> 32);
+    fis->lba5 = (uint8_t)(lba >> 40);
+    fis->countl = 1;
+    
+    cmdtbl->prdt_entry[0].dba = (uint32_t)buffer & 0xFFFFFFFF;
+    cmdtbl->prdt_entry[0].dbau = 0;
+    cmdtbl->prdt_entry[0].dbc = 511;
+    cmdtbl->prdt_entry[0].i = 1;
+    
+    port->ci = 1;
+    while(port->ci & 1);
+    
+    return (port->is & 1) ? -1 : 0;
 }
 
-int ata_disk_read_sector(uint16_t base_port, uint8_t drive, uint32_t lba, uint8_t *buffer) {
-    outb(base_port + 6, 0x40 | (drive << 4) | ((lba >> 24) & 0x0F));
-    outb(base_port + 2, 1);
-    outb(base_port + 3, (uint8_t)(lba & 0xFF));
-    outb(base_port + 4, (uint8_t)((lba >> 8) & 0xFF));
-    outb(base_port + 5, (uint8_t)((lba >> 16) & 0xFF));
-    outb(base_port + 7, 0x20);
-
-    while (inb(base_port + 7) & 0x80);
-
-    for (uint16_t i = 0; i < 256; i++) {
-        uint16_t data = inw(base_port);
-        *buffer++ = (uint8_t)(data & 0xFF);
-        *buffer++ = (uint8_t)(data >> 8);
-    }
-
-    return 0;
-}
-
-int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi, bool is_sata) {
-    uint8_t drive;
-    uint16_t base_port = ata_get_disk_base_port(disk, &drive);
-
-    if (base_port == 0) {
-        return -1; 
-    }
-
-    if (is_sata) {
-        return sata_disk_read_sector(base_port, drive, lba, buffer); // why the fuck sata uses ata ports ToDo i don't have time today
-    } else if (is_atapi) {
-        return atapi_disk_read_sector(base_port, drive, lba, buffer);
-    } else {
-        return ata_disk_read_sector(base_port, drive, lba, buffer);
-    }
+int disk_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer) {
+    if(disk->type == DISK_TYPE_IDE)
+        return ide_read_sector(disk, lba, buffer);
+    else if(disk->type == DISK_TYPE_AHCI)
+        return ahci_read_sector(disk, lba, buffer);
+    return -1;
 }
