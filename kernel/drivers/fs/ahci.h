@@ -121,5 +121,5 @@ typedef struct HBA_CMD_TBL {
     HBA_PRDT_ENTRY prdt_entry[];
 } __attribute__((packed)) HBA_CMD_TBL;
 
-extern int ahci_init(uint32_t *ahci_base);
+extern void ahci_init();
 extern disk_t* ahci_get_disks(uint8_t *count);
