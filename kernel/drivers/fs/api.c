@@ -112,18 +112,10 @@ void init_fs() {
     
     for (int i=0; i<4; i++) {
         fs_type_t type = detect_filesystem(ide_disks[i], 0);
-        if(type != FS_UNKNOWN) {
-            fs = init_filesystem(&ide_disks[i], type);
-            break;
-        }
     }
     
     for (int i=0; i<ahci_count; i++) {
         fs_type_t type = detect_filesystem(ahci_disks[i], 0);
-        if(type != FS_UNKNOWN) {
-            fs = init_filesystem(&ahci_disks[i], type);
-            break;
-        }
     }
 }
 
