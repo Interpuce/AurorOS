@@ -24,7 +24,7 @@ static uint32_t fat32_get_next_cluster(fat32_t *fs, uint32_t cluster, bool is_at
     uint32_t ent_offset = fat_offset % fs->bpb.bytes_per_sector;
 
     uint8_t sector[512];
-    if (disk_read_sector(fs->disk, fat_sector, sector, is_atapi)) return 0x0FFFFFFF;
+    if (disk_read_sector(fs->disk, fat_sector, sector, is_atapi, false)) return 0x0FFFFFFF;
     return (*(uint32_t*)(sector + ent_offset)) & 0x0FFFFFFF;
 }
 
@@ -47,7 +47,7 @@ static void fat32_to_83_name(const string name, string out) {
 
 int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition, bool is_atapi) {
     uint8_t mbr[512];
-    if (disk_read_sector(disk, 0, mbr, is_atapi)) return -1;
+    if (disk_read_sector(disk, 0, mbr, is_atapi, false)) return -1;
 
     if (*(uint16_t*)(mbr + 0x1FE) != 0xAA55) return -1;
 
@@ -58,7 +58,7 @@ int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition, bool is_atapi) {
     fs->partition_start = *(uint32_t*)(entry + 8);
     fs->disk = disk;
 
-    if (disk_read_sector(fs->disk, fs->partition_start, (uint8_t*)&fs->bpb, is_atapi)) return -1;
+    if (disk_read_sector(fs->disk, fs->partition_start, (uint8_t*)&fs->bpb, is_atapi, false)) return -1;
 
     if (*(uint16_t*)((uint8_t*)&fs->bpb + 0x1FE) != 0xAA55) return -1;
     if (strncmp(fs->bpb.fs_type, "FAT32   ", 8) != 0) return -1;
@@ -81,7 +81,7 @@ int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t si
     do {
         uint32_t lba = fat32_cluster_to_lba(fs, current_cluster);
         for (uint8_t i = 0; i < fs->sectors_per_cluster; i++) {
-            if (disk_read_sector(fs->disk, lba + i, sector, is_atapi)) return -1;
+            if (disk_read_sector(fs->disk, lba + i, sector, is_atapi, false)) return -1;
             
             for (int j = 0; j < 16; j++) {
                 entry = (fat32_dir_entry_t*)(sector + j*32);
@@ -96,7 +96,7 @@ int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t si
                 while (file_cluster < 0x0FFFFFF8 && bytes_read < entry->file_size) {
                     lba = fat32_cluster_to_lba(fs, file_cluster);
                     for (int k = 0; k < fs->sectors_per_cluster; k++) {
-                        if (disk_read_sector(fs->disk, lba + k, buffer + bytes_read, is_atapi)) return -1;
+                        if (disk_read_sector(fs->disk, lba + k, buffer + bytes_read, is_atapi, false)) return -1;
                         bytes_read += 512;
                         if (bytes_read >= entry->file_size) break;
                     }

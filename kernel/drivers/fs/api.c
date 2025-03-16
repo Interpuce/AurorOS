@@ -61,14 +61,14 @@ bool detect_atapi(disk_t disk) {
 fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
     uint8_t mbr[512];
     
-    if (!disk_read_sector(disk, 0, mbr, is_atapi)) return FS_UNKNOWN;
+    if (!disk_read_sector(disk, 0, mbr, is_atapi, false)) return FS_UNKNOWN;
 
     uint8_t *partition_entry = mbr + 0x1BE + (partition * 16);
     uint8_t type = partition_entry[4];
     uint32_t lba_start = *(uint32_t*)(partition_entry + 8);
 
     uint8_t boot_sector[512];
-    if (!disk_read_sector(disk, lba_start, boot_sector, is_atapi)) return FS_UNKNOWN;
+    if (!disk_read_sector(disk, lba_start, boot_sector, is_atapi, false)) return FS_UNKNOWN;
 
     if (type == 0x0B || type == 0x0C) {
         if (strncmp((char*)boot_sector + 0x52, "FAT32   ", 8) == 0) {
@@ -84,7 +84,7 @@ fs_type_t detect_filesystem(disk_t disk, uint8_t partition, bool is_atapi) {
 
     if (type == 0x83) {
         uint8_t superblock[512];
-        if (disk_read_sector(disk, lba_start + 2, superblock, is_atapi)) {
+        if (disk_read_sector(disk, lba_start + 2, superblock, is_atapi, false)) {
             uint16_t magic = *(uint16_t*)(superblock + 0x38);
             if (magic == 0xEF53) return FS_EXT2;
         }
