@@ -18,15 +18,15 @@ static disk_t ahci_disks[32];
 static uint8_t num_ahci_disks = 0;
 
 static void port_rebase(HBA_PORT *port, int portnum) {
-    port->clb = (uint32_t)mem_alloc(1024) & 0xFFFFFFFF;
+    port->clb = (uint32_t)malloc(1024) & 0xFFFFFFFF;
     port->clbu = 0;
-    port->fb = (uint32_t)mem_alloc(256) & 0xFFFFFFFF;
+    port->fb = (uint32_t)malloc(256) & 0xFFFFFFFF;
     port->fbu = 0;
     
     HBA_CMD_HEADER *cmdheader = (HBA_CMD_HEADER*)port->clb;
     for(int i=0; i<32; i++) {
         cmdheader[i].prdtl = 8;
-        cmdheader[i].ctba = (uint32_t)mem_alloc(256) & 0xFFFFFFFF;
+        cmdheader[i].ctba = (uint32_t)malloc(256) & 0xFFFFFFFF;
         cmdheader[i].ctbau = 0;
     }
 }
