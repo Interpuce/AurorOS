@@ -2,12 +2,6 @@
 
 Our lightweight, custom OS made without any existing kernel - directly from Interpuce!
 
-## Development note
-
-I fucked up the filesystem with AHCI introduction, so go back in time with commits.
-
-Only ATA supported so go to your BIOS and within disk settings, change AHCI to IDE (legacy IDE-emulation mode).
-
 ## Downloading
 
 Navigate to [Github Releases of the project](https://github.com/Interpuce/AurorOS/releases) and search for:

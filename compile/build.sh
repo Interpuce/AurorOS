@@ -16,13 +16,16 @@ for utility in "${dependencies_required[@]}"; do
         echo "If you are building AurorOS in Termux please stop! It won't work."
         sleep 0.2        
         dependencies_missing+=("$utility")
+        break
     fi
 done
 
 if [ ${#dependencies_missing[@]} -gt 0 ]; then
     echo "It is recommended to run dep_install.sh in case of missing dependencies."
     echo "You can run it by typing 'make dep_install' in your shell."
-    exit 1
+    if [[ "$*" != *"-force-skip-depman"* ]]; then
+        exit 1
+    fi
 fi
 
 ROOT_DIR=$(pwd)

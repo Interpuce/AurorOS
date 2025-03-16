@@ -28,6 +28,14 @@ Before doing any changes, please learn our [stdlib](https://github.com/Interpuce
 
 ## Compiling and running AurorOS
 
+### Testing code on Windows
+
+If you have `git bash` or other similar tool installed on your computer you can use it to **partially** test compilation for AurorOS. Linker will **__ALWAYS__** fail, but you can check your code.
+
+Make sure `mingw-w64` is installed alongside the `git bash` installation. The `mingw32` is pretty outdated and may result in diferent errors. You can check that by typing in `gcc -dumpmachine` to your command line. If the result does not contains `w64-mingw32`, you need to upgrade. The best way is to use [winlibs](https://winlibs.com).
+
+Since `xorisso` and other tools might not be available, please try `./compile/build.sh -force-skip-depman` instead of `make`.
+
 ### Compilation
 
 > [!CAUTION]
