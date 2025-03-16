@@ -111,3 +111,20 @@ int ata_disk_read_sector(uint16_t base_port, uint8_t drive, uint32_t lba, uint8_
 
     return 0;
 }
+
+int disk_read_sector(disk_t disk, uint32_t lba, uint8_t *buffer, bool is_atapi, bool is_sata) {
+    uint8_t drive;
+    uint16_t base_port = get_disk_base_port(disk, &drive);
+
+    if (base_port == 0) {
+        return -1; 
+    }
+
+    if (is_sata) {
+        return disk_read_sector_sata(base_port, drive, lba, buffer);
+    } else if (is_atapi) {
+        return disk_read_sector_atapi(base_port, drive, lba, buffer);
+    } else {
+        return disk_read_sector_ide(base_port, drive, lba, buffer);
+    }
+}
