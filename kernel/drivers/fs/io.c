@@ -12,6 +12,7 @@
 #include <fs/fat32.h>
 #include <fs/disk.h>
 #include <fs/iostream.h>
+#include <msg.h>
 #include "multiapi.h"
 
 FileReadResult disk_read_file(string path) {
