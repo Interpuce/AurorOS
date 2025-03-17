@@ -90,6 +90,7 @@ void init_fs() {
             case FS_FAT32:
                 fat32_t fat32;
                 fat32_init(&fat32, ide_disks[i], 0, ide_disks->is_atapi);
+                fs->fat32 = fat32;
                 break;
             case FS_NTFS:
             case FS_EXT2:
