@@ -48,12 +48,15 @@ void start_system_loader() {
     // cd-rom has other filesystem than fucking fat32, so only pendrive
     // booting will be supported; this will fuck out QEMU and other emulators
     // so while this will compile, this won't work on basically any hardware
+    //      update to issue 1:
+    // atapi is supported right now, so after writing the filesystem it can be
+    // probably used without any issues
     //   issue 2:
     // current AurorOS compiler compiles into .bin without any system files,
     // while it contains binary code, it won't be recognised, so it will
     // fuck out with the kernel panic
 
-    const FileReadResult terminal_binary = disk_read_file('boot/terminal.bin'); // for some reason it compiles to boot so have this fucking boot
+    const FileReadResult terminal_binary = disk_read_file("boot/terminal.bin"); // for some reason it compiles to boot so have this fucking boot
     if (!terminal_binary.success) {
         kernelpanic("INIT_FAILURE", NULL);
     }
