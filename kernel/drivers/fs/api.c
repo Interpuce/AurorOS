@@ -83,11 +83,37 @@ void init_fs() {
     uint8_t ahci_count;
     disk_t *ahci_disks = ahci_get_disks(&ahci_count);
     
-    for (int i=0; i<4; i++) {
+    for (int i=0; i < 4; i++) {
         fs_type_t type = detect_filesystem(ide_disks[i], 0);
+
+        switch (type) {
+            case FS_FAT32:
+                fat32_t fat32;
+                fat32_init(&fat32, ide_disks[i], 0, ide_disks->is_atapi);
+                break;
+            case FS_NTFS:
+            case FS_EXT2:
+            case FS_UNKNOWN:
+            default:
+                print_error('Error during initializing IDE/IDE-emulated (configure SATA as IDE) disk - unsupported/unknown filesystem.');
+                break;
+        }
     }
     
-    for (int i=0; i<ahci_count; i++) {
+    for (int i=0; i < ahci_count; i++) {
         fs_type_t type = detect_filesystem(ahci_disks[i], 0);
+
+        switch (type) {
+            case FS_FAT32:
+                fat32_t fat32;
+                fat32_init(&fat32, ahci_disks[i], 0, false); // sata does not support atapi i think
+                break;
+            case FS_NTFS:
+            case FS_EXT2:
+            case FS_UNKNOWN:
+            default:
+                print_error('Error during initializing AHCI disk - unsupported/unknown filesystem.');
+                break;
+        }
     }
 }
