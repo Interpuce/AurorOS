@@ -20,3 +20,4 @@ extern void print_custom(const string str, uint8_t color, uint8_t scolor);
 extern void print(const string str, uint8_t color);
 extern void println(const string str, uint8_t color);
 extern void printf(const string format, ...);
+extern int snprintf(string buffer, size_t size, const string format, ...);
