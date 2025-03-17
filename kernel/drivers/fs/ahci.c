@@ -48,7 +48,7 @@ void ahci_init() {
             ahci_disks[num_ahci_disks].type = DISK_TYPE_AHCI;
             ahci_disks[num_ahci_disks].ahci.ahci_base = (uint32_t)abars;
             ahci_disks[num_ahci_disks].ahci.port = i;
-            ahci_disks[num_ahci_disks].is_atapi = false; // TODO: check if ATAPI, probably not
+            ahci_disks[num_ahci_disks].is_atapi = false; 
             num_ahci_disks++;
         }
     }

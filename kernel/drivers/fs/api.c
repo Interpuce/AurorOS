@@ -18,25 +18,7 @@
 #include <ports.h>
 #include <pci.h>
 #include "ahci.h"
-
-typedef enum {
-    FS_UNKNOWN,
-    FS_FAT32,
-    FS_NTFS,
-    FS_EXT2
-} fs_type_t;
-
-typedef struct {
-    fs_type_t type;
-    union {
-        fat32_t fat32;
-    };
-    bool is_atapi;
-} filesystem_t;
-
-extern int fat32_read_file(fat32_t *fs, const string name, uint8_t *buffer, uint32_t size, bool is_atapi);
-extern int fat32_init(fat32_t *fs, disk_t disk, uint8_t partition, bool is_atapi);
-extern int disk_read_sector(disk_t *disk, uint32_t lba, uint8_t *buffer); // also in disk.h
+#include "multiapi.h"
 
 filesystem_t *fs;
 
@@ -108,29 +90,4 @@ void init_fs() {
     for (int i=0; i<ahci_count; i++) {
         fs_type_t type = detect_filesystem(ahci_disks[i], 0);
     }
-}
-
-FileReadResult disk_read_file(string path) {
-    FileReadResult result = {0, "", false, false};
-    if (!fs || fs->type == FS_UNKNOWN) return result;
-
-    uint32_t max = 0xFFFFFFFF;
-    switch(fs->type) {
-        case FS_FAT32:
-            result.bytes_read = fat32_read_file(&fs->fat32, path, (uint8_t*)result.content, max, fs->is_atapi);
-            result.success = true;
-            break;
-        case FS_NTFS:
-            print_error("Cannot read data from the unsupported filesystem!");
-            break;
-        case FS_EXT2:
-            print_error("Cannot read data from the unsupported filesystem!");
-            break;
-    }
-    return result;
-}
-
-bool disk_write_file(string path, string what) {
-    if (!fs || fs->type == FS_UNKNOWN) return false;
-    return false;
 }
