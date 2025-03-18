@@ -2,8 +2,6 @@
 
 Our lightweight, custom OS made without any existing kernel - directly from Interpuce!
 
-## Note
-
 > [!WARNING]
 > Filesystem is a bit broken. If the FS compiles it may not work at some situations. You may have to change SATA drive handling mode (BIOS/UEFI setting) in order to make everything work (`configure SATA as [AHCI] [IDE]`). AHCI or IDE should work, but `configure SATA as [RAID]` will probably lead to unexpected behavior. Any filesystem-related actions are **not** stable and **not** ready for production purposes.
 
