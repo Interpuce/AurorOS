@@ -19,6 +19,7 @@ typedef struct {
     bool success;
 } FileReadResult;
 
+// yes not implemented
 extern void init_fs();
 extern FileReadResult disk_read_file(string path);
 extern bool disk_write_file(string path, string what);
