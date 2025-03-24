@@ -31,6 +31,7 @@ typedef struct {
     uint32_t eip;
 } ThreadEmulatedRegisters;
 
+struct Thread;
 typedef struct Thread thread_t;
 
 struct Thread {

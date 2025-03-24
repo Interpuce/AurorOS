@@ -13,13 +13,13 @@
 
 struct Thread* thread_list = NULL;
 
-void add_thread(struct Thread* new_thread) {
+void add_thread(thread_t* new_thread) {
     if (thread_list == NULL) {
         thread_list = new_thread;
         return;
     }
 
-    struct Thread* current = thread_list;
+    thread_t* current = thread_list;
     while (current->next_thread != NULL) {
         current = current->next_thread;
     }
@@ -27,7 +27,7 @@ void add_thread(struct Thread* new_thread) {
     new_thread->next_thread = NULL;
 }
 
-void remove_thread(struct Thread* thread_to_remove) {
+void remove_thread(thread_t* thread_to_remove) {
     if (thread_list == NULL) return;
 
     if (thread_list == thread_to_remove) {
@@ -35,7 +35,7 @@ void remove_thread(struct Thread* thread_to_remove) {
         return;
     }
 
-    struct Thread* current = thread_list;
+    thread_t* current = thread_list;
     while (current->next_thread != NULL) {
         if (current->next_thread == thread_to_remove) {
             current->next_thread = thread_to_remove->next_thread;
