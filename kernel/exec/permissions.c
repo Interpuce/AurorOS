@@ -12,7 +12,7 @@
 #include <constants.h>
 #include <string.h>
 
-int translate_permission_level(string user) {
+PermissionLevel translate_permission_level(string user) {
     if (streql(user, "main")) {
         return PERMISSION_LEVEL_MAIN; // already a main user
     } else {

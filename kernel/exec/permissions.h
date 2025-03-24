@@ -11,5 +11,6 @@
 #pragma once
 
 #include <types.h>
+#include <constants.h>
 
-extern int translate_permission_level(string user);
+extern PermissionLevel translate_permission_level(string user);
