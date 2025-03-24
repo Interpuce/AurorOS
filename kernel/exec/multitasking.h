@@ -12,14 +12,14 @@
 
 #include <types.h>
 
-enum ThreadPriority {
+typedef enum {
     THREAD_PRIORITY_SYSPROCESS,    // highest value for system-critical threads
     THREAD_PRIORITY_HIGH,          // high priority & focused window
     THREAD_PRIORITY_NORMAL,        // for normal threads
     THREAD_PRIORITY_LOW            // for threads that are basically useless, but needs to work
-};
+} ThreadPriority;
 
-struct ThreadEmulatedRegisters {
+typedef struct {
     uint32_t eax;
     uint32_t ebx;
     uint32_t ecx;
@@ -29,11 +29,12 @@ struct ThreadEmulatedRegisters {
     uint32_t ebp;
     uint32_t esp;
     uint32_t eip;
-};
+} ThreadEmulatedRegisters;
 
-struct Thread {
+typedef struct {
     uint32_t thread_id;
     ThreadEmulatedRegisters registers;
     ThreadPriority priority;
     bool within_breakpoint;
-};
+    Thread* next_thread;
+} Thread;
