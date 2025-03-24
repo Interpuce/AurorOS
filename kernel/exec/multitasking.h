@@ -31,10 +31,12 @@ typedef struct {
     uint32_t eip;
 } ThreadEmulatedRegisters;
 
-typedef struct {
+typedef struct Thread thread_t;
+
+struct Thread {
     uint32_t thread_id;
     ThreadEmulatedRegisters registers;
     ThreadPriority priority;
     bool within_breakpoint;
-    Thread* next_thread;
-} Thread;
+    thread_t* next_thread;
+};
