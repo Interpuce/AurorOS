@@ -13,8 +13,10 @@
 #include <memory.h>
 
 struct Thread* thread_list = NULL;
+uint32_t latest_thread_id = 1;
 
 void add_thread(thread_t* new_thread) {
+    if (new_thread == NULL) return;
     if (thread_list == NULL) {
         thread_list = new_thread;
         return;
@@ -30,6 +32,7 @@ void add_thread(thread_t* new_thread) {
 
 void remove_thread(thread_t* thread_to_remove) {
     if (thread_list == NULL) return;
+    if (thread_to_remove == NULL) return;
 
     if (thread_list == thread_to_remove) {
         thread_list = thread_list->next_thread;
@@ -46,17 +49,11 @@ void remove_thread(thread_t* thread_to_remove) {
     }
 }
 
-thread_t create_thread(void (*entry_point)(void*), ThreadPriority priority, uint16_t stack_size, bool system_critical) {
+thread_t create_thread(void (*entry_point)(void*), ThreadPriority priority, uint32_t stack_size, bool system_critical) {
     thread_t* new_thread;
 
-    thread_t* latest_thread;
-    uint32_t latest_id = 1;
-    while (latest_thread->next_thread != NULL) {
-        latest_thread = &latest_thread->next_thread;
-        latest_id = latest_thread->thread_id;
-        continue;
-    }
-    new_thread->thread_id = latest_id + 1;
+    latest_thread_id++;
+    new_thread->thread_id = latest_thread_id;
 
     if (priority == THREAD_PRIORITY_SYSPROCESS && !system_critical) {
         new_thread->priority = THREAD_PRIORITY_LOW; // terminating the process wouldn't be a good idea, but because someone wants highest possible priorities I say no thanks
