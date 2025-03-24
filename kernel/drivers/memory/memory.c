@@ -48,7 +48,7 @@ void init_paging() {
     asm volatile("mov %0, %%cr0" :: "r"(cr0));
 }
 
-void *malloc(size_t size) {
+void* malloc(size_t size) {
     memory_block_t *current = free_list;
     while (current != NULL) {
         if (current->free && current->size >= size) {
@@ -69,7 +69,7 @@ void *malloc(size_t size) {
     return NULL;
 }
 
-void free(void *ptr) {
+void free(void* ptr) {
     if (ptr == NULL) return;
 
     memory_block_t *block = (memory_block_t *)((uint8_t *)ptr - sizeof(memory_block_t));

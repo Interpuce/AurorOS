@@ -10,6 +10,7 @@
 
 #include <types.h>
 #include "multitasking.h"
+#include <memory.h>
 
 struct Thread* thread_list = NULL;
 
@@ -43,4 +44,42 @@ void remove_thread(thread_t* thread_to_remove) {
         }
         current = current->next_thread;
     }
+}
+
+thread_t create_thread(void (*entry_point)(void*), ThreadPriority priority, uint16_t stack_size, bool system_critical) {
+    thread_t* new_thread;
+
+    thread_t* latest_thread;
+    uint32_t latest_id = 1;
+    while (latest_thread->next_thread != NULL) {
+        latest_thread = &latest_thread->next_thread;
+        latest_id = latest_thread->thread_id;
+        continue;
+    }
+    new_thread->thread_id = latest_id + 1;
+
+    if (priority == THREAD_PRIORITY_SYSPROCESS && !system_critical) {
+        new_thread->priority = THREAD_PRIORITY_LOW; // terminating the process wouldn't be a good idea, but because someone wants highest possible priorities I say no thanks
+    } else {
+        new_thread->priority = priority;
+    }
+
+    new_thread->stack_pointer = (uint32_t*)malloc(stack_size * sizeof(uint32_t));
+
+    new_thread->within_breakpoint = false;
+
+    new_thread->registers.eax = 0; // safe to set to 0
+    new_thread->registers.ebx = 0; // safe to set to 0
+    new_thread->registers.ecx = 0; // safe to set to 0
+    new_thread->registers.edx = 0; // safe to set to 0
+    new_thread->registers.esi = 0; // safe to set to 0
+    new_thread->registers.edi = 0; // safe to set to 0
+    new_thread->registers.ebp = 0; // not understanding very well
+    new_thread->registers.esp = (uint32_t)(new_thread->stack_pointer + stack_size - 1); // address of stack beginning
+    new_thread->registers.eip = (uint32_t)entry_point; // entry point
+    new_thread->registers.eflags = 0x200; // allow only for interrupts, yep i didn't find a way to prevent changing this register to unlock the world of posibilities
+
+    new_thread->next_thread = NULL;
+
+    add_thread(new_thread);
 }

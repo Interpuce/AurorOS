@@ -29,6 +29,7 @@ typedef struct {
     uint32_t ebp;
     uint32_t esp;
     uint32_t eip;
+    uint32_t eflags;
 } ThreadEmulatedRegisters;
 
 struct Thread;
@@ -36,8 +37,9 @@ typedef struct Thread thread_t;
 
 struct Thread {
     uint32_t thread_id;
-    ThreadEmulatedRegisters registers;
     ThreadPriority priority;
+    ThreadEmulatedRegisters registers;
+    uint32_t* stack_pointer;
     bool within_breakpoint;
     thread_t* next_thread;
 };
