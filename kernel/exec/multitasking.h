@@ -16,8 +16,9 @@ typedef enum {
     THREAD_PRIORITY_SYSPROCESS,    // highest value for system-critical threads
     THREAD_PRIORITY_HIGH,          // high priority & focused window
     THREAD_PRIORITY_NORMAL,        // for normal threads
-    THREAD_PRIORITY_LOW            // for threads that are basically useless, but needs to work
-} ThreadPriority;
+    THREAD_PRIORITY_LOW,           // for threads that are not critical and do not require much resources and attention (like some background tasks)
+    THREAD_PRIORITY_MINIMAL        // for threads that are literally so useless that "LOW" would be a waste of attention but they still need to exist (and for paused processes, perhaps)
+} ThreadPriority;                  // gorciu, please don't kill me for this unexpected commit... rgds, the committer
 
 typedef struct {
     uint32_t eax;
