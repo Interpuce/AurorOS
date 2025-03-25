@@ -57,7 +57,10 @@ void context_switcher() {
             "push %9\n"
             "ret\n"
             :
-            : "r"(current_thread->registers.eax), "r"(current_thread->registers.ebx), "r"(current_thread->registers.ecx), "r"(current_thread->registers.edx), "r"(current_thread->registers.esi), "r"(current_thread->registers.edi), "r"(current_thread->registers.ebp), "r"(current_thread->registers.esp), "r"(current_thread->registers.eflags), "r"(current_thread->registers.eip)
+            : "r"(current_thread->registers.eax), "r"(current_thread->registers.ebx), "r"(current_thread->registers.ecx),
+              "r"(current_thread->registers.edx), "r"(current_thread->registers.esi), "r"(current_thread->registers.edi),
+              "r"(current_thread->registers.ebp), "r"(current_thread->registers.esp), "r"(current_thread->registers.eflags), 
+              "r"(current_thread->registers.eip)
         );
     }
 
