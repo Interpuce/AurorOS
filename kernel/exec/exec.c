@@ -11,6 +11,7 @@
 #include <types.h>
 #include <string.h>
 #include "exec.h"
+#include "multitasking.h"
 #include <constants.h>
 #include <codes.h>
 #include <msg.h>
@@ -183,4 +184,6 @@ void syscall_handler() {
             print_warn("Application tried to execute unimplemented system call");
             break;
     }
+
+    context_switcher();
 }

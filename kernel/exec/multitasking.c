@@ -12,13 +12,64 @@
 #include "multitasking.h"
 #include <memory.h>
 
-struct Thread* thread_list = NULL;
-uint32_t latest_thread_id = 1;
+thread_t* thread_list = NULL;
+thread_t* current_thread = NULL;
+uint32_t cs_latest_thread_id = 1;
+uint8_t cs_syscalls = 0;
+bool cs_readed_eflags = false;
+uint32_t cs_eflags_kernel_mode = 0;
+
+void context_switcher() {
+    cs:
+
+    if (current_thread == NULL) {
+        return; // what the fuck, how are the syscalls possible without thread
+    }
+
+    if (!cs_readed_eflags) {
+        asm volatile("pushf\n" "pop %0" : "=r"(cs_eflags_kernel_mode));
+        cs_readed_eflags = true;
+    }
+
+    cs_syscalls++;
+
+    if (cs_syscalls == current_thread->priority) {
+        current_thread = &current_thread->next_thread;
+        cs_latest_thread_id = current_thread->thread_id;
+        if (current_thread == NULL) {
+            current_thread = &thread_list;
+            cs_syscalls = -1;
+            goto cs;
+        }
+
+        // time for the best language in the world called assembly
+        asm volatile(
+            "mov %0, %%eax\n"
+            "mov %1, %%ebx\n"
+            "mov %2, %%ecx\n"
+            "mov %3, %%edx\n"
+            "mov %4, %%esi\n"
+            "mov %5, %%edi\n"
+            "mov %6, %%ebp\n"
+            "mov %7, %%esp\n"
+            "push %8\n"
+            "popfd\n"
+            "push %9\n"
+            "ret\n"
+            :
+            : "r"(current_thread->registers.eax), "r"(current_thread->registers.ebx), "r"(current_thread->registers.ecx), "r"(current_thread->registers.edx), "r"(current_thread->registers.esi), "r"(current_thread->registers.edi), "r"(current_thread->registers.ebp), "r"(current_thread->registers.esp), "r"(current_thread->registers.eflags), "r"(current_thread->registers.eip)
+        );
+    }
+
+    return;
+} // for this function usage please refer to ./exec.c
 
 void add_thread(thread_t* new_thread) {
     if (new_thread == NULL) return;
     if (thread_list == NULL) {
         thread_list = new_thread;
+        current_thread = new_thread;
+        context_switcher(); // way to start the thread
         return;
     }
 
@@ -52,8 +103,8 @@ void remove_thread(thread_t* thread_to_remove) {
 thread_t create_thread(void (*entry_point)(void*), ThreadPriority priority, uint32_t stack_size, bool system_critical) {
     thread_t* new_thread;
 
-    latest_thread_id++;
-    new_thread->thread_id = latest_thread_id;
+    cs_latest_thread_id++;
+    new_thread->thread_id = cs_latest_thread_id;
 
     if (priority == THREAD_PRIORITY_SYSPROCESS && !system_critical) {
         new_thread->priority = THREAD_PRIORITY_LOW; // terminating the process wouldn't be a good idea, but because someone wants highest possible priorities I say no thanks

@@ -13,10 +13,10 @@
 #include <types.h>
 
 typedef enum {
-    THREAD_PRIORITY_SYSPROCESS,    // highest value for system-critical threads
-    THREAD_PRIORITY_HIGH,          // high priority & focused window
-    THREAD_PRIORITY_NORMAL,        // for normal threads
-    THREAD_PRIORITY_LOW            // for threads that are basically useless, but needs to work
+    THREAD_PRIORITY_SYSPROCESS = 3, // highest value for system-critical threads
+    THREAD_PRIORITY_HIGH = 2,       // high priority & focused window
+    THREAD_PRIORITY_NORMAL = 1,     // for normal threads
+    THREAD_PRIORITY_LOW = 0         // for threads that are basically useless, but needs to work
 } ThreadPriority;
 
 typedef struct {
@@ -43,3 +43,5 @@ struct Thread {
     bool within_breakpoint;
     thread_t* next_thread;
 };
+
+extern void context_switcher();
