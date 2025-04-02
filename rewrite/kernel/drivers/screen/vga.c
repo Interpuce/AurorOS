@@ -37,7 +37,7 @@ void vga_scroll() {
     cursor_pos = (VGA_SCREEN_HEIGHT - 1) * VGA_SCREEN_WIDTH;
 }
 
-void vga_print_character(char c, uint8_t color) {
+void vga_print_character(char c, uint8 color) {
     if (c == '\n') {
         cursor_pos += VGA_SCREEN_WIDTH - (cursor_pos % VGA_SCREEN_WIDTH);
     } else {
@@ -69,7 +69,7 @@ void vga_clear_screen() {
     vga_update_cursor();
 }
 
-void vga_paint_screen(uint8_t color) {
+void vga_paint_screen(uint8 color) {
     for (uint16 i = 0; i < VGA_SCREEN_WIDTH * VGA_SCREEN_HEIGHT; i++) {
         video_memory[i] = ' ' | (color << 8);
     }
@@ -92,7 +92,7 @@ void vga_clear_line(uint16 line) {
     }
 }
 
-void vga_paint_line(uint16_t line, uint8_t color) {
+void vga_paint_line(uint16 line, uint8 color) {
     if (line >= VGA_SCREEN_HEIGHT) {
         return;
     }
@@ -107,7 +107,7 @@ void vga_paint_line(uint16_t line, uint8_t color) {
     }
 }
 
-void vga_print_center(const string str, uint8_t color) {
+void vga_print_center(const string str, uint8 color) {
     int length = strlen(str);
     if (length > VGA_SCREEN_WIDTH) {
         length = VGA_SCREEN_WIDTH;

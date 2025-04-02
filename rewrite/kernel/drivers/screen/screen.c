@@ -28,13 +28,23 @@ ScreenModes which_screen_mode() {
 }
 
 void print(const string* str, uint8 color) {
-    while (*str) {
-        if (current_screen_mode == ScreenModeUnknown) {
-            current_screen_mode = which_screen_mode();
-        }
+    if (current_screen_mode == ScreenModeUnknown) {
+        current_screen_mode = which_screen_mode();
+    }
 
+    while (*str) {
         if (current_screen_mode == ScreenModeVGA) {
             vga_print_character(*str++, color);
         }
+    }
+}
+
+void paint_screen(uint8 color) {
+    if (current_screen_mode == ScreenModeUnknown) {
+        current_screen_mode = which_screen_mode();
+    }
+
+    if (current_screen_mode == ScreenModeVGA) {
+        vga_paint_screen(color);
     }
 }
