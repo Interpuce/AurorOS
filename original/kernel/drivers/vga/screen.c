@@ -12,11 +12,11 @@
 #include <screen.h>
 #include <string.h>
 
-#define VIDEO_MEMORY 0xB8000
+#define vga_video_memory 0xB8000
 #define SCREEN_WIDTH 80
 #define SCREEN_HEIGHT 25
 
-static uint16_t *video_memory = (uint16_t *)VIDEO_MEMORY;
+static uint16_t *vga_video_memory = (uint16_t *)vga_video_memory;
 static uint16_t cursor_pos = 0;
 
 void update_cursor() {
@@ -30,12 +30,12 @@ void update_cursor() {
 void scroll() {
     for (uint16_t row = 0; row < SCREEN_HEIGHT - 1; row++) {
         for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
-            video_memory[row * SCREEN_WIDTH + col] = video_memory[(row + 1) * SCREEN_WIDTH + col];
+            vga_video_memory[row * SCREEN_WIDTH + col] = vga_video_memory[(row + 1) * SCREEN_WIDTH + col];
         }
     }
 
     for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
-        video_memory[(SCREEN_HEIGHT - 1) * SCREEN_WIDTH + col] = ' ' | (0x07 << 8);
+        vga_video_memory[(SCREEN_HEIGHT - 1) * SCREEN_WIDTH + col] = ' ' | (0x07 << 8);
     }
 
     cursor_pos = (SCREEN_HEIGHT - 1) * SCREEN_WIDTH;
@@ -45,7 +45,7 @@ void printchar(char c, uint8_t color) {
     if (c == '\n') {
         cursor_pos += SCREEN_WIDTH - (cursor_pos % SCREEN_WIDTH);
     } else {
-        video_memory[cursor_pos++] = (color << 8) | c;
+        vga_video_memory[cursor_pos++] = (color << 8) | c;
     }
 
     if (cursor_pos >= SCREEN_WIDTH * SCREEN_HEIGHT) {
@@ -81,16 +81,16 @@ void printint(uint16_t value, uint8_t color) {
 void delchar() {
     if (cursor_pos > 0) {
         cursor_pos--;
-        video_memory[cursor_pos] = ' ' | (0x07 << 8);
+        vga_video_memory[cursor_pos] = ' ' | (0x07 << 8);
         update_cursor();
     } else {
-        video_memory[cursor_pos] = ' ' | (0x07 << 8);
+        vga_video_memory[cursor_pos] = ' ' | (0x07 << 8);
     }
 }
 
 void clearscreen() {
     for (uint16_t i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
-        video_memory[i] = ' ' | (0x07 << 8);
+        vga_video_memory[i] = ' ' | (0x07 << 8);
     }
     cursor_pos = 0;
     update_cursor();
@@ -98,7 +98,7 @@ void clearscreen() {
 
 void paintscreen(uint8_t color) {
     for (uint16_t i = 0; i < SCREEN_WIDTH * SCREEN_HEIGHT; i++) {
-        video_memory[i] = ' ' | (color << 8);
+        vga_video_memory[i] = ' ' | (color << 8);
     }
     cursor_pos = 0;
     update_cursor();
@@ -111,7 +111,7 @@ void clearline(uint16_t line) {
     }
 
     for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
-        video_memory[line * SCREEN_WIDTH + col] = ' ' | (0x07 << 8);
+        vga_video_memory[line * SCREEN_WIDTH + col] = ' ' | (0x07 << 8);
     }
 
     if (cursor_pos / SCREEN_WIDTH == line) {
@@ -126,7 +126,7 @@ void paintline(uint16_t line, uint8_t color) {
     }
 
     for (uint16_t col = 0; col < SCREEN_WIDTH; col++) {
-        video_memory[line * SCREEN_WIDTH + col] = ' ' | (color << 8);
+        vga_video_memory[line * SCREEN_WIDTH + col] = ' ' | (color << 8);
     }
 
     if (cursor_pos / SCREEN_WIDTH == line) {
@@ -150,7 +150,7 @@ void printct(const string str, uint8_t color) {
     strcpy(temp, str);
 
     for (int i = 0; i < length; i++) {
-        video_memory[cursor_pos++] = (color << 8) | temp[i];
+        vga_video_memory[cursor_pos++] = (color << 8) | temp[i];
     }
 
     update_cursor();
