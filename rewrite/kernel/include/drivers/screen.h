@@ -10,5 +10,7 @@
 
 #pragma once
 
+#include <types.h>
+
 extern void print(const string* str, uint8 color);
 extern void paint_screen(uint8 color);
