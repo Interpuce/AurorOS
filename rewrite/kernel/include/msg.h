@@ -8,10 +8,13 @@
  * -------------------------------------------------------------------------
  */
 
-#include <drivers/screen.h>
-#include <msg.h>
+#include <types.h>
 
-void main() {
-    clearScreen();
-    printStatus(CodeLogTypeOK, "AurorOS booted up!");
-}
+typedef enum {
+    CodeLogTypeOK,
+    CodeLogTypeInfo,
+    CodeLogTypeWarning,
+    CodeLogTypeError
+} LogTypeCodes;
+
+extern void printStatus(LogTypeCodes type, string message);
