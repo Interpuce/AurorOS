@@ -1,0 +1,1 @@
+# AurorOS's Executable Format (AEF) 1.0 Specification
