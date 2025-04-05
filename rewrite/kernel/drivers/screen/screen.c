@@ -17,34 +17,34 @@ typedef enum {
     ScreenModeVESA
 } ScreenModes;
 
-ScreenModes current_screen_mode = ScreenModeUnknown;
+ScreenModes currentScreenMode = ScreenModeUnknown;
 
-ScreenModes which_screen_mode() {
-    if (current_screen_mode == ScreenModeUnknown) {
+ScreenModes detectScreenMode() {
+    if (currentScreenMode == ScreenModeUnknown) {
         return ScreenModeVGA; // VESA is NOT supported at this time
     } 
 
-    return current_screen_mode;
+    return currentScreenMode;
 }
 
 void print(const string* str, uint8 color) {
-    if (current_screen_mode == ScreenModeUnknown) {
-        current_screen_mode = which_screen_mode();
+    if (currentScreenMode == ScreenModeUnknown) {
+        currentScreenMode = detectScreenMode();
     }
 
     while (*str) {
-        if (current_screen_mode == ScreenModeVGA) {
-            vga_print_character(*str++, color);
+        if (currentScreenMode == ScreenModeVGA) {
+            vgaPrintCharacter(*str++, color);
         }
     }
 }
 
-void paint_screen(uint8 color) {
-    if (current_screen_mode == ScreenModeUnknown) {
-        current_screen_mode = which_screen_mode();
+void paintScreen(uint8 color) {
+    if (currentScreenMode == ScreenModeUnknown) {
+        currentScreenMode = detectScreenMode();
     }
 
-    if (current_screen_mode == ScreenModeVGA) {
-        vga_paint_screen(color);
+    if (currentScreenMode == ScreenModeVGA) {
+        vgaPaintScreen(color);
     }
 }
