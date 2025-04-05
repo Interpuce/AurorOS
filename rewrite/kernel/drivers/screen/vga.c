@@ -12,7 +12,7 @@
 #include <string.h>
 #include "vga.h"
 
-static uint16* vgaVideoMemory = (uint16_t*)VGA_VIDEO_MEMORY;
+static uint16* vgaVideoMemory = (uint16*)VGA_VIDEO_MEMORY;
 static uint16 cursorPosition = 0;
 
 void vgaUpdateCursor() {

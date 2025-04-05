@@ -27,16 +27,23 @@ ScreenModes detectScreenMode() {
     return currentScreenMode;
 }
 
-void print(const string* str, uint8 color) {
+void print(const string msg, uint8 color) {
     if (currentScreenMode == ScreenModeUnknown) {
         currentScreenMode = detectScreenMode();
     }
+
+    const string* str = &msg;
 
     while (*str) {
         if (currentScreenMode == ScreenModeVGA) {
             vgaPrintCharacter(*str++, color);
         }
     }
+}
+
+void println(const string str, uint8 color) {
+    print(str, color);
+    print("\n", color);
 }
 
 void paintScreen(uint8 color) {
@@ -56,5 +63,15 @@ void clearScreen() {
 
     if (currentScreenMode == ScreenModeVGA) {
         vgaClearScreen();
+    }
+}
+
+void deleteCharacter() {
+    if (currentScreenMode == ScreenModeUnknown) {
+        currentScreenMode = detectScreenMode();
+    }
+
+    if (currentScreenMode == ScreenModeVGA) {
+        vgaDeleteCharacter();
     }
 }

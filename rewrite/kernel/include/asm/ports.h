@@ -12,9 +12,9 @@
 
 #include <types.h>
 
-extern uint8_t inb(uint16_t port);
-extern uint16_t inw(uint16_t port);
-extern uint32_t inl(uint16_t port);
-extern void outb(uint16_t port, uint8_t value);
-extern void outw(uint16_t port, uint16_t data);
-extern void outl(uint16_t port, uint32_t value);
+extern uint8 inb(uint16 port);
+extern uint16 inw(uint16 port);
+extern uint32 inl(uint16 port);
+extern void outb(uint16 port, uint8 value);
+extern void outw(uint16 port, uint16 data);
+extern void outl(uint16 port, uint32 value);

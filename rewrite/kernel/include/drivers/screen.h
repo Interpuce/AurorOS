@@ -16,6 +16,8 @@
 //  screen mode independent functions can be found in /kernel/drivers/screen.c
 //  low lewel, actual screen mode dependent functions can be found in /kernel/drivers/[mode name].c
 
-extern void print(const string* str, uint8 color);
+extern void print(const string str, uint8 color);
+extern void println(const string str, uint8 color);
 extern void paintScreen(uint8 color);
 extern void clearScreen();
+extern void deleteCharacter();

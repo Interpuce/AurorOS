@@ -12,11 +12,4 @@
 
 #include <types.h>
 
-typedef enum {
-    CodeLogTypeOK,
-    CodeLogTypeInfo,
-    CodeLogTypeWarning,
-    CodeLogTypeError
-} LogTypeCodes;
-
-extern void printStatus(LogTypeCodes type, string message);
+extern void getInput(string buffer, uint16 max_length, bool secret, uint8 color);

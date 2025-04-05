@@ -19,3 +19,4 @@ extern void vgaPrintCharacter(char c, uint8 color);
 extern void vgaPaintScreen(uint8 color);
 extern void vgaPaintLine(uint16 line, uint8 color);
 extern void vgaClearScreen();
+extern void vgaDeleteCharacter();

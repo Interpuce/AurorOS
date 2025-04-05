@@ -42,5 +42,5 @@ void printStatus(LogTypeCodes type, string message) {
     print(' [ ', 0x07);
     print(type_string, color);
     print(' ] ', 0x07);
-    print(message, 0x07);
+    println(message, 0x07);
 }

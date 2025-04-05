@@ -116,7 +116,7 @@ int strncmp(const string s1, const string s2, size_t n) {
     return 0;
 }
 
-uint8_t toupper(uint8_t c) {
+uint8 toupper(uint8 c) {
     if (c >= 'a' && c <= 'z') {
         return c - ('a' - 'A');
     }
