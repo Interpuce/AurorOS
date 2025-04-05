@@ -48,3 +48,13 @@ void paintScreen(uint8 color) {
         vgaPaintScreen(color);
     }
 }
+
+void clearScreen() {
+    if (currentScreenMode == ScreenModeUnknown) {
+        currentScreenMode = detectScreenMode();
+    }
+
+    if (currentScreenMode == ScreenModeVGA) {
+        vgaClearScreen();
+    }
+}
