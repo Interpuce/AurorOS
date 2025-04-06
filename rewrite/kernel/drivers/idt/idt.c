@@ -11,9 +11,9 @@
 #include <types.h>
 #include <asm/idt.h>
 
-extern void idtLoad(); // /asm/idt.asm
+extern void idt_load(); // /asm/idt.asm
 
-void setIdtGate(int num, uint32_t base, uint16_t sel, uint8_t flags) {
+void set_idt_gate(int num, uint32_t base, uint16_t sel, uint8_t flags) {
     idt[num].base_low = base & 0xFFFF;
     idt[num].base_high = (base >> 16) & 0xFFFF;
     idt[num].sel = sel;
@@ -21,13 +21,13 @@ void setIdtGate(int num, uint32_t base, uint16_t sel, uint8_t flags) {
     idt[num].flags = flags;
 }
 
-void idtInstall() {
+void idt_install() {
     idtp.limit = (sizeof(struct idtEntry) * IDT_SIZE) - 1;
     idtp.base = (uint32)&idt;
 
     for (int i = 0; i < IDT_SIZE; i++) {
-        setIdtGate(i, 0, 0, 0);
+        set_idt_gate(i, 0, 0, 0);
     }
 
-    idtLoad();
+    idt_load();
 }

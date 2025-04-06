@@ -37,7 +37,7 @@ void vgaScroll() {
     cursorPosition = (VGA_SCREEN_HEIGHT - 1) * VGA_SCREEN_WIDTH;
 }
 
-void vgaPrintCharacter(char c, uint8 color) {
+void vga_print_character(char c, uint8 color) {
     if (c == '\n') {
         cursorPosition += VGA_SCREEN_WIDTH - (cursorPosition % VGA_SCREEN_WIDTH);
     } else {
@@ -69,7 +69,7 @@ void vgaClearScreen() {
     vgaUpdateCursor();
 }
 
-void vgaPaintScreen(uint8 color) {
+void vga_paint_screen(uint8 color) {
     for (uint16 i = 0; i < VGA_SCREEN_WIDTH * VGA_SCREEN_HEIGHT; i++) {
         vgaVideoMemory[i] = ' ' | (color << 8);
     }

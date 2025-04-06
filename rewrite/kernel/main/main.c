@@ -15,20 +15,20 @@
 #include <string.h>
 
 void main() {
-    idtInstall();
-    
-    clearScreen();
-    printStatus(CodeLogTypeOK, "Welcome in AurorOS!");
-    printStatus(CodeLogTypeOK, "The OS has booted sucessfully.");
+    idt_install();
+
+    clear_screen();
+    print_status(CodeLogTypeOK, "Welcome in AurorOS!");
+    print_status(CodeLogTypeOK, "The OS has booted sucessfully.");
 
     println("", 0x07);
-    printStatus(CodeLogTypeWarning, "You are on test codebase `project-vernon`, errors may occur");
+    print_status(CodeLogTypeWarning, "You are on test codebase `project-vernon`, errors may occur");
 
     while (true) {
         print("# ", 0x07);
 
         string* input;
-        getInput(input, 512, false, 0x07);
+        get_input(input, 512, false, 0x07);
 
         if (streql(input, "test")) {
             print("test", 0x02);
@@ -40,7 +40,7 @@ void main() {
         }
     }
 
-    printStatus(CodeLogTypeInfo, "Exited main loop");
+    print_status(CodeLogTypeInfo, "Exited main loop");
 
     return;
 }

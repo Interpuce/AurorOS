@@ -11,7 +11,7 @@
 #include <msg.h>
 #include <drivers/screen.h>
 
-void printStatus(LogTypeCodes type, string message) {
+void print_status(LogTypeCodes type, string message) {
     uint8 color;
     string type_string;
     switch (type) {

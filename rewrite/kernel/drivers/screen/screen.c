@@ -36,7 +36,7 @@ void print(const string msg, uint8 color) {
 
     while (*str) {
         if (currentScreenMode == ScreenModeVGA) {
-            vgaPrintCharacter(*str++, color);
+            vga_print_character(*str++, color);
         }
     }
 }
@@ -52,11 +52,11 @@ void paintScreen(uint8 color) {
     }
 
     if (currentScreenMode == ScreenModeVGA) {
-        vgaPaintScreen(color);
+        vga_paint_screen(color);
     }
 }
 
-void clearScreen() {
+void clear_screen() {
     if (currentScreenMode == ScreenModeUnknown) {
         currentScreenMode = detectScreenMode();
     }
@@ -66,7 +66,7 @@ void clearScreen() {
     }
 }
 
-void deleteCharacter() {
+void delete_character() {
     if (currentScreenMode == ScreenModeUnknown) {
         currentScreenMode = detectScreenMode();
     }

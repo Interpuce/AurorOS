@@ -12,4 +12,4 @@
 
 #include <types.h>
 
-extern void getInput(string buffer, uint16 max_length, bool secret, uint8 color);
+extern void get_input(string buffer, uint16 max_length, bool secret, uint8 color);

@@ -19,4 +19,4 @@ typedef enum {
     CodeLogTypeError
 } LogTypeCodes;
 
-extern void printStatus(LogTypeCodes type, string message);
+extern void print_status(LogTypeCodes type, string message);

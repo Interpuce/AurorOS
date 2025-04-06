@@ -15,8 +15,8 @@
 #define VGA_SCREEN_HEIGHT 25
 
 extern void vgaPrintCenter(const string str, uint8 color);
-extern void vgaPrintCharacter(char c, uint8 color);
-extern void vgaPaintScreen(uint8 color);
+extern void vga_print_character(char c, uint8 color);
+extern void vga_paint_screen(uint8 color);
 extern void vgaPaintLine(uint16 line, uint8 color);
 extern void vgaClearScreen();
 extern void vgaDeleteCharacter();

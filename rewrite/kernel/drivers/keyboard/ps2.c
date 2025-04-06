@@ -20,7 +20,7 @@ static char keymap[128] = {
     0, 0, 0, 0, 0, 0, 0, '-', 0, 0, 0, '+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-static char shiftKeymap[128] = {
+static char shift_keymap[128] = {
     0,  27, '!', '@', '#', '$', '%', '^', '&', '*', '(', ')', '_', '+', '\b',
     '\t', 'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', '{', '}', '\n', 0,
     'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':', '"', '~', 0, '|', 'Z',
@@ -28,42 +28,42 @@ static char shiftKeymap[128] = {
     0, 0, 0, 0, 0, 0, 0, '-', 0, 0, 0, '+', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
 };
 
-static bool isShiftLeftPressed = false;
-static bool isShiftRightPressed = false;
+static bool is_shift_left_pressed = false;
+static bool is_shift_right_pressed = false;
 
-static uint8 keyStates[128] = {0};
+static uint8 key_states[128] = {0};
 
-static uint8 readScancode() {
+static uint8 read_scancode() {
     return inb(0x60);
 }
 
-void getInput(string buffer, uint16 max_length, bool secret, uint8 color) {
+void get_input(string buffer, uint16 max_length, bool secret, uint8 color) {
     uint16 length = 0;
 
     while (true) {
-        uint8 scancode = readScancode();
-        uint8 shiftReleased = scancode & 0x80;
+        uint8 scancode = read_scancode();
+        uint8 shift_released = scancode & 0x80;
         uint8 key = scancode & ~0x80;
 
-        if (shiftReleased) {
-            keyStates[key] = 0;
+        if (shift_released) {
+            key_states[key] = 0;
 
             switch (key) {
                 case 0x2A:
-                    isShiftLeftPressed = 0;
+                    is_shift_left_pressed = 0;
                     break;
                 case 0x36:
-                    isShiftRightPressed = 0;
+                    is_shift_right_pressed = 0;
                     break;
             }
             continue;
         }
 
-        if (keyStates[key]) {
+        if (key_states[key]) {
             continue;
         }
 
-        keyStates[key] = 1;
+        key_states[key] = 1;
 
         if (key == 0x1C) {
             buffer[length] = '\0';
@@ -74,7 +74,7 @@ void getInput(string buffer, uint16 max_length, bool secret, uint8 color) {
         if (key == 0x0E && length > 0) {
             length--;
             buffer[length] = '\0';
-            deleteCharacter();
+            delete_character();
             continue;
         }
 
@@ -82,12 +82,12 @@ void getInput(string buffer, uint16 max_length, bool secret, uint8 color) {
         switch (key) {
             case 0x2A:
             case 0x36:
-                if (shiftReleased) break;
-                if (key == 0x2A) isShiftLeftPressed = 1;
-                if (key == 0x36) isShiftRightPressed = 1;
+                if (shift_released) break;
+                if (key == 0x2A) is_shift_left_pressed = 1;
+                if (key == 0x36) is_shift_right_pressed = 1;
                 continue;
             default:
-                c = (isShiftLeftPressed || isShiftRightPressed) ? shiftKeymap[key] : keymap[key];
+                c = (is_shift_left_pressed || is_shift_right_pressed) ? shift_keymap[key] : keymap[key];
                 break;
         }
 

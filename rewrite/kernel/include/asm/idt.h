@@ -30,4 +30,4 @@ struct idtPtr {
 struct idtEntry idt[IDT_SIZE];
 struct idtPtr idtp;
 
-extern void idtInstall();
+extern void idt_install();

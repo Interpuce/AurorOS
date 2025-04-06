@@ -19,5 +19,5 @@
 extern void print(const string str, uint8 color);
 extern void println(const string str, uint8 color);
 extern void paintScreen(uint8 color);
-extern void clearScreen();
-extern void deleteCharacter();
+extern void clear_screen();
+extern void delete_character();

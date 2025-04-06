@@ -13,8 +13,8 @@
 bits 32
 
 extern idtp ; kernel/drivers/idt/idt.c
-global idtLoad
-idtLoad:
+global idt_load
+idt_load:
     lidt [idtp]
     sti
     ret
