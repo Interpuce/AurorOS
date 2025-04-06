@@ -10,15 +10,17 @@
 
 #include <types.h>
 #include <panic.h>
-
-#define PAGE_SIZE 0x1000
-#define PAGE_DIR_INDEX(addr) (((uint32_t)(addr)) >> 22)
-#define PAGE_TABLE_INDEX(addr) (((uint32_t)(addr) >> 12) & 0x3FF)
+#include "mttr.h" // mttr_get_total_memory()
+#include "memory.h"
 
 uint32_t page_tables[1024][1024];
+uint32_t next_free_page = 0x100000;
+
+uint32_t heap_current = HEAP_START;
+
+Block* free_list = NULL;
 
 uint32_t allocate_page() {
-    static uint32_t next_free_page = 0x100000;
     uint32_t page = next_free_page;
     next_free_page += PAGE_SIZE;
     return page;
@@ -32,6 +34,45 @@ void map_page(uint32_t phys_addr, uint32_t virt_addr) {
 
 void page_fault_handler() {
     do_kernel_panic("PAGE_FAULT", NULL);
+}
+
+void* malloc(uint32_t size) {
+    if (heap_current + size > HEAP_END) {
+        do_kernel_panic("OUT_OF_MEMORY", NULL);
+        return NULL;
+    }
+
+    uint32_t allocated_memory = heap_current;
+    heap_current += size;
+
+    return (void*) allocated_memory;
+}
+
+void free(void* ptr) {
+    if (!ptr) return;
+
+    Block* block = (Block *)ptr - 1;
+    block->next = free_list;
+    free_list = block;
+}
+
+void* find_free_block(uint32_t size) {
+    Block* prev = NULL;
+    Block* curr = free_list;
+
+    while (curr) {
+        if (curr->size >= size) {
+            if (prev) {
+                prev->next = curr->next;
+            } else {
+                free_list = curr->next;
+            }
+            return (void*) (curr + 1);
+        }
+        prev = curr;
+        curr = curr->next;
+    }
+    return NULL;
 }
 
 void enable_segmentation() {

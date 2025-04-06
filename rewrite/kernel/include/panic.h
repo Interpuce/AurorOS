@@ -8,4 +8,6 @@
  * -------------------------------------------------------------------------
  */
 
+#pragma once
+
 extern void do_kernel_panic(string code, string* override_devnote);
