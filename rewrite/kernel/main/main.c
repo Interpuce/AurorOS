@@ -10,10 +10,13 @@
 
 #include <drivers/screen.h>
 #include <drivers/keyboard.h>
+#include <asm/idt.h>
 #include <msg.h>
 #include <string.h>
 
 void main() {
+    idtInstall();
+    
     clearScreen();
     printStatus(CodeLogTypeOK, "Welcome in AurorOS!");
     printStatus(CodeLogTypeOK, "The OS has booted sucessfully.");
