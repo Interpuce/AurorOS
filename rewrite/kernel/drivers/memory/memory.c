@@ -15,10 +15,12 @@
 
 uint32_t page_tables[1024][1024];
 uint32_t next_free_page = 0x100000;
-
 uint32_t heap_current = HEAP_START;
-
 Block* free_list = NULL;
+
+void page_fault_handler() {
+    do_kernel_panic("PAGE_FAULT", NULL);
+}
 
 uint32_t allocate_page() {
     uint32_t page = next_free_page;
@@ -32,20 +34,75 @@ void map_page(uint32_t phys_addr, uint32_t virt_addr) {
     page_tables[dir_index][table_index] = phys_addr | 0x03;
 }
 
-void page_fault_handler() {
-    do_kernel_panic("PAGE_FAULT", NULL);
+void* memset(void* dest, int value, uint32_t size) {
+    uint8_t* ptr = (uint8_t*) dest;
+    for (uint32_t i = 0; i < size; i++) {
+        ptr[i] = (uint8_t) value;
+    }
+    return dest;
+}
+
+void* memcpy(void* dest, const void* src, uint32_t size) {
+    uint8_t* d = (uint8_t*) dest;
+    const uint8_t* s = (const uint8_t*) src;
+    for (uint32_t i = 0; i < size; i++) {
+        d[i] = s[i];
+    }
+    return dest;
+}
+
+void* memmove(void* dest, const void* src, uint32_t size) {
+    uint8_t* d = (uint8_t*) dest;
+    const uint8_t* s = (const uint8_t*) src;
+
+    if (d < s) {
+        for (uint32_t i = 0; i < size; i++) {
+            d[i] = s[i];
+        }
+    } else if (d > s) {
+        for (int i = size - 1; i >= 0; i--) {
+            d[i] = s[i];
+        }
+    }
+    return dest;
+}
+
+int memcmp(const void* ptr1, const void* ptr2, uint32_t size) {
+    const uint8_t* p1 = (const uint8_t*) ptr1;
+    const uint8_t* p2 = (const uint8_t*) ptr2;
+
+    for (uint32_t i = 0; i < size; i++) {
+        if (p1[i] != p2[i]) {
+            return p1[i] - p2[i];
+        }
+    }
+    return 0;
 }
 
 void* malloc(uint32_t size) {
-    if (heap_current + size > HEAP_END) {
+    size = (size + 3) & ~3;
+
+    void* block = find_free_block(size);
+    if (block) return block;
+
+    if (heap_current + sizeof(Block) + size > HEAP_END) {
         do_kernel_panic("OUT_OF_MEMORY", NULL);
         return NULL;
     }
 
-    uint32_t allocated_memory = heap_current;
-    heap_current += size;
+    Block* new_block = (Block*) heap_current;
+    new_block->size = size;
+    heap_current += sizeof(Block) + size;
 
-    return (void*) allocated_memory;
+    return (void*)(new_block + 1);
+}
+
+void* calloc(uint32_t num, uint32_t size) {
+    uint32_t total = num * size;
+    void* ptr = malloc(total);
+    if (!ptr) return NULL;
+
+    return memset(ptr, 0, total);
 }
 
 void free(void* ptr) {
@@ -73,11 +130,4 @@ void* find_free_block(uint32_t size) {
         curr = curr->next;
     }
     return NULL;
-}
-
-void enable_segmentation() {
-    uint32_t cr0;
-    asm volatile("mov %%cr0, %0" : "=r" (cr0));
-    cr0 |= 0x1; 
-    asm volatile("mov %0, %%cr0" : : "r" (cr0));
 }
