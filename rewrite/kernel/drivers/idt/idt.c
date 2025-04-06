@@ -22,7 +22,7 @@ void set_idt_gate(int num, uint32_t base, uint16_t sel, uint8_t flags) {
 }
 
 void idt_install() {
-    idtp.limit = (sizeof(struct idtEntry) * IDT_SIZE) - 1;
+    idtp.limit = (sizeof(struct idt_entry) * IDT_SIZE) - 1;
     idtp.base = (uint32)&idt;
 
     for (int i = 0; i < IDT_SIZE; i++) {

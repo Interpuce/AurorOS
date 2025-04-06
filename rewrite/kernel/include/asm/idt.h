@@ -14,7 +14,7 @@
 
 #define IDT_SIZE 256
 
-struct idtEntry {
+struct idt_entry {
     uint16 base_low;
     uint16 sel;
     uint8 always0;
@@ -22,12 +22,12 @@ struct idtEntry {
     uint16 base_high;
 } __attribute__((packed));
 
-struct idtPtr {
+struct idt_ptr {
     uint16 limit;
     uint32 base;
 } __attribute__((packed));
 
-struct idtEntry idt[IDT_SIZE];
-struct idtPtr idtp;
+struct idt_entry idt[IDT_SIZE];
+struct idt_ptr idtp;
 
 extern void idt_install();
