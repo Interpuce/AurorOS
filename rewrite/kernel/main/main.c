@@ -10,6 +10,7 @@
 
 #include <drivers/screen.h>
 #include <drivers/keyboard.h>
+#include <drivers/power.h>
 #include <asm/idt.h>
 #include <msg.h>
 #include <string.h>
@@ -39,6 +40,8 @@ void main() {
     }
 
     print_status(CodeLogTypeInfo, "Exited main loop");
+
+    do_power_action(PowerShutdown);
 
     return;
 }

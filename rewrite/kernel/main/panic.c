@@ -25,4 +25,11 @@ void do_kernel_panic(string code, string* override_devnote) {
     } else {
         println("sorry, not found; try searching for the panic code description", 0x07);
     }
+
+    while (true) {
+        asm volatile (
+            "cli\n"
+            "hlt\n"
+        );
+    }
 }
