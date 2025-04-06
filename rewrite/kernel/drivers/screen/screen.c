@@ -46,7 +46,7 @@ void println(const string str, uint8 color) {
     print("\n", color);
 }
 
-void paintScreen(uint8 color) {
+void paint_screen(uint8 color) {
     if (currentScreenMode == ScreenModeUnknown) {
         currentScreenMode = detectScreenMode();
     }

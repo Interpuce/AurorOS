@@ -29,5 +29,7 @@ void idt_install() {
         set_idt_gate(i, 0, 0, 0);
     }
 
+    set_idt_gate(14, (uint32_t)page_fault_handler, 0x08, 0x8E);
+
     idt_load();
 }
