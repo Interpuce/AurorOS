@@ -15,8 +15,6 @@
 #include <string.h>
 
 void main() {
-    idt_install();
-
     clear_screen();
     print_status(CodeLogTypeOK, "Welcome in AurorOS!");
     print_status(CodeLogTypeOK, "The OS has booted sucessfully.");

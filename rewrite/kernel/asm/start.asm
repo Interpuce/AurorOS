@@ -14,7 +14,7 @@
 ; and other bootloaders to see AurorOS) and loads the kernel main function
 ; from /main/main.c
 
-bits 32
+bits 16
 
 section .multiboot
     align 4
@@ -25,9 +25,21 @@ section .multiboot
 section .text
 
 extern main
+extern idt_install
+extern init_gdt
 global start
 
 start:
     cli 
+    call init_gdt
+    call idt_install
+    mov eax, cr0 
+    or eax, 1 
+    mov cr0, eax
+    jmp 08h:protected_mode_start
+
+bits 32
+
+protected_mode_start:
     call main
     hlt
