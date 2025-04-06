@@ -38,4 +38,6 @@ void main() {
     }
 
     printStatus(CodeLogTypeInfo, "Exited main loop");
+
+    return;
 }

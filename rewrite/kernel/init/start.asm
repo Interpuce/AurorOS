@@ -14,7 +14,7 @@
 ; and other bootloaders to see AurorOS) and loads the kernel main function
 ; from /main/main.c
 
-bits 16
+bits 32
 
 section .multiboot
     align 4
