@@ -13,8 +13,26 @@
 bits 32
 
 extern idtp ; kernel/drivers/idt/idt.c
+extern syscall_handler
 global idt_load
+global syscall_stub
 idt_load:
     lidt [idtp]
     sti
     ret
+
+syscall_stub:
+    pusha
+    push ds
+    push es
+    push fs
+    push gs
+
+    call syscall_handler 
+
+    pop gs
+    pop fs
+    pop es
+    pop ds
+    popa
+    iret  

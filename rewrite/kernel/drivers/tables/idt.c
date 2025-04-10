@@ -9,9 +9,15 @@
  */
 
 #include <types.h>
+#include <drivers/memory.h>
 #include <asm/idt.h>
 
 extern void idt_load(); // /asm/idt.asm
+extern void syscall_stub();
+
+void syscall_handler() {
+    return;
+}
 
 void set_idt_gate(int num, uint32_t base, uint16_t sel, uint8_t flags) {
     idt[num].base_low = base & 0xFFFF;
@@ -30,6 +36,7 @@ void idt_install() {
     }
 
     set_idt_gate(14, (uint32_t)page_fault_handler, 0x08, 0x8E);
+    set_idt_gate(0x80, (uint32_t)syscall_stub, 0x23, 0xEE);
 
     idt_load();
 }
