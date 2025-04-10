@@ -9,6 +9,7 @@
  */
 
 #include <types.h>
+#include <memory.h>
 #include "acpi.h"
 
 acpi_rsdp* acpi_find_rsdp() {

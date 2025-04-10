@@ -19,6 +19,8 @@
 #define HEAP_START 0x100000
 #define HEAP_END   0x2000000
 
+#define MAX_KERNEL_MEMORY 2 * 1024 * 1024 * 1024
+
 typedef struct Block {
     uint32_t size;
     struct Block *next;

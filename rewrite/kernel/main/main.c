@@ -11,11 +11,14 @@
 #include <drivers/screen.h>
 #include <drivers/keyboard.h>
 #include <drivers/power.h>
+#include <drivers/memory.h>
 #include <asm/idt.h>
 #include <msg.h>
 #include <string.h>
 
 void main() {
+    init_memory(); // enable memory protection for acpi, vga video memory, make kernel-level and user-level memory independent
+
     clear_screen();
     print_status(CodeLogTypeOK, "Welcome in AurorOS!");
     print_status(CodeLogTypeOK, "The OS has booted sucessfully.");
