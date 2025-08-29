@@ -32,7 +32,7 @@ while true; do
     [Dd])
       echo -e "\033[1m[NOTIFY]\033[0m Proceeding with APT."
       sudo --user=root apt update
-      sudo --user=root apt install make python3 gcc binutils nasm xorriso qemu-system-x86_64
+      sudo --user=root apt install make python3 gcc binutils nasm xorriso qemu-system-x86
       break
       ;;
       [Ff])
