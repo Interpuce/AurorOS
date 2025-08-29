@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef NULL
+#pragma once
+
 #define NULL ((void*)0)
 
 typedef signed char int8;
@@ -23,7 +24,7 @@ typedef unsigned int uint32;
 typedef signed long long int64;
 typedef unsigned long long uint64;
 
-typedef char* string; 
+typedef const char *string;
 
 typedef unsigned long size_t;
 typedef unsigned int uintptr_t;
@@ -43,5 +44,6 @@ typedef unsigned int uint32_t;
 typedef signed long long int64_t;
 typedef unsigned long long uint64_t;
 
-typedef enum { false, true } bool;
-#endif
+typedef unsigned char kbool;
+#define KFALSE 0
+#define KTRUE 1

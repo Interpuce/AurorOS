@@ -84,13 +84,13 @@ char *strcat(char *dest, const char *src) {
     return start;
 }
 
-bool starts_with(const char *str, const char *prefix) {
+kbool starts_with(const char *str, const char *prefix) {
     while (*prefix) {
         if (*str++ != *prefix++) {
-            return false;
+            return KFALSE;
         }
     }
-    return true;
+    return KTRUE;
 }
 
 char* strslice (char *dest, const char *src, size_t n) {

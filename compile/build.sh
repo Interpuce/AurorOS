@@ -4,14 +4,16 @@
 
 set -e
 
-dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld" "xorriso") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
+dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld" "xorriso" "mtools") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
 dependencies_missing=()
 
 for utility in "${dependencies_required[@]}"; do
     if ! command -v "$utility" &>/dev/null; then
-	echo "Some dependencies are missing!"
-	sleep 0.2        
-	dependencies_missing+=("$utility")  # Add any missing utilities to the list
+        if [ ${#dependencies_missing[@]} -gt 0 ]; then
+            echo "Some dependencies are missing!"
+        fi
+        sleep 0.2        
+        dependencies_missing+=("$utility")  # Add any missing utilities to the list
     fi
 done
 

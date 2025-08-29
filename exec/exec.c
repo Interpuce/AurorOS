@@ -67,4 +67,5 @@ int start_aef_binary(string content) {
         kernelpanic("EXEC_ARCH_CHECK_ERROR");
         return 673;
     }
+    return 0;
 }

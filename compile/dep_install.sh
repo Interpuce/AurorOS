@@ -5,9 +5,9 @@
 
 set -e
 
-echo -e "\033[1m[NOTIFY_MULTILINE] AurorOS Build-time Dependencies Manager will now attempt to install missing dependencies.\033[0m"
-echo -e "\033[1m\033[33mNote that dependencies that are already installed will either be updated or reinstalled.\033[0m"
-echo -e "\033[1mIf you don't want to proceed, press \033[31mCtrl-C\033[0m \033[1mto kill the process and abort the setup.\033[0m"
+echo -e "\033[1m[NOTIFY] AurorOS Build-time Dependencies Manager will now attempt to install missing dependencies.\033[0m"
+echo -e "\033[1m[NOTIFY] \033[33mNote that dependencies that are already installed will either be updated or reinstalled.\033[0m"
+echo -e "\033[1m[NOTIFY] If you don't want to proceed, press \033[31mCtrl-C\033[0m \033[1mto kill the process and abort the setup.\033[0m"
 
 sleep 0.2
 echo -e "\n"
@@ -26,7 +26,7 @@ while true; do
     [Aa])
       echo -e "\033[1m[NOTIFY]\033[0m Proceeding with pacman."
       sudo --user=root pacman -Sy
-      sudo --user=root pacman -S make python gcc binutils nasm xorriso qemu
+      sudo --user=root pacman -S make python gcc binutils nasm xorriso qemu mtools
       break
       ;;
     [Dd])
