@@ -9,10 +9,11 @@
  */
 
 #include <memory.h>
+#include <types.h>
 
-extern int terminal_main(); // from /apps/terminal/terminal.c
+extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
 
 void main() {
     init_memory();
-    terminal_main();
+    terminal_main(0x0B);
 }

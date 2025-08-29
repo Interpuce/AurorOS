@@ -55,7 +55,7 @@ int terminal_main(uint16_t theme) {
     println("                                  @@@@               @@@@   ", theme);
     println("", 0x07);
 
-    uint8_t beta_state = 2;
+    uint8_t beta_state = 1;
     string current_user = "root";
 
     if (beta_state == 1) {
