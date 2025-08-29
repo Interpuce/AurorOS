@@ -61,7 +61,7 @@ int terminal_main(uint16_t theme) {
     if (beta_state == 1) {
         print_warn("You are using early build of AurorOS!");
     } else if (beta_state == 2) {
-        print_warn("You are using pubic beta build of AurorOS!");
+        print_warn("You are using public beta build of AurorOS!");
     }
 
     char buffer[128];
