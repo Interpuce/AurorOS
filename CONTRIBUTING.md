@@ -22,7 +22,7 @@ If you want to contribute to AurorOS kernel you need to have previous experience
 The apps are not that easy to break, so you can do more changes. 
 
 > [!TIP]
-> Avoid creating new apps, because they are absolutely **your** creation and you have copyright to them.
+> Avoid creating absolutelly new apps.
 
 Before doing any changes, please learn our [stdlib](https://github.com/Interpuce/stdlib)
 
