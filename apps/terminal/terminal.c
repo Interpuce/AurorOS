@@ -64,6 +64,7 @@ int terminal_main(uint16_t theme) {
         print_warn("You are using public beta build of AurorOS!");
     } else if (beta_state == 3) {
         print_warn("You are using release candidate build of AurorOS!");
+    }
 
     char buffer[128];
     char *args[10];
@@ -113,5 +114,6 @@ int terminal_main(uint16_t theme) {
     }
 
     kernelpanic("KERNEL_MAIN_LOOP_EXITED");
+    return 0;
 }
 
