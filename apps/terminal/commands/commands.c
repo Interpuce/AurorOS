@@ -98,5 +98,10 @@ void help() {
     println(" print <arg1> - prints out <arg1>", 0x07);
     println(" map - prints out every VGA color and every printable character in aurorOS", 0x07);
     println(" cowsay <arg1> - displays ascii art of an cow saying <arg1>", 0x07);
+    println(" tinypad - opens a text editor", 0x07);
+    println(" eclair - a little development command", 0x07);
+    println(" repo - get the AurorOS repo", 0x07);
+    println(" reboot - reboots the computer (works only in QEMU)", 0x07);
+    println(" shutdown - shuts down the computer (works only in QEMU)", 0x07);
     println("", 0x07);
 }

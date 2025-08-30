@@ -55,7 +55,7 @@ int terminal_main(uint16_t theme) {
     println("                                  @@@@               @@@@   ", theme);
     println("", 0x07);
 
-    uint8_t beta_state = 1;
+    uint8_t beta_state = AUROR_BETA_STATE;
     string current_user = "root";
 
     if (beta_state == 1) {
@@ -64,6 +64,8 @@ int terminal_main(uint16_t theme) {
         print_warn("You are using public beta build of AurorOS!");
     } else if (beta_state == 3) {
         print_warn("You are using release candidate build of AurorOS!");
+    } else {
+        print_ok("You're running a stable version of AurorOS!");
     }
 
     char buffer[128];
@@ -104,6 +106,9 @@ int terminal_main(uint16_t theme) {
                 tinypad_main(0x07, 0x9F);
             } else if (streql(args[0], "help")) {
                 help();
+            } else if (streql(args[0], "repo")) {
+                println("Visit this link on other device:", 0x07);
+                println("https://github.com/Interpuce/AurorOS", 0x07);
             } else {
                 printstr(" ERROR ", 0x04);
                 printstr(": ", 0x07);
