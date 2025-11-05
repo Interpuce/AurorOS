@@ -5,7 +5,7 @@ This guide will help you understand how to contribute and compile the system pro
 
 ---
 
-## 🧭 Code Writing Standards
+## Code Writing Standards
 
 To maintain consistency and avoid unnecessary commits, please follow these conventions carefully.
 
@@ -24,11 +24,12 @@ Instead, always use:
 
 4. Do **not** place C source files or other non-header files inside the `include/` directory.
 
-> ⚠️ **Pull requests that do not follow these standards will be rejected.**
+> [!WARNING]
+> **Pull requests that do not follow these standards will be rejected.**
 
 ---
 
-## 🧩 Contributing to the Kernel
+## Contributing to the Kernel
 
 Kernel contributions require prior **OS development experience**.
 The kernel is a sensitive part of AurorOS, and careless changes can break the system.
@@ -41,11 +42,12 @@ Before submitting changes:
 
 ---
 
-## 🧱 Contributing to Apps
+## Contributing to Apps
 
 Applications are less fragile than the kernel, but please still review the codebase before contributing.
 
-> 💡 **Tip:** Avoid creating entirely new apps unless necessary or previously discussed with the team.
+> [!TIP]
+>  Avoid creating entirely new apps unless necessary or previously discussed with the team.
 
 Before contributing to apps:
 
@@ -53,11 +55,12 @@ Before contributing to apps:
 
 ---
 
-## ⚙️ Building and Running AurorOS
+## Building and Running AurorOS
 
 ### Prerequisites
 
-> ⚠️ **Disclaimer:** You compile AurorOS at your own risk.
+> [!CAUTION]
+> You compile AurorOS at your own risk.
 > We do **not officially support** custom user builds.
 
 Ensure you are using a **Linux distribution** — all build scripts and tools are intended for Linux environments.
@@ -65,13 +68,13 @@ Ensure you are using a **Linux distribution** — all build scripts and tools ar
 You’ll need the following packages installed:
 `git`, `make`, `python3`, `gcc`, `nasm`, `binutils`, and `qemu-system-x86_64`.
 
-#### 🟦 Debian/Ubuntu:
+#### Debian/Ubuntu:
 
 ```bash
 sudo apt install make python3 gcc binutils nasm qemu-system-x86_64
 ```
 
-#### 🟩 Arch Linux:
+#### Arch Linux:
 
 ```bash
 sudo pacman -S make python gcc binutils nasm qemu
@@ -79,7 +82,7 @@ sudo pacman -S make python gcc binutils nasm qemu
 
 ---
 
-### 🧰 Cloning the Repository
+### Cloning the Repository
 
 Clone the repository with shallow history to save space and time:
 
@@ -89,7 +92,7 @@ git clone https://github.com/Interpuce/AurorOS . --depth 1
 
 ---
 
-### 🏗️ Compiling AurorOS
+### Compiling AurorOS
 
 Run one of the following commands in the AurorOS repository root:
 
@@ -105,7 +108,7 @@ make shbuild
 
 ---
 
-## 💿 Running AurorOS
+## Running AurorOS
 
 After compilation, an **ISO image** will be generated in the `iso/` directory.
 You can then boot it using QEMU or your preferred virtual machine:
