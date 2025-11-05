@@ -1,61 +1,115 @@
-# Contributing to AurorOS & compiling OS
+# Contributing to AurorOS & Building the System
 
-Thanks for your interest in contributing to AurorOS. This is a quick guide how to contribute to AurorOS.
+Thank you for your interest in contributing to **AurorOS**!  
+This guide will help you understand how to contribute and compile the system properly.
 
-## Code writing standards
+---
 
-There are standards in writing code for AurorOS and to not make ten next useless commits reverting the change, please read `AurorOS Code-writing standards` below.
+## 🧭 Code Writing Standards
 
-1. Use [snake case](https://en.wikipedia.org/wiki/Snake_case) style.
-2. Never make directory in repo root folder if this is not absolutelly necessary (read [your creation warning](#contributing-to-the-apps)).
-3. Do not use `#include "../include/something_there.h"`. Instead, use `#include <something_there.h>`.
-4. Do not make any C or other non-header files in `include` directory.
+To maintain consistency and avoid unnecessary commits, please follow these conventions carefully.
 
-Your pull request will be **rejected** if any of standards above is not used in your code.
+1. Use [snake_case](https://en.wikipedia.org/wiki/Snake_case) for all variable, function, and file names.  
+2. Avoid creating new directories in the repository root unless absolutely necessary. (See [App Contribution Notes](#-contributing-to-apps)).  
+3. Never include headers using relative paths such as:
+```c
+   #include "../include/file.h"
+```
 
-## Contributing to AurorOS Kernel
+Instead, always use:
 
-If you want to contribute to AurorOS kernel you need to have previous experience with OS-dev. You can break the code very easily, so always [compile the OS](#compiling-and-running-auroros) and check the changes. Every change must be described with English and can't rebuild the entire kernel (if you want, make issue as feature request).
+```c
+#include <file.h>
+```
 
-## Contributing to the apps
+4. Do **not** place C source files or other non-header files inside the `include/` directory.
 
-The apps are not that easy to break, so you can do more changes. 
+> ⚠️ **Pull requests that do not follow these standards will be rejected.**
 
-> [!TIP]
-> Avoid creating absolutelly new apps.
+---
 
-Before doing any changes, please learn our [stdlib](https://github.com/Interpuce/stdlib)
+## 🧩 Contributing to the Kernel
 
-## Compiling and running AurorOS
+Kernel contributions require prior **OS development experience**.
+The kernel is a sensitive part of AurorOS, and careless changes can break the system.
 
-### Compilation
+Before submitting changes:
 
-> [!CAUTION]
-> You will do this only at your own risk. We don't officially support any OS builds compiled by the user.
+* Always [compile and run AurorOS](#-building-and-running-auroros) to verify your modifications.
+* Provide a clear, English description of what you changed and why.
+* Avoid making large rewrites. If you want to suggest a major redesign, please open a **feature request issue** first.
 
-First - make sure you have Linux distribution installed and you are going to execute these commands on Linux distribution.
+---
 
-To clone, compile and run virtually AurorOS you will need `git`, `make`, `python3`, `gcc`, `nasm`, `binutils` and `qemu-system-x86_64` installed. 
+## 🧱 Contributing to Apps
 
-On Debian-based distributions you can install these by executing this command:
+Applications are less fragile than the kernel, but please still review the codebase before contributing.
 
-```sudo apt install make python3 gcc binutils nasm qemu-system-x86_64```
+> 💡 **Tip:** Avoid creating entirely new apps unless necessary or previously discussed with the team.
 
-On Arch-based distributions you can execute this command to install packages:
-```sudo pacman -S make python gcc binutils nasm qemu```
+Before contributing to apps:
 
-Clone the repository to the current folder skipping unnecessary commit history:
+* Review and understand the [AurorOS Standard Library](https://github.com/Interpuce/stdlib).
 
-```git clone https://github.com/Interpuce/AurorOS . --depth 1```
+---
 
-Run this command in AurorOS repo root folder:
+## ⚙️ Building and Running AurorOS
 
-```make```
+### Prerequisites
 
-or alternatively:
+> ⚠️ **Disclaimer:** You compile AurorOS at your own risk.
+> We do **not officially support** custom user builds.
 
-```make shbuild```
+Ensure you are using a **Linux distribution** — all build scripts and tools are intended for Linux environments.
 
-# Running AurorOS
+You’ll need the following packages installed:
+`git`, `make`, `python3`, `gcc`, `nasm`, `binutils`, and `qemu-system-x86_64`.
 
-This will generate ISO in iso directory.
+#### 🟦 Debian/Ubuntu:
+
+```bash
+sudo apt install make python3 gcc binutils nasm qemu-system-x86_64
+```
+
+#### 🟩 Arch Linux:
+
+```bash
+sudo pacman -S make python gcc binutils nasm qemu
+```
+
+---
+
+### 🧰 Cloning the Repository
+
+Clone the repository with shallow history to save space and time:
+
+```bash
+git clone https://github.com/Interpuce/AurorOS . --depth 1
+```
+
+---
+
+### 🏗️ Compiling AurorOS
+
+Run one of the following commands in the AurorOS repository root:
+
+```bash
+make
+```
+
+or (alternative build script):
+
+```bash
+make shbuild
+```
+
+---
+
+## 💿 Running AurorOS
+
+After compilation, an **ISO image** will be generated in the `iso/` directory.
+You can then boot it using QEMU or your preferred virtual machine:
+
+```bash
+qemu-system-x86_64 -cdrom iso/auroros.iso
+```
