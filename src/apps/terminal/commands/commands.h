@@ -21,3 +21,4 @@ extern void help();
 extern void cat(emulated_fs_node* current_dir, string where);
 extern void cd(emulated_fs_node** current_dir, string where);
 extern void ls(emulated_fs_node* dir);
+extern char* pwd(emulated_fs_node* current_dir) ;

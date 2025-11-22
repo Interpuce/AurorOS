@@ -13,19 +13,13 @@
 #include <types.h>
 #include <ports.h>
 
+extern void internal_qemu_reboot();   // /asm/power.asm
+extern void internal_qemu_shutdown(); // /asm/power.asm
+
 void shutdown() {
-    outw(0x604, 0x2000);
+    internal_qemu_shutdown();
 }
 
 void reboot() {
-    const uint16_t REBOOT_MAGIC1 = 0xfee1;
-    const uint16_t REBOOT_MAGIC2 = 0xdead;
-    
-    asm volatile(
-        "movw %0, %%ax\n"
-        "movw %1, %%bx\n"
-        "int $0x19\n"
-        :
-        : "r"(REBOOT_MAGIC1), "r"(REBOOT_MAGIC2)
-    );
+    internal_qemu_reboot();
 }

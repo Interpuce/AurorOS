@@ -129,3 +129,36 @@ void cat(emulated_fs_node* current_dir, string where) {
     emulated_fs_node* f = emulated_fs_resolve(where, current_dir);
     println((const char*)f->data, 0x07);
 }
+
+char* pwd(emulated_fs_node* current_dir) {
+    static char path[256];
+    int pos = 255;
+    path[pos] = '\0';
+
+    emulated_fs_node* node = current_dir;
+
+    while (node != NULL) {
+        if (node->parent == NULL) {
+            //path[--pos] = '/';
+            break;
+        }
+
+        int len = 0;
+        while (node->name[len] != '\0') len++;
+
+        for (int i = len - 1; i >= 0; i--) {
+            path[--pos] = node->name[i];
+        }
+
+        path[--pos] = '/';
+        node = node->parent;
+    }
+
+    char* returnable = &path[pos];
+
+    if (streql(returnable, "")) {
+        returnable = "/";
+    }
+
+    return returnable;
+}

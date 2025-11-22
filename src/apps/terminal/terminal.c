@@ -23,13 +23,13 @@
 
 #include "commands/commands.h"
 
-void printprefix(const char* user, const char* pcname) {
-    print(" [ ", 0x07);
-    print(user, 0x09);
+void printprefix(const char* user, const char* pcname, const char* dir) {
+    print(user, 0x0B);
     print("@", 0x0F);
-    print(pcname, 0x02);
-    print(" ]", 0x07);
-    print(" $ ", 0x0F);
+    print(pcname, 0x0B);
+    print(":", 0x07);
+    print(dir, 0x0B);
+    print("$ ", 0x0F);
 }
 
 char* num2str(int value, char* buffer) {
@@ -104,7 +104,7 @@ int terminal_main(uint16_t theme) {
     char buffer[128];
     char *args[10];
     while (1) {
-        printprefix(current_user, PC_NAME);
+        printprefix(current_user, PC_NAME, pwd(current_dir));
         read_str(buffer, sizeof(buffer), 0, 0x07);
 
         int arg_count = split_str(buffer, ' ', args, 10);

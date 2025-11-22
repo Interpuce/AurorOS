@@ -1,6 +1,6 @@
 # AurorOS Makefile
 
-.PHONY = all help shbuild depinstall
+.PHONY = all help shbuild depinstall clean
 
 all: shbuild
 
@@ -16,3 +16,8 @@ shbuild:
 depinstall:
 	chmod +x compile/dep_install.sh
 	./compile/dep_install.sh
+
+clean: 
+	rm -rf bin
+	rm -rf kernel.bin
+	rm -rf AurorOS.iso
