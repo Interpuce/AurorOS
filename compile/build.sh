@@ -23,19 +23,19 @@ if [ ${#dependencies_missing[@]} -gt 0 ]; then
 fi
 
 ROOT_DIR=$(pwd)
-ASM_FILE="$ROOT_DIR/boot/boot.asm"
+ASM_FILE="$ROOT_DIR/src/boot/boot.asm"
 ASM_OBJECT="$ROOT_DIR/bin/boot.o"
 LINKER_SCRIPT="$ROOT_DIR/compile/linker.ld"
 KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
-ISO_DIR="iso"
+ISO_DIR="$ROOT_DIR/iso"
 BOOT_DIR="$ISO_DIR/boot"
 GRUB_DIR="$BOOT_DIR/grub"
 OBJECT_DIR="$ROOT_DIR/bin"
 
 mkdir -p "$OBJECT_DIR"
 
-echo ".c -> .o"
+echo -e "[\033[1m\033[36m*\033[0m] .c -> .o"
 OBJECT_FILES=()
 for SOURCE_FILE in $(find "$ROOT_DIR" -type f -name '*.c' ! -name '*.excluded.c'); do
     OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.c}.o")"
@@ -43,13 +43,13 @@ for SOURCE_FILE in $(find "$ROOT_DIR" -type f -name '*.c' ! -name '*.excluded.c'
     gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
-echo "boot.asm -> boot.o"
+echo -e "[\033[1m\033[36m*\033[0m] boot.asm -> boot.o"
 nasm -f elf32 "$ASM_FILE" -o "$ASM_OBJECT"
 
-echo ".o -> .bin"
+echo -e "[\033[1m\033[36m*\033[0m] .o -> .bin"
 ld -m elf_i386 -T "$LINKER_SCRIPT" -o "$KERNEL_OUTPUT" "${OBJECT_FILES[@]}" "$ASM_OBJECT"
 
-echo ".bin -> AurorOS.iso"
+echo -e "[\033[1m\033[36m*\033[0m] .bin -> AurorOS.iso"
 mkdir -p "$GRUB_DIR"
 cp "$KERNEL_OUTPUT" "$BOOT_DIR"
 cat > "$GRUB_DIR/grub.cfg" << EOF

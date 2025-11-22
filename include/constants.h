@@ -14,4 +14,4 @@
 #define AUROR_VERSION "Public Beta 4"
 #define PC_NAME "auror"
 #define PC_ARCH "x86"
-#define AUROR_BETA_STATE 2
+#define AUROR_BETA_STATE 3

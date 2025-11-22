@@ -12,6 +12,6 @@
 
 #include <types.h>
 
-#define AEF_BEGIN "\033\033AEF--"
+#define AEF_MAGIC_NUMBER "\033\033AEF--"
 #define AEF_ARCHITECTURE_X86 "386---"
 #define AEF_ARCHITECTURE_X64 "amd64-"

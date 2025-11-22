@@ -27,10 +27,10 @@ string replace_aef_arch(string what) {
 }
 
 int check_aef_arch(string content) {
-    char* full_arch_beginning = AEF_BEGIN;
+    char* full_arch_beginning = AEF_MAGIC_NUMBER;
     strcpy(full_arch_beginning, replace_aef_arch(PC_ARCH));
 
-    char* unsupported_arch = AEF_BEGIN;
+    char* unsupported_arch = AEF_MAGIC_NUMBER;
     strcpy(unsupported_arch, "------");
 
     if (streql(full_arch_beginning, unsupported_arch)) {
@@ -40,7 +40,7 @@ int check_aef_arch(string content) {
     if (starts_with(content, full_arch_beginning)) {
         return CODE_EXEC_ARCH_OK;
     } else {
-        if (starts_with(content, AEF_BEGIN)) {
+        if (starts_with(content, AEF_MAGIC_NUMBER)) {
             return CODE_EXEC_UNSUPPORTED_ARCH_ON_THIS_DEVICE;
         } else {
             return CODE_EXEC_NOT_AN_EXECUTABLE;
