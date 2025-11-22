@@ -16,6 +16,7 @@
 #include <constants.h>
 #include <input.h>
 #include <screen.h>
+#include <fs-emulated.h>
 
 void cowsay(char message[1024]) {
     int message_length = strlen(message);
@@ -104,4 +105,27 @@ void help() {
     println(" reboot - reboots the computer (works only in QEMU)", 0x07);
     println(" shutdown - shuts down the computer (works only in QEMU)", 0x07);
     println("", 0x07);
+}
+
+void ls(emulated_fs_node* dir) {
+    if (!dir) return;
+
+    for (uint32_t i = 0; i < dir->child_count; i++) {
+        if (!dir->children[i]) continue;
+
+        print((const char*)dir->children[i]->name, 0x07);
+        print(" ", 0x07);
+    }
+
+    println("", 0x07);
+}
+
+void cd(emulated_fs_node** current_dir, string where) {
+    emulated_fs_node* target = emulated_fs_resolve(where, *current_dir);
+    if (target) *current_dir = target;
+}
+
+void cat(emulated_fs_node* current_dir, string where) {
+    emulated_fs_node* f = emulated_fs_resolve(where, current_dir);
+    println((const char*)f->data, 0x07);
 }

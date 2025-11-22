@@ -17,6 +17,7 @@
 #include <input.h>
 #include <asm/power.h>
 #include <panic.h>
+#include <fs-emulated.h>
 
 #include <apps/tinypad.h>
 
@@ -31,7 +32,39 @@ void printprefix(const char* user, const char* pcname) {
     print(" $ ", 0x0F);
 }
 
+char* num2str(int value, char* buffer) {
+    char temp[32];
+    int pos = 0;
+    int neg = value < 0;
+
+    if (value == 0) {
+        buffer[0] = '0';
+        buffer[1] = '\0';
+        return buffer;
+    }
+
+    if (neg) value = -value;
+
+    while (value > 0) {
+        temp[pos++] = '0' + (value % 10);
+        value /= 10;
+    }
+
+    int i = 0;
+
+    if (neg) buffer[i++] = '-';
+
+    while (pos > 0) {
+        buffer[i++] = temp[--pos];
+    }
+
+    buffer[i] = '\0';
+    return buffer;
+}
+
 int terminal_main(uint16_t theme) {
+    emulated_fs_node* current_dir = emulated_fs_resolve("/home/root", emulated_fs_root);
+
     clearscreen();
 
     println("", 0x07);
@@ -56,7 +89,7 @@ int terminal_main(uint16_t theme) {
     println("", 0x07);
 
     uint8_t beta_state = AUROR_BETA_STATE;
-    string current_user = "root";
+    string current_user = "liveuser";
 
     if (beta_state == 1) {
         print_warn("You are using early build of AurorOS!");
@@ -102,6 +135,12 @@ int terminal_main(uint16_t theme) {
                 shutdown();
             } else if (streql(args[0], "eclair")) {
                 eclair(args[1]);
+            } else if (streql(args[0], "cat")) {
+                cat(current_dir, args[1]);
+            } else if (streql(args[0], "cd")) {
+                cd(&current_dir, args[1]);
+            } else if (streql(args[0], "ls")) {
+                ls(current_dir);
             } else if (streql(args[0], "tinypad")) {
                 tinypad_main(0x07, 0x9F);
             } else if (streql(args[0], "help")) {

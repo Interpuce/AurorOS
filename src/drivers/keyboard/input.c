@@ -13,7 +13,6 @@
 #include <ports.h>
 #include <msg.h>
 #include <string.h>
-#include <asm/vga-cursor.h>
 
 static char keymap[128] = {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8', '9', '0', '-', '=', '\b',
@@ -42,55 +41,30 @@ static uint8_t read_scancode() {
 
 void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) {
     uint16_t length = 0;
-    uint16_t cursor = 0;
-
-    uint8_t extended = 0;
 
     while (1) {
         uint8_t scancode = read_scancode();
-
-        if (scancode == 0xE0) {
-            extended = 1;
-            continue;
-        }
-
-        if (extended) {
-            extended = 0;
-
-            switch (scancode) {
-                case 0x4B: 
-                    if (cursor > 0) {
-                        cursor--;
-                        move_cursor_left();
-                    }
-                    continue;
-
-                case 0x4D:
-                    if (cursor < length) {
-                        cursor++;
-                        move_cursor_right();
-                    }
-                    continue;
-
-                case 0x48: 
-                case 0x50: 
-                    continue;
-            }
-        }
-
-        uint8_t RELEASED = scancode & 0x80;
+        uint8_t SHIFT_RELEASED = scancode & 0x80;
         uint8_t key = scancode & ~0x80;
 
-        if (RELEASED) {
+        if (SHIFT_RELEASED) {
             key_states[key] = 0;
+
             switch (key) {
-                case 0x2A: SHIFT_LEFT_PRESSED = 0; break;
-                case 0x36: SHIFT_RIGHT_PRESSED = 0; break;
+                case 0x2A:
+                    SHIFT_LEFT_PRESSED = 0;
+                    break;
+                case 0x36:
+                    SHIFT_RIGHT_PRESSED = 0;
+                    break;
             }
             continue;
         }
 
-        if (key_states[key]) continue;
+        if (key_states[key]) {
+            continue;
+        }
+
         key_states[key] = 1;
 
         if (key == 0x1C) {
@@ -100,56 +74,40 @@ void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) 
         }
 
         if (key == 0x0E) {
-            if (cursor > 0) {
-                cursor--;
+            if (length > 0) {
                 length--;
-
-                for (uint16_t i = cursor; i < length; i++)
-                    buffer[i] = buffer[i + 1];
                 buffer[length] = '\0';
-
-                move_cursor_left();
                 delchar();
-                print(buffer + cursor, color);
-                print(" ", color);
-                for (uint16_t i = cursor; i <= length; i++)
-                    move_cursor_left();
             }
             continue;
         }
 
-        char c = (SHIFT_LEFT_PRESSED || SHIFT_RIGHT_PRESSED)
-            ? shift_keymap[key]
-            : keymap[key];
+        char c;
+        switch (key) {
+            case 0x2A:
+            case 0x36:
+                if (SHIFT_RELEASED) break;
+                if (key == 0x2A) SHIFT_LEFT_PRESSED = 1;
+                if (key == 0x36) SHIFT_RIGHT_PRESSED = 1;
+                continue;
+            default:
+                c = (SHIFT_LEFT_PRESSED || SHIFT_RIGHT_PRESSED) ? shift_keymap[key] : keymap[key];
+                break;
+        }
 
-        if (!c) continue;
+        if (!c) {
+            continue;
+        }
 
         if (length < max_length - 1) {
-            for (uint16_t i = length; i > cursor; i--)
-                buffer[i] = buffer[i - 1];
-            buffer[cursor] = c;
-
-            length++;
-            cursor++;
-
-            if (!secret) {
-                printchar(c, color);
-                if (cursor < length) {
-                    print(buffer + cursor, color);
-                    for (uint16_t i = cursor; i < length; i++)
-                        move_cursor_left();
-                }
-            } else {
-                printchar('*', color);
-                if (cursor < length) {
-                    for (uint16_t i = cursor; i < length; i++)
-                        printchar('*', color);
-                    for (uint16_t i = cursor; i < length; i++)
-                        move_cursor_left();
-                }
-            }
-
+            buffer[length++] = c;
             buffer[length] = '\0';
+
+            if (secret) {
+                printchar('*', color);
+            } else {
+                printchar(c, color);
+            }
         }
     }
 }

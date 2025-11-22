@@ -20,3 +20,4 @@ extern char *strrchr(const char *str, int c);
 extern char *strcat(char *dest, const char *src);
 extern kbool starts_with(const char *str, const char *prefix);
 extern char* strslice(char *dest, const char *src, size_t n);
+extern int strcmp(const char* a, const char* b);
