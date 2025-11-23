@@ -3,6 +3,7 @@
 # Begin with compile-time dependencies check
 
 set -e
+shopt -s globstar
 
 dependencies_required=("gcc" "grub-mkrescue" "nasm" "ld" "xorriso" "mtools") # REMINDER: Remember to update this when a new tool is introduced to the toolchain.
 dependencies_missing=()
@@ -24,7 +25,7 @@ fi
 
 ROOT_DIR="."
 SRC_DIR="$ROOT_DIR/src"
-LINKER_SCRIPT="$SRC_DIR/kernel/linker.ld"
+LINKER_SCRIPT="$SRC_DIR/main/linker.ld"
 KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
 ISO_DIR="$ROOT_DIR/iso"

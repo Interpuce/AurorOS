@@ -10,6 +10,7 @@
 
 #include <types.h>
 #include <memory.h>
+#include <panic.h>
 
 #define MEMORY_POOL_SIZE 1024 * 1024
 
@@ -21,11 +22,14 @@ typedef struct memory_block {
 
 static uint8_t memory_pool[MEMORY_POOL_SIZE];
 static memory_block_t *free_list = (memory_block_t *)memory_pool;
+kbool memory_already_initialized = KFALSE;
 
 void init_memory() {
     free_list->size = MEMORY_POOL_SIZE - sizeof(memory_block_t);
     free_list->next = NULL;
     free_list->free = 1;
+
+    memory_already_initialized = KTRUE;
 }
 
 void *memcpy(void *dest, const void *src, size_t n) {
@@ -38,6 +42,11 @@ void *memcpy(void *dest, const void *src, size_t n) {
 }
 
 void *malloc(size_t size) {
+    if (memory_already_initialized != KTRUE) {
+        kernelpanic("MALLOC_OR_FREE_BEFORE_MEM_INIT", NULL);
+        return NULL;
+    }
+
     memory_block_t *current = free_list;
     while (current != NULL) {
         if (current->free && current->size >= size) {
@@ -59,6 +68,11 @@ void *malloc(size_t size) {
 }
 
 void free(void *ptr) {
+    if (memory_already_initialized != KTRUE) {
+        kernelpanic("MALLOC_OR_FREE_BEFORE_MEM_INIT", NULL);
+        return;
+    }
+
     if (ptr == NULL) return;
 
     memory_block_t *block = (memory_block_t *)((uint8_t *)ptr - sizeof(memory_block_t));

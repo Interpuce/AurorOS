@@ -129,6 +129,8 @@ int terminal_main(uint16_t theme) {
                 terminal_main(theme);
             } else if (streql(args[0], "exit")) {
                 return 0;
+            } else if (streql(args[0], "loopquit") && AUROR_BETA_STATE != 0) {
+                break;
             } else {
                 string error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);
@@ -136,7 +138,12 @@ int terminal_main(uint16_t theme) {
         }
     }
 
-    kernelpanic("KERNEL_MAIN_LOOP_EXITED");
+    kernelpanic("KERNEL_MAIN_LOOP_EXITED",
+        "This shall not happen unless you're using\n"
+        " a developer command 'loopquit' on a beta build of AurorOS.\n"
+        " If this screen was not issued by that command, please report\n"
+        " an issue."
+    );
     return 1;
 }
 

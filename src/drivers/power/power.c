@@ -8,14 +8,18 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma once
-
-#define COLOR_1 0x47
-#define COLOR_2 0x4F
-#define COLOR_3 0x44
-
-#include <msg.h>
 #include <types.h>
-#include <screen.h>
+#include <panic.h>
 
-extern void kernelpanic(const char *errcode, const char *devnote);
+extern void internal_qemu_reboot();   // ./qemu.asm
+extern void internal_qemu_shutdown(); // ./qemu.asm
+
+void shutdown() {
+    internal_qemu_shutdown();
+    kernelpanic("SHUTDOWN_NOT_SUCCESSFULL", NULL);
+}
+
+void reboot() {
+    internal_qemu_reboot();
+    kernelpanic("REBOOT_NOT_SUCCESSFULL", NULL);
+}

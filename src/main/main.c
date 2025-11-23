@@ -16,25 +16,12 @@
 
 extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
 
-extern void internal_qemu_reboot();   // /asm/power.asm
-extern void internal_qemu_shutdown(); // /asm/power.asm
-
-void shutdown() {
-    internal_qemu_shutdown();
-    kernelpanic("SHUTDOWN_NOT_SUCCESSFULL");
-}
-
-void reboot() {
-    internal_qemu_reboot();
-    kernelpanic("REBOOT_NOT_SUCCESSFULL");
-}
-
 void main() {
-    init_memory();
     init_virtual_fs();
     if (emulated_fs_root->child_count == 0) {
-        kernelpanic("EMULATED_FS_BROKEN");
+        kernelpanic("EMULATED_FS_BROKEN", NULL);
     }
+    init_memory();
 
     clearscreen();
     println("", 0x07);
