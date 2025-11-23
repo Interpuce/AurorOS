@@ -17,11 +17,11 @@
 extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
 
 void main() {
+    init_memory();
     init_virtual_fs();
     if (emulated_fs_root->child_count == 0) {
         kernelpanic("EMULATED_FS_BROKEN", NULL);
     }
-    init_memory();
 
     clearscreen();
     println("", 0x07);
