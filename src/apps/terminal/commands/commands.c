@@ -104,6 +104,10 @@ void help() {
     println(" repo - get the AurorOS repo", 0x07);
     println(" reboot - reboots the computer (works only in QEMU)", 0x07);
     println(" shutdown - shuts down the computer (works only in QEMU)", 0x07);
+    println(" ls - shows all files in the current directory", 0x07);
+    println(" cat - reads a specified file", 0x07);
+    println(" cd - changes the directory", 0x07);
+    println(" exit - exits the terminal or shuts down the OS", 0x07);
     println("", 0x07);
 }
 

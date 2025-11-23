@@ -65,6 +65,9 @@ cat > "$GRUB_DIR/grub.cfg" << EOF
 menuentry "AurorOS" {
     multiboot /boot/kernel.bin
 }
+
+set default=0
+set timeout=5
 EOF
 
 grub-mkrescue -o "$ISO_OUTPUT" "$ISO_DIR"

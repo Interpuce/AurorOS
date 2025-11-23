@@ -25,11 +25,11 @@
 
 void printprefix(const char* user, const char* pcname, const char* dir) {
     print(user, 0x0B);
-    print("@", 0x0F);
+    print("@", 0x07);
     print(pcname, 0x0B);
     print(":", 0x07);
     print(dir, 0x0B);
-    print("$ ", 0x0F);
+    print(" $ ", 0x0F);
 }
 
 char* num2str(int value, char* buffer) {
@@ -64,29 +64,6 @@ char* num2str(int value, char* buffer) {
 
 int terminal_main(uint16_t theme) {
     emulated_fs_node* current_dir = emulated_fs_resolve("/home/liveuser", emulated_fs_root);
-
-    clearscreen();
-
-    println("", 0x07);
-    println("                        @@@@@@@@@                           ", theme);                                                            
-    println("                       @@@@@@@@@@@@@@                       ", theme);                                                                 
-    println("                       @@@@@@@@@@@@@@@@                     ", theme);                                 
-    println("                       @@@@@@@@@@@@@@@@                     ", theme);
-    println("                    @@@@@@@@@@@@@@@@@@@     @@@@@           ", theme);
-    println("                    @@@@@@@@@@@@@@@@@@     @@@@@@@@         ", theme);
-    println("                    @@@@@@@@@@@@@@@@      @@@@@@@@@@        ", theme);
-    println("                    @@@@@@@@@@@@@@@@     @@@@@@@@@@@        ", theme);
-    println("                    @@@@@@@@@@@@@@@@    @@@@@   @@@@@       ", theme);
-    println("               @@@@@@@@@@@@@@@@@@@@    @@@@@@   @@@@@@      ", theme);
-    println("               @@@@@@@@@@@@@@@@@@     @@@@@@     @@@@@@     ", theme);
-    println("                @@@@@@@@@@@@@@@@     @@@@@@       @@@@@     ", theme);
-    println("                 @@@@@@@@@@@@@@@    @@@@@@@@@@@@@@@@@@@@    ", theme);
-    println("                  @@@@@@@@@@@@     @@@@@@@@@@@@@@@@@@@@@@   ", theme);
-    println("                      @@@@@       @@@@@@@@@@@@@@@@@@@@@@@@  ", theme);
-    println("                                 @@@@@@             @@@@@@  ", theme);
-    println("                                 @@@@@@             @@@@@@  ", theme);
-    println("                                  @@@@               @@@@   ", theme);
-    println("", 0x07);
 
     uint8_t beta_state = AUROR_BETA_STATE;
     string current_user = "liveuser";
@@ -148,16 +125,18 @@ int terminal_main(uint16_t theme) {
             } else if (streql(args[0], "repo")) {
                 println("Visit this link on other device:", 0x07);
                 println("https://github.com/Interpuce/AurorOS", 0x07);
+            } else if (streql(args[0], "sh")) {
+                terminal_main(theme);
+            } else if (streql(args[0], "exit")) {
+                return 0;
             } else {
-                printstr(" ERROR ", 0x04);
-                printstr(": ", 0x07);
-                printstr(args[0], 0x07);
-                printstr(" is neither a known command nor valid AEF binary! \n", 0x07);
+                string error = strcat(args[0], " is neither a known command nor valid AEF binary!");
+                print_error(error);
             }
         }
     }
 
     kernelpanic("KERNEL_MAIN_LOOP_EXITED");
-    return 0;
+    return 1;
 }
 
