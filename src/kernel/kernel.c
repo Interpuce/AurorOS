@@ -12,8 +12,22 @@
 #include <types.h>
 #include <fs-emulated.h>
 #include <panic.h>
+#include <asm/power.h>
 
 extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
+
+extern void internal_qemu_reboot();   // /asm/power.asm
+extern void internal_qemu_shutdown(); // /asm/power.asm
+
+void shutdown() {
+    internal_qemu_shutdown();
+    kernelpanic("SHUTDOWN_NOT_SUCCESSFULL");
+}
+
+void reboot() {
+    internal_qemu_reboot();
+    kernelpanic("REBOOT_NOT_SUCCESSFULL");
+}
 
 void main() {
     init_memory();
@@ -44,4 +58,7 @@ void main() {
     println("                                  @@@@               @@@@   ", 0x0B);
     println("", 0x07);
     terminal_main(0x0B);
+
+    shutdown();
+    return;
 }
