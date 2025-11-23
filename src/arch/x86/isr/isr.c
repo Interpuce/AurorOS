@@ -10,7 +10,7 @@
 
 #include <types.h>
 #include "isr.h"
-#include "pic.h"
+#include "../pic/pic.h"
 
 void isr_handler_c(uint32_t vector) {
     if (vector < 32) {
