@@ -17,16 +17,32 @@
 extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
 extern void gdt_install();
 extern void idt_init();
+extern void protected_mode_init();
 
 void main() {
     // i hope gdt & idt does not use malloc, otherwise it'll fuck everything up
     gdt_install();
     idt_init();
 
+    // enable 32-bit mode
+    protected_mode_init();
+}
+
+static inline kbool is_protected_mode()
+{
+    uint32_t cr0;
+    __asm__ volatile("mov %%cr0, %0" : "=r"(cr0));
+    return (cr0 & 1) != 0;
+}
+
+void protected_mode_entry() {
     init_memory();
     init_virtual_fs();
     if (emulated_fs_root->child_count == 0) {
         kernelpanic("EMULATED_FS_BROKEN", NULL);
+    }
+    if (!is_protected_mode()) {
+        kernelpanic("PROTECTED_MODE_REQUIRED", NULL);
     }
 
     clearscreen();
