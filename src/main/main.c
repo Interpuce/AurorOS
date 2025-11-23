@@ -15,8 +15,14 @@
 #include <asm/power.h>
 
 extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
+extern void gdt_install();
+extern void idt_init();
 
 void main() {
+    // i hope gdt & idt does not use malloc, otherwise it'll fuck everything up
+    gdt_install();
+    idt_init();
+
     init_memory();
     init_virtual_fs();
     if (emulated_fs_root->child_count == 0) {
