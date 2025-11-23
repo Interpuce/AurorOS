@@ -1,6 +1,6 @@
 # AurorOS Makefile
 
-.PHONY = all help shbuild depinstall clean
+.PHONY: all help shbuild depinstall clean
 
 all: shbuild
 
@@ -8,16 +8,31 @@ help:
 	@echo "To compile the AurorOS, please run `make`."
 	@echo "To force installing dependencies, run `make depinstall`."
 
+ifeq ($(OS), Windows_NT)
 shbuild:
-	chmod +x compile/build.sh
-	chmod +x compile/dep_install.sh
-	./compile/build.sh
+	cmd /c scripts\build\win\build.bat
 
 depinstall:
-	chmod +x compile/dep_install.sh
-	./compile/dep_install.sh
+	cmd /c scripts\build\win\build.bat
+
+clean:
+	rd /s /q bin
+	rd /s /q iso
+	del kernel.bin
+	del AurorOS.iso
+else
+shbuild:
+	chmod +x scripts/build/build.sh
+	chmod +x scripts/build/dep_install.sh
+	./scripts/build/build.sh
+
+depinstall:
+	chmod +x scripts/build/dep_install.sh
+	./scripts/build/dep_install.sh
 
 clean: 
 	rm -rf bin
+	rm -rf iso
 	rm -rf kernel.bin
 	rm -rf AurorOS.iso
+endif

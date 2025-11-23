@@ -23,14 +23,14 @@ if [ ${#dependencies_missing[@]} -gt 0 ]; then
 fi
 
 ROOT_DIR="."
-LINKER_SCRIPT="$ROOT_DIR/compile/linker.ld"
+SRC_DIR="$ROOT_DIR/src"
+LINKER_SCRIPT="$SRC_DIR/kernel/linker.ld"
 KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
 ISO_DIR="$ROOT_DIR/iso"
 BOOT_DIR="$ISO_DIR/boot"
 GRUB_DIR="$BOOT_DIR/grub"
 OBJECT_DIR="$ROOT_DIR/bin"
-SRC_DIR="$ROOT_DIR/src"
 
 mkdir -p "$OBJECT_DIR"
 
