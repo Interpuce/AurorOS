@@ -10,6 +10,9 @@
 ; extension for x86 assembly syntax, because Visual Studio Code don't
 ; highlight Assembly language without additional extensions.
 
+; This file does not set up GDT & IDT tables.
+; For that logic please see src/main/main.c
+
 bits 32
 
 extern protected_mode_entry
