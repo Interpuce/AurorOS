@@ -20,11 +20,7 @@ extern void idt_init();
 extern void protected_mode_init();
 
 void main() {
-    // i hope gdt & idt does not use malloc, otherwise it'll fuck everything up
     gdt_install();
-    idt_init();
-
-    // enable 32-bit mode
     protected_mode_init();
 }
 
@@ -36,14 +32,29 @@ static inline kbool is_protected_mode()
 }
 
 void protected_mode_entry() {
+    asm volatile (
+        "mov $0x10, %%ax\n"
+        "mov %%ax, %%ds\n"
+        "mov %%ax, %%es\n"
+        "mov %%ax, %%fs\n"
+        "mov %%ax, %%gs\n"
+        "mov %%ax, %%ss\n"
+        ::: "ax"
+    );
+
+    idt_init();
+
     init_memory();
     init_virtual_fs();
+
     if (emulated_fs_root->child_count == 0) {
         kernelpanic("EMULATED_FS_BROKEN", NULL);
     }
     if (!is_protected_mode()) {
         kernelpanic("PROTECTED_MODE_REQUIRED", NULL);
     }
+
+    asm volatile ("sti");
 
     clearscreen();
     println("", 0x07);

@@ -131,6 +131,8 @@ int terminal_main(uint16_t theme) {
                 return 0;
             } else if (streql(args[0], "loopquit") && AUROR_BETA_STATE != 0) {
                 break;
+            } else if (streql(args[0], "test:ce") && AUROR_BETA_STATE != 0) {
+                __asm__ volatile("ud2");
             } else {
                 string error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);

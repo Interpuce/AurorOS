@@ -16,7 +16,10 @@
 #include <types.h>
 #include <screen.h>
 
+__attribute__((noreturn))
 void kernelpanic(const char *paniccode, const char *devnote) {
+    asm volatile("cli" ::: "memory");
+
     paintscreen(COLOR_3);
     println(" ", COLOR_1);
     println(" Kernel panic!", COLOR_2);

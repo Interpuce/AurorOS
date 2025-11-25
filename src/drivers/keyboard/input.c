@@ -36,6 +36,9 @@ static uint8_t SHIFT_RIGHT_PRESSED = 0;
 static uint8_t key_states[128] = {0};
 
 static uint8_t read_scancode() {
+    if (!(inb(0x64) & 0x01)) {
+        return 0; 
+    }
     return inb(0x60);
 }
 
@@ -46,6 +49,10 @@ void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) 
         uint8_t scancode = read_scancode();
         uint8_t SHIFT_RELEASED = scancode & 0x80;
         uint8_t key = scancode & ~0x80;
+
+        if (key == 0) {
+            continue;
+        }
 
         if (SHIFT_RELEASED) {
             key_states[key] = 0;

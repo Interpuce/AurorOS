@@ -22,5 +22,8 @@ protected_mode_init:
     mov eax, cr0
     or eax, 1 
     mov cr0, eax
+    ; something
+    mov ax, 0x18
+    ltr ax
     ; far jump to the protected mode entry
     jmp 0x08:protected_mode_entry

@@ -10,7 +10,7 @@
 
 #include <types.h>
 #include "idt_structs.h"
-#include "../pic/pic.h"
+#include "pic/pic.h"
 
 static idt_entry_t idt_entries[256];
 static idt_ptr_t idt_ptr;

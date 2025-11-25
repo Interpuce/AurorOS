@@ -20,7 +20,7 @@ done
 
 # Call for ABDM (AurorOS Build-time Dependencies Manager, a.k.a. dep_install.sh) if anything's missing.
 if [ ${#dependencies_missing[@]} -gt 0 ]; then
-	    ./compile/dep_install.sh
+	    ./scripts/build/dep_install.sh
 fi
 
 ROOT_DIR="."
