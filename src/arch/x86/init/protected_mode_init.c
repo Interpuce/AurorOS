@@ -11,6 +11,7 @@
 #include <memory.h>
 #include <types.h>
 #include <fs-emulated.h>
+#include <filesystem.h>
 #include <panic.h>
 #include <asm/power.h>
 
@@ -45,10 +46,10 @@ void arch_x86_protected_mode_entry() {
     idt_init();
 
     init_memory();
-    init_virtual_fs();
+    init_fs();
 
-    if (emulated_fs_root->child_count == 0) {
-        kernelpanic("EMULATED_FS_BROKEN", NULL);
+    if (fs_root->child_count == 0) {
+        kernelpanic("FS_BROKEN", NULL);
     }
     if (!is_protected_mode()) {
         kernelpanic("PROTECTED_MODE_REQUIRED", NULL);

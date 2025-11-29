@@ -63,7 +63,7 @@ char* num2str(int value, char* buffer) {
 }
 
 int terminal_main(uint16_t theme) {
-    emulated_fs_node* current_dir = emulated_fs_resolve("/home/liveuser", emulated_fs_root);
+    fs_node* current_dir = fs_resolve("/home/liveuser", emulated_fs_root);
 
     uint8_t beta_state = AUROR_BETA_STATE;
     string current_user = "liveuser";

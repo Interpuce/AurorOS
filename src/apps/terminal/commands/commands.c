@@ -17,6 +17,7 @@
 #include <input.h>
 #include <screen.h>
 #include <fs-emulated.h>
+#include <filesystem.h>
 
 void cowsay(char message[1024]) {
     int message_length = strlen(message);
@@ -111,7 +112,7 @@ void help() {
     println("", 0x07);
 }
 
-void ls(emulated_fs_node* dir) {
+void ls(fs_node* dir) {
     if (!dir) return;
 
     for (uint32_t i = 0; i < dir->child_count; i++) {
@@ -124,22 +125,22 @@ void ls(emulated_fs_node* dir) {
     println("", 0x07);
 }
 
-void cd(emulated_fs_node** current_dir, string where) {
-    emulated_fs_node* target = emulated_fs_resolve(where, *current_dir);
+void cd(fs_node** current_dir, string where) {
+    fs_node* target = fs_resolve(where, *current_dir);
     if (target) *current_dir = target;
 }
 
-void cat(emulated_fs_node* current_dir, string where) {
-    emulated_fs_node* f = emulated_fs_resolve(where, current_dir);
-    println((const char*)f->data, 0x07);
+void cat(fs_node* current_dir, string where) {
+    fs_node* f = fs_resolve(where, current_dir);
+    println((string)f->data, 0x07);
 }
 
-char* pwd(emulated_fs_node* current_dir) {
+char* pwd(fs_node* current_dir) {
     static char path[256];
     int pos = 255;
     path[pos] = '\0';
 
-    emulated_fs_node* node = current_dir;
+    fs_node* node = current_dir;
 
     while (node != NULL) {
         if (node->parent == NULL) {

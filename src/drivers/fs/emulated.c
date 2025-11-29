@@ -93,7 +93,7 @@ emulated_fs_node* emulated_fs_resolve(const char* path, emulated_fs_node* curren
     return current;
 }
 
-void emulated_fs_write(emulated_fs_node* file, const uint8_t* data, uint32_t size) {
+void emulated_fs_write(emulated_fs_node* file, string data, uint32_t size) {
     if (file->type != EMULATED_FS_FILE) return;
 
     file->data = malloc(size);
@@ -110,19 +110,4 @@ void emulated_fs_read(emulated_fs_node* file, uint8_t* out, uint32_t max) {
 
 void emulated_fs_init() {
     emulated_fs_root = emulated_fs_create_dir_node("/", NULL);
-}
-
-void init_virtual_fs() {
-    emulated_fs_init();
-    emulated_fs_node* bin = emulated_fs_create_dir_node("bin", emulated_fs_root);
-    emulated_fs_add_child(emulated_fs_root, bin);
-    emulated_fs_node* home = emulated_fs_create_dir_node("home", emulated_fs_root);
-    emulated_fs_add_child(emulated_fs_root, home);
-    emulated_fs_node* root = emulated_fs_create_dir_node("root", emulated_fs_root);
-    emulated_fs_add_child(emulated_fs_root, root);
-    emulated_fs_node* user = emulated_fs_create_dir_node("liveuser", home);
-    emulated_fs_add_child(home, user);
-    emulated_fs_node* notes = emulated_fs_create_file_node("README.txt", user);
-    emulated_fs_add_child(user, notes);
-    emulated_fs_write(notes, (uint8_t*)"Welcome in AurorOS!", 23);
 }

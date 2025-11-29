@@ -13,12 +13,13 @@
 #include <types.h>
 #include <screen.h>
 #include <string.h>
+#include <filesystem.h>
 
 extern void cowsay(char message[1024]);
 extern void map();
 extern void eclair(const char *trt);
 extern void help();
-extern void cat(emulated_fs_node* current_dir, string where);
-extern void cd(emulated_fs_node** current_dir, string where);
-extern void ls(emulated_fs_node* dir);
-extern char* pwd(emulated_fs_node* current_dir) ;
+extern void cat(fs_node* current_dir, string where);
+extern void cd(fs_node** current_dir, string where);
+extern void ls(fs_node* dir);
+extern char* pwd(fs_node* current_dir) ;
