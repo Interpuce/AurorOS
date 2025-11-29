@@ -1,6 +1,6 @@
-<center>
+<p align="center">
   <img width="775" height="473" alt="image" src="https://github.com/user-attachments/assets/4ee2dfc0-0940-453e-a84f-9a1520dff374" />
-</center>
+</p>
 
 # AurorOS
 
