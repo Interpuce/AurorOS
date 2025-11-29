@@ -15,7 +15,7 @@
 
 bits 32
 
-extern protected_mode_entry
+extern arch_x86_protected_mode_entry
 
 global protected_mode_init
 
@@ -29,4 +29,4 @@ protected_mode_init:
     mov ax, 0x18
     ltr ax
     ; far jump to the protected mode entry
-    jmp 0x08:protected_mode_entry
+    jmp 0x08:arch_x86_protected_mode_entry

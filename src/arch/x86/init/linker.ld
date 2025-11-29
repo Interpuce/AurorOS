@@ -1,5 +1,5 @@
 OUTPUT_FORMAT(elf32-i386)
-ENTRY(start)
+ENTRY(arch_x86_start)
 SECTIONS
 {
     . = 0x100000;

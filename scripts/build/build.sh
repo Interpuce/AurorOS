@@ -25,7 +25,7 @@ fi
 
 ROOT_DIR="."
 SRC_DIR="$ROOT_DIR/src"
-LINKER_SCRIPT="$SRC_DIR/main/linker.ld"
+LINKER_SCRIPT="$SRC_DIR/arch/x86/init/linker.ld"
 KERNEL_OUTPUT="$ROOT_DIR/kernel.bin"
 ISO_OUTPUT="$ROOT_DIR/AurorOS.iso"
 ISO_DIR="$ROOT_DIR/iso"

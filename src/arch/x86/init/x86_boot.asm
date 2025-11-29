@@ -10,14 +10,9 @@
 ; extension for x86 assembly syntax, because Visual Studio Code don't
 ; highlight Assembly language without additional extensions.
 
-; boot.asm configures everything (including Multiboot Header required by GRUB
-; and other bootloaders to see AurorOS) and loads the kernel main function
-; from /kernel/kernel.c
-
 bits 32
 
-; Multiboot Header section. Required by some bootloaders (including GRUB, that
-; AurorOS uses in the current state) to see binary as operating system.
+; Multiboot Header section
 section .multiboot
     align 4
     dd 0x1BADB002
@@ -26,16 +21,16 @@ section .multiboot
 
 section .text
 
-; The main function where AurorOS starts. It is also declared in
-; linker script (/compile/linker.ld), defined in /kernel/kernel.c
-; file.
-global start
-extern main
+global arch_x86_start
+extern arch_x86_real_mode_entry
+extern _kernel_stack_end
 
-start:
-    cli ; Clear interrupts
-    call main ; Call the main function (from /kernel/kernel.c)
-    hlt ; Halt the proccessor
+arch_x86_start:
+    cli
+    mov esp, _kernel_stack_end
+    mov ebp, esp
+    call arch_x86_real_mode_entry
+    hlt
 
 ; eclair was here (twice)
 ; gorciu was here
