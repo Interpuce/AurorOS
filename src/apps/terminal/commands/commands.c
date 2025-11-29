@@ -127,11 +127,24 @@ void ls(fs_node* dir) {
 
 void cd(fs_node** current_dir, string where) {
     fs_node* target = fs_resolve(where, *current_dir);
-    if (target) *current_dir = target;
+    if (target) {
+        if (target->type != EMULATED_FS_DIR) {
+            return print_info("Not a directory");
+        }
+        *current_dir = target;
+    } else {
+        print_error("Directory not found");
+    }
 }
 
 void cat(fs_node* current_dir, string where) {
     fs_node* f = fs_resolve(where, current_dir);
+    if (!f) {
+        return print_error("File does not exist");
+    }
+    if (f->type != EMULATED_FS_FILE) {
+        return print_info("Is a directory");
+    }
     println((string)f->data, 0x07);
 }
 
