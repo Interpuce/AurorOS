@@ -4,22 +4,24 @@
 
 # AurorOS
 
-Our lightweight, custom OS made without any existing kernel - directly from Interpuce!
+A lightweight, custom OS made by Interpuce without any external dependencies.
+
+> [!TIP]
+> You can join our official [Discord server](https://discord.gg/kSv7KdFhGq) for announcements, changes and much more.
 
 ## Downloading
 
-Navigate to [Github Releases of the project](https://github.com/Interpuce/AurorOS/releases) and search for a stable release (usually pre-release versions are marked as stable).
+Navigate to [AurorOS's releases page](https://github.com/Interpuce/AurorOS/releases) and download the latest stable release (prefer non-beta if available).
 
-## Authors
+## Contributions
+
+Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blob/main/CONTRIBUTING.md) about contributing to AurorOS.
+
+## Copyright & License
 
 AurorOS is maintained by Interpuce:
 
 - [Ekler25](https://github.com/Ekler25)
 - [Gorciu](https://github.com/gorciu-official)
 
-> [!TIP]
-> You can join our official [Discord server](https://discord.gg/kSv7KdFhGq) for announcements, changes and much more.
-
-## Contributions
-
-Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blob/main/CONTRIBUTING.md) about contributing to AurorOS.
+AurorOS is licensed under [a custom license](https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md)
