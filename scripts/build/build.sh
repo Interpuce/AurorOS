@@ -44,6 +44,14 @@ for SOURCE_FILE in $(find "$SRC_DIR" -type f -name '*.c' ! -name '*.excluded.c')
     gcc -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c "$SOURCE_FILE" -o "$OBJECT_FILE"
 done
 
+echo -e "[\033[1m\033[33m*\033[0m] C++ sources -> objects"
+for SOURCE_FILE in $(find "$SRC_DIR" -type f -name '*.cpp' ! -name '*.excluded.cpp'); do
+    OBJECT_FILE="$OBJECT_DIR/$(basename "${SOURCE_FILE%.cpp}.o")"
+    OBJECT_FILES+=("$OBJECT_FILE")
+    echo -e "[\033[1m\033[36m*\033[0m] $SOURCE_FILE -> $OBJECT_FILE"
+    g++ -Wall -Wextra -m32 -ffreestanding -fno-rtti -fno-threadsafe-statics -nostartfiles -Iinclude -nostdlib -fno-stack-protector -fno-exceptions -fno-rtti -c "$SOURCE_FILE" -o "$OBJECT_FILE"
+done
+
 echo -e "[\033[1m\033[33m*\033[0m] assembly sources -> objects"
 for ASM_FILE in $SRC_DIR/**/*.asm; do
     [ -e "$ASM_FILE" ] || continue

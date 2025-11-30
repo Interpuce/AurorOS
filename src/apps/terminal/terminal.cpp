@@ -10,18 +10,20 @@
 
 #pragma GCC optimize ("O3")
 
-#include <string.h>
-#include <msg.h>
-#include <constants.h>
-#include <string.h>
-#include <input.h>
-#include <asm/power.h>
-#include <panic.h>
-#include <fs-emulated.h>
+extern "C" {
+    #include <string.h>
+    #include <msg.h>
+    #include <constants.h>
+    #include <string.h>
+    #include <input.h>
+    #include <asm/power.h>
+    #include <panic.h>
+    #include <fs-emulated.h>
+    #include <filesystem.h>
+}
 
-#include <apps/tinypad.h>
-
-#include "commands/commands.h"
+#include "commands/commands.hpp"
+#include <apps/tinypad.hpp>
 
 void printprefix(const char* user, const char* pcname, const char* directory) {
     char home[256];
@@ -84,7 +86,7 @@ char* num2str(int value, char* buffer) {
     return buffer;
 }
 
-int terminal_main(uint16_t theme) {
+extern "C" int terminal_main(uint16_t theme) {
     fs_node* current_dir = fs_resolve("/home/liveuser", emulated_fs_root);
 
     uint8_t beta_state = AUROR_BETA_STATE;
@@ -103,7 +105,7 @@ int terminal_main(uint16_t theme) {
     char buffer[128];
     char *args[10];
     while (1) {
-        printprefix(current_user, PC_NAME, pwd(current_dir));
+        printprefix(current_user, PC_NAME, ShellCommands::pwd(current_dir));
         read_str(buffer, sizeof(buffer), 0, 0x07);
 
         int arg_count = split_str(buffer, ' ', args, 10);
@@ -123,9 +125,9 @@ int terminal_main(uint16_t theme) {
             } else if (streql(args[0], "print")) {
                 println(farg ,0x07);
             } else if (streql(args[0], "cowsay")) {
-                cowsay(farg);
+                ShellCommands::cowsay(farg);
             } else if (streql(args[0], "map")) {
-                map();
+                ShellCommands::map();
             } else if (streql(args[0], "clear")) {
                 clearscreen();
             } else if (streql(args[0], "reboot")) {
@@ -133,21 +135,21 @@ int terminal_main(uint16_t theme) {
             } else if (streql(args[0], "shutdown")) {
                 shutdown();
             } else if (streql(args[0], "eclair")) {
-                eclair(args[1]);
+                ShellCommands::eclair(args[1]);
             } else if (streql(args[0], "cat")) {
-                cat(current_dir, args[1]);
+                ShellCommands::cat(current_dir, args[1]);
             } else if (streql(args[0], "cd")) {
-                cd(&current_dir, args[1]);
+                ShellCommands::cd(&current_dir, args[1]);
             } else if (streql(args[0], "ls")) {
-                ls(current_dir);
+                ShellCommands::ls(current_dir);
             } else if (streql(args[0], "mkdir")) {
-                mkdir(current_dir, args[1]);
+                ShellCommands::mkdir(current_dir, args[1]);
             } else if (streql(args[0], "rm")) {
-                rm(current_dir, args[1]);
+                ShellCommands::rm(current_dir, args[1]);
             } else if (streql(args[0], "tinypad")) {
                 tinypad_main(0x07, 0x9F);
             } else if (streql(args[0], "help")) {
-                help();
+                ShellCommands::help();
             } else if (streql(args[0], "repo")) {
                 println("Visit this link on other device:", 0x07);
                 println("https://github.com/Interpuce/AurorOS", 0x07);
