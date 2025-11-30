@@ -86,11 +86,10 @@ char* num2str(int value, char* buffer) {
     return buffer;
 }
 
-extern "C" int terminal_main(uint16_t theme) {
+extern "C" int shell_main(uint16_t theme, string current_user) {
     fs_node* current_dir = fs_resolve("/home/liveuser", emulated_fs_root);
 
     uint8_t beta_state = AUROR_BETA_STATE;
-    string current_user = "liveuser";
 
     if (beta_state == 1) {
         print_warn("You are using early build of AurorOS!");
@@ -154,7 +153,7 @@ extern "C" int terminal_main(uint16_t theme) {
                 println("Visit this link on other device:", 0x07);
                 println("https://github.com/Interpuce/AurorOS", 0x07);
             } else if (streql(args[0], "sh")) {
-                terminal_main(theme);
+                shell_main(theme, current_user);
             } else if (streql(args[0], "exit")) {
                 return 0;
             } else if (streql(args[0], "kptesting") && AUROR_BETA_STATE != 0) {

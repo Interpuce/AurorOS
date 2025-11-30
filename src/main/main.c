@@ -14,7 +14,7 @@
 #include <panic.h>
 #include <asm/power.h>
 
-extern int terminal_main(uint16_t theme); // from /apps/terminal/terminal.c
+extern int terminal_main(uint16_t theme); // from /apps/terminal/tty.cpp
 
 void main() {
     clearscreen();

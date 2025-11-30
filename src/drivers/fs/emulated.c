@@ -101,11 +101,22 @@ void emulated_fs_write(emulated_fs_node* file, string data, uint32_t size) {
     file->size = size;
 }
 
-void emulated_fs_read(emulated_fs_node* file, uint8_t* out, uint32_t max) {
-    if (file->type != EMULATED_FS_FILE) return;
+int emulated_fs_read(emulated_fs_node* file, uint8_t* out, uint32_t max) {
+    if (file->type != EMULATED_FS_FILE) 
+        return -1;
 
-    uint32_t to_copy = (file->size < max ? file->size : max);
+    if (file->data == NULL || file->size == 0) {
+        if (max > 0) out[0] = 0;  
+        return 0;
+    }
+
+    uint32_t to_copy = (file->size < max ? file->size : max - 1);
+
     memcpy(out, file->data, to_copy);
+
+    out[to_copy] = 0;
+
+    return to_copy;
 }
 
 void emulated_fs_init() {

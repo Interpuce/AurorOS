@@ -8,8 +8,8 @@ void fs_write(fs_node* node, string data, uint32_t size) {
     emulated_fs_write(node, data, size);
 }
 
-void fs_read(fs_node* node, uint8_t* out, uint32_t max) {
-    emulated_fs_read(node, out, max);
+int fs_read(fs_node* node, uint8_t* out, uint32_t max) {
+    return emulated_fs_read(node, out, max);
 }
 
 fs_node* fs_resolve(const char* path, fs_node* current) {
