@@ -126,6 +126,10 @@ void ls(fs_node* dir) {
 }
 
 void cd(fs_node** current_dir, string where) {
+    if (!where || where[0] == 0) {
+        print_error("Missing operand");
+        return;
+    }
     fs_node* target = fs_resolve(where, *current_dir);
     if (target) {
         if (target->type != EMULATED_FS_DIR) {
@@ -138,6 +142,10 @@ void cd(fs_node** current_dir, string where) {
 }
 
 void cat(fs_node* current_dir, string where) {
+    if (!where || where[0] == 0) {
+        print_error("Missing operand");
+        return;
+    }
     fs_node* f = fs_resolve(where, current_dir);
     if (!f) {
         return print_error("File does not exist");
@@ -147,6 +155,100 @@ void cat(fs_node* current_dir, string where) {
     }
     println((string)f->data, 0x07);
 }
+
+const char* fs_basename(const char* path) {
+    int len = 0;
+    while (path[len]) len++;
+    if (len == 0) return path;
+
+    int i = len - 1;
+    while (i >= 0 && path[i] == '/') i--;
+    if (i < 0) return path;
+    while (i >= 0 && path[i] != '/') i--;
+
+    return path + i + 1;
+}
+
+void mkdir(fs_node* current_dir, const char* where) {
+    if (!where || where[0] == 0) {
+        print_error("Missing operand");
+        return;
+    }
+
+    const char* name = fs_basename(where);
+    if (!name || name[0] == 0) {
+        print_error("Invalid name");
+        return;
+    }
+
+    fs_node* existing = fs_resolve(where, current_dir);
+    if (existing) {
+        print_error("Cannot create directory: already exists");
+        return;
+    }
+
+    fs_node* parent = current_dir;
+    int last_slash = -1;
+
+    for (int i = 0; where[i]; i++) {
+        if (where[i] == '/') last_slash = i;
+    }
+
+    if (last_slash >= 0) {
+        if (last_slash == 0) {
+            parent = fs_resolve("/", current_dir);
+        } else {
+            char buffer[256];
+            int len = last_slash;
+            if (len > 255) len = 255;
+            for (int i = 0; i < len; i++) buffer[i] = where[i];
+            buffer[len] = 0;
+            parent = fs_resolve(buffer, current_dir);
+        }
+
+        if (!parent) {
+            print_error("Directory parent error: parent does not exist");
+            return;
+        }
+
+        if (parent->type != EMULATED_FS_DIR) {
+            print_error("Directory parent error: not a directory");
+            return;
+        }
+    }
+
+    fs_node* new_dir = fs_create_dir_node(name, parent);
+    fs_add_child(parent, new_dir);
+}
+
+void rm(fs_node* current_dir, const char* path) {
+    if (!path || path[0] == 0) {
+        print_error("Missing operand");
+        return;
+    }
+
+    fs_node* node = fs_resolve(path, current_dir);
+    if (!node) {
+        print_error("No such file or directory");
+        return;
+    }
+
+    if (node->type == EMULATED_FS_DIR) {
+        kbool confirmation = read_yn("Do you want to delete a directory?\n (y/n) $ ", 0x07);
+        if (confirmation == KFALSE) return print_info("Ommitting directory");
+    }
+
+    fs_node* parent = node->parent;
+    if (!parent) {
+        print_error("It is dangerous to operate recursively on '/'");
+        print_error("If possible, please reformat the drive instead of using this command.");
+        return;
+    }
+
+    fs_remove_child(parent, node);
+    fs_delete(node);
+}
+
 
 char* pwd(fs_node* current_dir) {
     static char path[256];

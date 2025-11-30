@@ -23,12 +23,34 @@
 
 #include "commands/commands.h"
 
-void printprefix(const char* user, const char* pcname, const char* dir) {
+void printprefix(const char* user, const char* pcname, const char* directory) {
+    char home[256];
+    int pos = 0;
+
+    const char* base = "/home/";
+    for (int i = 0; base[i] && pos < 255; i++) home[pos++] = base[i];
+    for (int i = 0; user[i] && pos < 255; i++) home[pos++] = user[i];
+    home[pos] = 0;
+
+    const char* shown = directory;
+    int match = 1;
+
+    for (int i = 0; home[i]; i++) {
+        if (directory[i] != home[i]) {
+            match = 0;
+            break;
+        }
+    }
+
+    if (match) {
+        shown = "~";
+    }
+
     print(user, 0x0B);
     print("@", 0x07);
     print(pcname, 0x0B);
     print(":", 0x07);
-    print(dir, 0x0B);
+    print(shown, 0x0B);
     print(" $ ", 0x0F);
 }
 
@@ -118,6 +140,10 @@ int terminal_main(uint16_t theme) {
                 cd(&current_dir, args[1]);
             } else if (streql(args[0], "ls")) {
                 ls(current_dir);
+            } else if (streql(args[0], "mkdir")) {
+                mkdir(current_dir, args[1]);
+            } else if (streql(args[0], "rm")) {
+                rm(current_dir, args[1]);
             } else if (streql(args[0], "tinypad")) {
                 tinypad_main(0x07, 0x9F);
             } else if (streql(args[0], "help")) {
@@ -140,7 +166,7 @@ int terminal_main(uint16_t theme) {
 
     kernelpanic("KERNEL_MAIN_LOOP_EXITED",
         "This shall not happen unless you're using\n"
-        " a developer command 'loopquit' on a beta build of AurorOS.\n"
+        " a developer command 'kptesting' on a beta build of AurorOS.\n"
         " If this screen was not issued by that command, please report\n"
         " an issue."
     );

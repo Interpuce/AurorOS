@@ -111,3 +111,20 @@ void emulated_fs_read(emulated_fs_node* file, uint8_t* out, uint32_t max) {
 void emulated_fs_init() {
     emulated_fs_root = emulated_fs_create_dir_node("/", NULL);
 }
+
+void emulated_fs_delete(emulated_fs_node* node) {
+    if (!node) return;
+
+    if (node->type == EMULATED_FS_DIR) {
+        for (uint32_t i = 0; i < node->child_count; i++) {
+            emulated_fs_delete(node->children[i]);
+        }
+        free(node->children);
+        node->child_count = 0;
+    } else if (node->type == EMULATED_FS_FILE) {
+        free(node->data);
+        node->data = NULL;
+    }
+
+    free(node);
+}

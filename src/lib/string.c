@@ -112,3 +112,65 @@ int strcmp(const char* a, const char* b) {
     }
     return (unsigned char)*a - (unsigned char)*b;
 }
+
+char* str_replace(const char* begin, const char* what, const char* repl) {
+    if (!begin || !what || !repl) return NULL;
+
+    int blen = 0;
+    while (begin[blen]) blen++;
+
+    int wlen = 0;
+    while (what[wlen]) wlen++;
+
+    int rlen = 0;
+    while (repl[rlen]) rlen++;
+
+    if (wlen == 0) {
+        char* out = malloc(blen + 1);
+        for (int i = 0; i < blen; i++) out[i] = begin[i];
+        out[blen] = 0;
+        return out;
+    }
+
+    int count = 0;
+    for (int i = 0; i < blen; ) {
+        int match = 1;
+        for (int j = 0; j < wlen; j++) {
+            if (begin[i + j] != what[j]) {
+                match = 0;
+                break;
+            }
+        }
+        if (match) {
+            count++;
+            i += wlen;
+        } else {
+            i++;
+        }
+    }
+
+    int outlen = blen + count * (rlen - wlen);
+    char* out = malloc(outlen + 1);
+    if (!out) return NULL;
+
+    int oi = 0;
+    for (int i = 0; i < blen; ) {
+        int match = 1;
+        for (int j = 0; j < wlen; j++) {
+            if (begin[i + j] != what[j]) {
+                match = 0;
+                break;
+            }
+        }
+
+        if (match) {
+            for (int j = 0; j < rlen; j++) out[oi++] = repl[j];
+            i += wlen;
+        } else {
+            out[oi++] = begin[i++];
+        }
+    }
+
+    out[oi] = 0;
+    return out;
+}

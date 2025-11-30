@@ -22,4 +22,6 @@ extern void help();
 extern void cat(fs_node* current_dir, string where);
 extern void cd(fs_node** current_dir, string where);
 extern void ls(fs_node* dir);
-extern char* pwd(fs_node* current_dir) ;
+extern char* pwd(fs_node* current_dir);
+extern void mkdir(fs_node* current_dir, const char* where);
+extern void rm(fs_node* current_dir, const char* path);
