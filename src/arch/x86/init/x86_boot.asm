@@ -29,7 +29,14 @@ arch_x86_start:
     cli
     mov esp, _kernel_stack_end
     mov ebp, esp
+
+    mov edi, eax 
+    mov esi, ebx  
+    push esi   
+    push edi
     call arch_x86_real_mode_entry
+    add esp, 8
+
     hlt
 
 ; eclair was here (twice)

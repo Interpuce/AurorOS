@@ -14,6 +14,7 @@
 #include <filesystem.h>
 #include <panic.h>
 #include <asm/power.h>
+#include <asm/multiboot.h>
 
 extern void main(void);
 
@@ -27,7 +28,16 @@ static inline kbool is_protected_mode() {
     return (cr0 & 1) != 0;
 }
 
-void arch_x86_real_mode_entry() {
+int arch_x86_multiboot_magic;
+multiboot_info_t* arch_x86_multiboot_mb;
+
+void arch_x86_real_mode_entry(uint32_t magic, multiboot_info_t* mb) {
+    arch_x86_multiboot_magic = magic;
+    arch_x86_multiboot_mb = mb;
+    if (!arch_x86_multiboot_magic || !arch_x86_multiboot_mb) {
+        kernelpanic("MB_STRUCT_NOT_AVAILABLE", "Please make sure you are using the GRUB 2 bootloader.");
+    }
+
     gdt_install();
     protected_mode_init();
 }
@@ -45,7 +55,7 @@ void arch_x86_protected_mode_entry() {
 
     idt_init();
 
-    init_memory();
+    init_memory(arch_x86_multiboot_mb->mmap_addr, arch_x86_multiboot_mb->mmap_length);
     init_fs();
 
     if (fs_root->child_count == 0) {

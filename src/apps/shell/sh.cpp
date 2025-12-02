@@ -25,89 +25,61 @@ extern "C" {
 #include "commands/commands.hpp"
 #include <apps/tinypad.hpp>
 
-void printprefix(const char* user, const char* pcname, const char* directory) {
-    char home[256];
-    int pos = 0;
+extern "C" int shell_main(uint16_t theme, string current_user);
 
-    const char* base = "/home/";
-    for (int i = 0; base[i] && pos < 255; i++) home[pos++] = base[i];
-    for (int i = 0; user[i] && pos < 255; i++) home[pos++] = user[i];
-    home[pos] = 0;
+namespace ShellUtils {
+    void printprefix(const char* user, const char* pcname, const char* directory) {
+        char home[256];
+        int pos = 0;
 
-    const char* shown = directory;
-    int match = 1;
-
-    for (int i = 0; home[i]; i++) {
-        if (directory[i] != home[i]) {
-            match = 0;
-            break;
+        if (streql(user, "root")) {
+            const char* base = "/root";
+            for (int i = 0; base[i] && pos < 255; i++)
+                home[pos++] = base[i];
+            home[pos] = 0;
+        } else {
+            const char* base = "/home/";
+            for (int i = 0; base[i] && pos < 255; i++)
+                home[pos++] = base[i];
+            for (int i = 0; user[i] && pos < 255; i++)
+                home[pos++] = user[i];
+            home[pos] = 0;
         }
+
+        const char* shown = directory;
+        int match = 1;
+
+        for (int i = 0; home[i]; i++) {
+            if (directory[i] != home[i]) {
+                match = 0;
+                break;
+            }
+        }
+
+        if (match) {
+            shown = "~";
+        }
+
+        print(user, 0x0B);
+        print("@", 0x07);
+        print(pcname, 0x0B);
+        print(":", 0x07);
+        print(shown, 0x0B);
+        print(" $ ", 0x0F);
     }
 
-    if (match) {
-        shown = "~";
+    namespace EvalCmdReturnType {
+        typedef enum {
+            Normal,
+            ExitShell,
+            ExitKernelMainLoop,
+            RecursiveNormalExit
+        } Type;
     }
-
-    print(user, 0x0B);
-    print("@", 0x07);
-    print(pcname, 0x0B);
-    print(":", 0x07);
-    print(shown, 0x0B);
-    print(" $ ", 0x0F);
-}
-
-char* num2str(int value, char* buffer) {
-    char temp[32];
-    int pos = 0;
-    int neg = value < 0;
-
-    if (value == 0) {
-        buffer[0] = '0';
-        buffer[1] = '\0';
-        return buffer;
-    }
-
-    if (neg) value = -value;
-
-    while (value > 0) {
-        temp[pos++] = '0' + (value % 10);
-        value /= 10;
-    }
-
-    int i = 0;
-
-    if (neg) buffer[i++] = '-';
-
-    while (pos > 0) {
-        buffer[i++] = temp[--pos];
-    }
-
-    buffer[i] = '\0';
-    return buffer;
-}
-
-extern "C" int shell_main(uint16_t theme, string current_user) {
-    fs_node* current_dir = fs_resolve("/home/liveuser", emulated_fs_root);
-
-    uint8_t beta_state = AUROR_BETA_STATE;
-
-    if (beta_state == 1) {
-        print_warn("You are using early build of AurorOS!");
-    } else if (beta_state == 2) {
-        print_warn("You are using public beta build of AurorOS!");
-    } else if (beta_state == 3) {
-        print_warn("You are using release candidate build of AurorOS!");
-    } else {
-        print_ok("You're running a stable version of AurorOS!");
-    }
-
-    char buffer[128];
-    char *args[10];
-    while (1) {
-        printprefix(current_user, PC_NAME, ShellCommands::pwd(current_dir));
-        read_str(buffer, sizeof(buffer), 0, 0x07);
-
-        int arg_count = split_str(buffer, ' ', args, 10);
+    
+    EvalCmdReturnType::Type evaluate_command(char* command, uint16_t theme, string current_user, fs_node** current_dir) {
+        char *args[10];
+        int arg_count = split_str(command, ' ', args, 10);
 
         if (arg_count > 0) {
             char farg[1024] = "";
@@ -136,15 +108,15 @@ extern "C" int shell_main(uint16_t theme, string current_user) {
             } else if (streql(args[0], "eclair")) {
                 ShellCommands::eclair(args[1]);
             } else if (streql(args[0], "cat")) {
-                ShellCommands::cat(current_dir, args[1]);
+                ShellCommands::cat(*current_dir, args[1]);
             } else if (streql(args[0], "cd")) {
-                ShellCommands::cd(&current_dir, args[1]);
+                ShellCommands::cd(current_dir, args[1]);
             } else if (streql(args[0], "ls")) {
-                ShellCommands::ls(current_dir);
+                ShellCommands::ls(*current_dir);
             } else if (streql(args[0], "mkdir")) {
-                ShellCommands::mkdir(current_dir, args[1]);
+                ShellCommands::mkdir(*current_dir, args[1]);
             } else if (streql(args[0], "rm")) {
-                ShellCommands::rm(current_dir, args[1]);
+                ShellCommands::rm(*current_dir, args[1]);
             } else if (streql(args[0], "tinypad")) {
                 tinypad_main(0x07, 0x9F);
             } else if (streql(args[0], "help")) {
@@ -153,16 +125,45 @@ extern "C" int shell_main(uint16_t theme, string current_user) {
                 println("Visit this link on other device:", 0x07);
                 println("https://github.com/Interpuce/AurorOS", 0x07);
             } else if (streql(args[0], "sh")) {
-                shell_main(theme, current_user);
+                if (shell_main(theme, current_user) == EvalCmdReturnType::RecursiveNormalExit) return EvalCmdReturnType::RecursiveNormalExit;
             } else if (streql(args[0], "exit")) {
-                return 0;
+                return EvalCmdReturnType::ExitShell;
+            } else if (streql(args[0], "logout")) {
+                return EvalCmdReturnType::RecursiveNormalExit;
             } else if (streql(args[0], "kptesting") && AUROR_BETA_STATE != 0) {
-                break;
+                return EvalCmdReturnType::ExitKernelMainLoop;
+            } else if (streql(args[0], "eval")) {
+                return evaluate_command(farg, theme, current_user, current_dir);
+            } else if (streql(args[0], "pwd")) {
+                println(ShellCommands::pwd(*current_dir), 0x07);
             } else {
                 string error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);
             }
         }
+        return EvalCmdReturnType::Normal;
+    }
+}
+
+extern "C" int shell_main(uint16_t theme, string current_user) {
+    char user_home_path[256]; 
+    strcpy(user_home_path, "/home/");
+    strcat(user_home_path, current_user);
+    fs_node* current_dir = fs_resolve(streql(current_user, "root") ? "root" : user_home_path, emulated_fs_root);
+
+    char buffer[128];
+    while (KTRUE) {
+        ShellUtils::printprefix(current_user, PC_NAME, ShellCommands::pwd(current_dir));
+        read_str(buffer, sizeof(buffer), 0, 0x07);
+
+        ShellUtils::EvalCmdReturnType::Type eval_result = ShellUtils::evaluate_command(buffer, theme, current_user, &current_dir);
+
+        using namespace ShellUtils::EvalCmdReturnType;
+        if (eval_result == Normal) continue;
+        if (eval_result == ExitShell) return 0;
+        if (eval_result == RecursiveNormalExit) return RecursiveNormalExit;
+
+        break;
     }
 
     kernelpanic("KERNEL_MAIN_LOOP_EXITED",

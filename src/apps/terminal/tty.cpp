@@ -7,6 +7,7 @@ extern "C" {
     #include <input.h>
     #include <msg.h>
     #include <constants.h>
+    #include <panic.h>
 }
 
 namespace Auth {
@@ -28,7 +29,7 @@ namespace Auth {
             ue->password[0] = 0;
             ue->group_count = 0;
 
-            int field = 0; // 0=username, 1=password, 2=groups, 3=nic
+            int field = 0; // 0=username, 1=password, 2=groups, 3=nothing
             int char_i = 0;
             int group_i = 0;
             int group_char_i = 0;
@@ -68,7 +69,6 @@ namespace Auth {
                 i++;
             }
 
-            // zakończenie ostatniej grupy
             if (field == 2 && group_char_i > 0 && group_i < 8) {
                 ue->groups[group_i][group_char_i] = 0;
                 ue->group_count++;
@@ -102,13 +102,13 @@ reauth:
 
     fs_node* node = fs_resolve("/etc/users", fs_root);
     if (!node) {
-        print_error("Missing /etc/users");
+        kernelpanic("USERS_MISSING", "Cannot read the users file (/etc/users)\n or it is invalid. Login aborted.");
         goto reauth;
     }
 
     int len = fs_read(node, (uint8_t*)buf, sizeof(buf)-1);
     if (len < 0) {
-        print_error("Cannot read users");
+        kernelpanic("USERS_MISSING", "Cannot read the users file (/etc/users)\n or it is invalid. Login aborted.");
         goto reauth;
     }
     buf[len] = 0;
@@ -116,6 +116,17 @@ reauth:
     Auth::parse_users(buf, len, users, &users_count);
 
     if (welcome_msg_displayed == KFALSE) {
+        println("", 0x07);
+        if (AUROR_BETA_STATE == 1) {
+            print_warn("You are using early build of AurorOS!");
+        } else if (AUROR_BETA_STATE == 2) {
+            print_warn("You are using public beta build of AurorOS!");
+        } else if (AUROR_BETA_STATE == 3) {
+            print_warn("You are using release candidate build of AurorOS!");
+        } else {
+            print_ok("You're running a stable version of AurorOS!");
+        }
+        println("", 0x07);
         println("Welcome to AurorOS!", 0x0a);
         if (Auth::find_user("liveuser", users, users_count) && AUROR_LIVEUSER_AUTOLOGIN) {
             println("Automatic login is enabled for the liveuser account.", 0x07);
@@ -135,7 +146,7 @@ reauth:
         goto reauth;
     }
 
-    static Auth::UserEntry* user = Auth::find_user(username, users, users_count);
+    Auth::UserEntry* user = Auth::find_user(username, users, users_count);
 
     static char passwd[32] = {0};
     print(username, 0x07);
@@ -147,13 +158,7 @@ reauth:
         println("(automatic login)", 0x07);
     } else {
         read_str(passwd, sizeof(passwd), KTRUE, 0x07);
-        if (!user) {
-            println("", 0x07);
-            print_error("Login incorrect");
-            println("", 0x07);
-            goto reauth;
-        }
-        if (!streql(passwd, user->password)) {
+        if (!user || !streql(passwd, user->password)) {
             println("", 0x07);
             print_error("Login incorrect");
             println("", 0x07);
@@ -161,5 +166,13 @@ reauth:
         }
     }
 
-    return shell_main(theme, user->username);
+    println("", 0x07);
+
+    shell_main(theme, user->username);
+
+    println("", 0x07);
+
+    goto reauth;
+
+    return -1;
 }
