@@ -71,6 +71,11 @@ echo -e "[\033[1m\033[36m*\033[0m] .bin -> AurorOS.iso"
 mkdir -p "$GRUB_DIR"
 cp "$KERNEL_OUTPUT" "$BOOT_DIR"
 cat > "$GRUB_DIR/grub.cfg" << EOF
+set gfxmode=1024x768x32
+set gfxpayload=keep
+load_video
+terminal_output gfxterm
+
 menuentry "AurorOS" {
     multiboot /boot/kernel.bin
 }

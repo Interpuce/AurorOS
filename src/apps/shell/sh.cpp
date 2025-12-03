@@ -136,6 +136,8 @@ namespace ShellUtils {
                 return evaluate_command(farg, theme, current_user, current_dir);
             } else if (streql(args[0], "pwd")) {
                 println(ShellCommands::pwd(*current_dir), 0x07);
+            } else if (streql(args[0], "drivers")) {
+                ShellCommands::DriverManager(args);
             } else {
                 string error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);

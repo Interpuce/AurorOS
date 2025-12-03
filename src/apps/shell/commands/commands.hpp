@@ -26,4 +26,5 @@ namespace ShellCommands {
     extern const char* pwd(fs_node* current_dir);
     extern void mkdir(fs_node* current_dir, const char* where);
     extern void rm(fs_node* current_dir, const char* path);
+    extern void DriverManager(char* trts[10]);
 }

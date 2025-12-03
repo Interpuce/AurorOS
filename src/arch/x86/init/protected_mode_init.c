@@ -15,6 +15,7 @@
 #include <panic.h>
 #include <asm/power.h>
 #include <asm/multiboot.h>
+#include <screen/vga.h>
 
 extern void main(void);
 
@@ -37,6 +38,11 @@ void arch_x86_real_mode_entry(uint32_t magic, multiboot_info_t* mb) {
     if (!arch_x86_multiboot_magic || !arch_x86_multiboot_mb) {
         kernelpanic("MB_STRUCT_NOT_AVAILABLE", "Please make sure you are using the GRUB 2 bootloader.");
     }
+    if (arch_x86_multiboot_mb->framebuffer_addr == 0 || !arch_x86_multiboot_mb->framebuffer_addr) {
+        kernelpanic("MB_STRUCT_INVALID", "The framebuffer is not present in the multiboot data.");
+    }
+
+    screen_init(mb);
 
     gdt_install();
     protected_mode_init();

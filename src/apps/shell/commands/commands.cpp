@@ -283,4 +283,24 @@ namespace ShellCommands {
 
         return returnable;
     }
+
+    void DriverManager(char* trts[10]) {
+        if (streql(trts[1], "use")) {
+            if (streql(trts[2], "vesa")) {
+                screen_set_mode(SCREEN_MODE_VESA);
+            } else if (streql(trts[2], "vga")) {
+                screen_set_mode(SCREEN_MODE_VGA);
+            } else {
+                print_error("No driver provided.");
+                print_error("Available drivers: vga, vesa");
+            }
+        } else if (streql(trts[1], "enable")) {
+            print_error("No driver provided.");
+        } else if (streql(trts[1], "disable")) {
+            print_error("No driver provided.");
+        } else {
+            print_error("No action provided.");
+            print_error("Available actions: use, enable, disable");
+        }
+    }
 }

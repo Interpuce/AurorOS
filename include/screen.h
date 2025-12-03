@@ -11,13 +11,23 @@
 #pragma once
 
 #include <types.h>
+#include <asm/multiboot.h>
+
+typedef enum {
+    SCREEN_MODE_VGA,
+    SCREEN_MODE_VESA
+} screen_mode_t;
+
+void screen_set_mode(screen_mode_t mode);
+screen_mode_t screen_get_mode();
 
 void printchar(char c, uint8_t color);
-void printstr(const char *str, uint8_t color);
+void printstr(const char* str, uint8_t color);
 void delchar();
 void clearscreen();
 void paintscreen(uint8_t color);
 void printint(uint16_t value, uint8_t color);
 void clearline(uint16_t line);
 void paintline(uint16_t line, uint8_t color);
-void printct(const char *str, uint8_t color);
+void printct(const char* str, uint8_t color);
+void screen_init(multiboot_info_t* mbi);
