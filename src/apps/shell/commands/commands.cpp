@@ -17,8 +17,8 @@ extern "C" {
     #include <constants.h>
     #include <input.h>
     #include <screen.h>
-    #include <fs-emulated.h>
-    #include <filesystem.h>
+    #include <fs/fs-emulated.h>
+    #include <fs/filesystem.h>
 }
 
 namespace ShellCommands {

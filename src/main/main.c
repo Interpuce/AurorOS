@@ -10,7 +10,7 @@
 
 #include <memory.h>
 #include <types.h>
-#include <fs-emulated.h>
+#include <fs/fs-emulated.h>
 #include <panic.h>
 #include <asm/power.h>
 

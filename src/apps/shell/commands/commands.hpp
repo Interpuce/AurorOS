@@ -13,7 +13,7 @@
 #include <types.h>
 #include <screen.h>
 #include <string.h>
-#include <filesystem.h>
+#include <fs/filesystem.h>
 
 namespace ShellCommands {
     extern void cowsay(char message[1024]);

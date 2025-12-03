@@ -18,8 +18,8 @@ extern "C" {
     #include <input.h>
     #include <asm/power.h>
     #include <panic.h>
-    #include <fs-emulated.h>
-    #include <filesystem.h>
+    #include <fs/fs-emulated.h>
+    #include <fs/filesystem.h>
 }
 
 #include "commands/commands.hpp"

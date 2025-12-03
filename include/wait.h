@@ -12,10 +12,15 @@
 
 #include <types.h>
 
-uint8_t inb(uint16_t port);
-uint16_t inw(uint16_t port);
-uint32_t inl(uint16_t port);
+static inline void io_wait() {
+    __asm__ volatile ("outb %%al, $0x80" : : "a"(0));
+}
 
-void outb(uint16_t port, uint8_t value);
-void outw(uint16_t port, uint16_t data);
-void outl(uint16_t port, uint32_t val);
+static inline void sleep_ms(uint32_t ms) {
+    for (uint32_t i = 0; i < ms; i++) {
+        for (volatile uint32_t j = 0; j < 100000; j++) {
+            __asm__ volatile("nop");
+        }
+        io_wait(); 
+    }
+}

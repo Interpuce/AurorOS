@@ -11,7 +11,7 @@
 #pragma once
 
 #include <types.h>
-#include <fs-emulated.h>
+#include <fs/fs-emulated.h>
 
 typedef emulated_fs_node fs_node;
 

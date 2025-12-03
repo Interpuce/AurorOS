@@ -12,7 +12,7 @@
 #include <memory.h>
 #include <msg.h>
 #include <string.h>
-#include <fs-emulated.h>
+#include <fs/fs-emulated.h>
 
 emulated_fs_node* emulated_fs_root;
 

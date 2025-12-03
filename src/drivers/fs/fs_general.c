@@ -1,6 +1,6 @@
 #include <types.h>
-#include <fs-emulated.h>
-#include <filesystem.h>
+#include <fs/fs-emulated.h>
+#include <fs/filesystem.h>
 
 fs_node* fs_root;
 
