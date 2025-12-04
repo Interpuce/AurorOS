@@ -11,9 +11,12 @@
 #include <types.h>
 #include <msg.h>
 #include <string.h>
+#include <memory.h>
 #include <ports.h>
 #include <pci.h>
 #include <wait.h>
+
+static uint16_t pci_device_count = 0;
 
 uint8_t pci_read_config8(uint8_t bus, uint8_t slot, uint8_t func, uint8_t offset) {
     uint32_t address;
@@ -71,6 +74,8 @@ void pci_read_device(uint8_t bus, uint8_t slot, uint8_t func) {
     uint16_t vendor = pci_config_read16(bus, slot, func, 0x00);
     if (vendor == 0xFFFF) return;
 
+    pci_device_count++; 
+    
     uint16_t device = pci_config_read16(bus, slot, func, 0x02);
     uint8_t class_id = pci_config_read16(bus, slot, func, 0x0A) >> 8;
     uint8_t subclass = pci_config_read16(bus, slot, func, 0x0A) & 0xFF;
@@ -110,13 +115,46 @@ void pci_scan_bus(uint8_t bus) {
 }
 
 void pci_scan() {
+    pci_device_count = 0;
+    
     for (uint16_t bus = 0; bus < 256; bus++) {
         pci_scan_bus(bus);
     }
 }
 
+static void int_to_string(uint16_t value, char* buffer, int buffer_size) {
+    if (buffer_size < 2) return;
+    
+    int i = buffer_size - 2;
+    buffer[buffer_size - 1] = '\0';
+    
+    if (value == 0) {
+        buffer[i] = '0';
+        memmove(buffer, &buffer[i], 2);
+        return;
+    }
+    
+    while (value > 0 && i >= 0) {
+        buffer[i] = '0' + (value % 10);
+        value /= 10;
+        i--;
+    }
+    
+    memmove(buffer, &buffer[i + 1], buffer_size - i - 2);
+}
+
 void pci_init() {
     print_info("Started scanning PCI devices");
+    
     pci_scan();
-    print_ok("Finished scanning PCI devices");
+    
+    char count_str[10];
+    int_to_string(pci_device_count, count_str, sizeof(count_str));
+    
+    char msg[64];
+    strcpy(msg, "Found ");
+    strcat(msg, count_str);
+    strcat(msg, " PCI devices");
+    
+    print_ok(msg);
 }

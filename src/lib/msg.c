@@ -38,7 +38,7 @@ void print_warn(const string str) {
 
 void print_ok(const string str) {
     printstr("[ ", 0x07);
-    printstr("OK", 0x0B);
+    printstr("OK", 0x02);
     printstr(" ] ", 0x07);
     printstr(str, 0x07);
     printstr("\n", 0x07);

@@ -17,6 +17,7 @@
 #include <asm/multiboot.h>
 #include <pci.h>
 #include <fs/controllers/ahci.h>
+#include <wait.h>
 
 extern void main(void);
 
