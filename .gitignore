@@ -1,0 +1,8 @@
+tmp
+bin
+*.iso
+kernel.bin
+iso
+.idea
+.nvim
+src/images/bg.cpp

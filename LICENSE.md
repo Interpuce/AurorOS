@@ -1,0 +1,1 @@
+This project is licensed under [AurorOS license](https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md).
