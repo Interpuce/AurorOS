@@ -6,3 +6,4 @@ iso
 .idea
 .nvim
 src/images/bg.cpp
+obj
