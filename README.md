@@ -19,7 +19,7 @@ Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blo
 
 ## Copyright & License
 
-AurorOS is maintained by Interpuce:
+AurorOS is maintained by Interpuc members:
 
 - [Ekler25](https://github.com/Ekler25)
 - [Gorciu](https://github.com/gorciu-official)
