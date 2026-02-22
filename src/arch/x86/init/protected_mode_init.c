@@ -15,8 +15,6 @@
 #include <panic.h>
 #include <asm/power.h>
 #include <asm/multiboot.h>
-#include <pci.h>
-#include <fs/controllers/ahci.h>
 #include <wait.h>
 
 extern void main(void);
@@ -57,9 +55,6 @@ void arch_x86_protected_mode_entry() {
     );
 
     idt_init();
-
-    pci_init();
-    ahci_init();
 
     init_memory(arch_x86_multiboot_mb->mmap_addr, arch_x86_multiboot_mb->mmap_length);
     init_fs();

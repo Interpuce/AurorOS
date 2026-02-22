@@ -13,6 +13,7 @@
 #include <msg.h>
 #include <string.h>
 #include <fs/fs-emulated.h>
+#include <fs/permissions/umask.h>
 
 emulated_fs_node* emulated_fs_root;
 
@@ -22,6 +23,7 @@ emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node
     strcpy(node->name, name);
     node->type = EMULATED_FS_DIR;
     node->parent = parent;
+    node->permissions = MK_DEFAULT_PERMISSIONS(777);
     return node;
 }
 
@@ -31,6 +33,7 @@ emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_nod
     strcpy(node->name, name);
     node->type = EMULATED_FS_FILE;
     node->parent = parent;
+    node->permissions = MK_DEFAULT_PERMISSIONS(777);
     return node;
 }
 

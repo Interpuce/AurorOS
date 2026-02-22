@@ -1,0 +1,9 @@
+-ffreestanding 
+-fno-rtti 
+-fno-threadsafe-statics 
+-nostartfiles 
+-Iinclude 
+-nostdlib 
+-fno-stack-protector 
+-fno-exceptions 
+-fno-rtti

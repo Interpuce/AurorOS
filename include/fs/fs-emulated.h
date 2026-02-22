@@ -22,6 +22,8 @@ typedef struct emulated_fs_node {
     emulated_fs_node_type type;
     struct emulated_fs_node* parent;
 
+    uint16_t permissions;
+
     string* data;
     uint32_t size;
 
