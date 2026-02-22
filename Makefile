@@ -1,6 +1,6 @@
 # AurorOS Makefile
 
-.PHONY: all help shbuild depinstall clean
+.PHONY: all help shbuild depinstall clean run_qemu
 
 all: shbuild
 
@@ -35,4 +35,7 @@ clean:
 	rm -rf iso
 	rm -rf kernel.bin
 	rm -rf AurorOS.iso
+
+run_qemu:
+	qemu-system-x86_64 -cdrom AurorOS.iso
 endif
