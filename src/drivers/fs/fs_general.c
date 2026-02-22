@@ -64,26 +64,35 @@ extern void emulated_fs_init();
 void init_fs() {
     emulated_fs_init();
     fs_root = emulated_fs_root;
-
+    
+    // bin folder
     fs_node* bin = fs_create_dir_node("bin", fs_root, "root");
+    bin->permissions = 0755;
     fs_add_child(fs_root, bin);
-
+    
+    // home dirs
     fs_node* home = fs_create_dir_node("home", fs_root, "root");
+    home->permissions = 0755;
     fs_add_child(fs_root, home);
-
-    fs_node* root = fs_create_dir_node("root", fs_root, "root");
-    fs_add_child(fs_root, root);
-
-    fs_node* etc = fs_create_dir_node("etc", fs_root, "root");
-    fs_add_child(fs_root, etc);
 
     fs_node* user = fs_create_dir_node("liveuser", home, "liveuser");
     fs_add_child(home, user);
 
+    fs_node* root = fs_create_dir_node("root", fs_root, "root");
+    root->permissions = 0755;
+    fs_add_child(fs_root, root);
+    
+    // etc folder
+    fs_node* etc = fs_create_dir_node("etc", fs_root, "root");
+    etc->permissions = 0755;
+    fs_add_child(fs_root, etc); 
+
+    // user files
     fs_node* notes = fs_create_file_node("README.txt", user, "liveuser");
     fs_add_child(user, notes);
     fs_write(notes, "Welcome in AurorOS!", 23);
-
+    
+    // system files
     fs_node* users = fs_create_file_node("users", etc, "root");
     fs_add_child(etc, users);
     fs_write(users, "root:x::\nliveuser:x:sudo,sudonopasswd:", 39);

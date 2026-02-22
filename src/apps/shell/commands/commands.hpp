@@ -25,4 +25,5 @@ namespace ShellCommands {
     extern const char* pwd(fs_node* current_dir);
     extern void mkdir(fs_node* current_dir, const char* where, char* owner);
     extern void rm(fs_node* current_dir, const char* path);
+    extern void chmod(fs_node* current_dir, char* current_user, char* perm_arg, char* target_path);
 }

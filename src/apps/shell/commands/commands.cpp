@@ -155,7 +155,68 @@ namespace ShellCommands {
         }
     
         *current_dir = target;
-    } 
+    }
+
+    uint16_t octal_to_uint16(const char* str) {
+        uint16_t result = 0;
+        for (int i = 0; str[i]; ++i) {
+            char c = str[i];
+            if (c < '0' || c > '7') break;
+            result = (result << 3) | (c - '0');
+        }   
+        return result;
+    }
+
+    void chmod(fs_node* current_dir, char* current_user, char* perm_arg, char* target_path) {
+        if (!perm_arg || !target_path) {
+            print_error("Missing operand");
+            return;
+        }
+    
+        fs_node* target = fs_resolve(target_path, current_dir);
+        if (!target) {
+            print_error("File not found");
+            return;
+        }
+    
+        int is_owner = streql(current_user, target->owner);
+        int is_root  = streql(current_user, "root");
+    
+        if (!is_owner && !is_root) {
+            print_error("Permission denied");
+            return;
+        }
+    
+        uint16_t perms = target->permissions;
+
+        if (perm_arg[0] >= '0' && perm_arg[0] <= '7') {
+            uint16_t new_perms = ShellCommands::octal_to_uint16(perm_arg);
+            target->permissions = new_perms;
+            return;
+        }
+
+        for (int i = 0; perm_arg[i]; ++i) {
+            if (perm_arg[i] == '+' || perm_arg[i] == '-') {
+                char op = perm_arg[i];
+                ++i;
+                while (perm_arg[i]) {
+                    uint8_t mask = 0;
+                    switch (perm_arg[i]) {
+                        case 'r': mask = 0x4; break;
+                        case 'w': mask = 0x2; break;
+                        case 'x': mask = 0x1; break;
+                    }
+                    if (op == '+') perms |= mask;
+                    else perms &= ~mask;
+                    ++i;
+                }
+                break;
+            }
+        }
+    
+        target->permissions = perms;
+        print_info("Permissions updated");
+    }
 
     void cat(fs_node* current_dir, char* where, char* current_user) {
         if (!where || where[0] == 0) {

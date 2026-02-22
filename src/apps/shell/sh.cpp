@@ -136,6 +136,12 @@ namespace ShellUtils {
                 return evaluate_command(farg, theme, current_user, current_dir);
             } else if (streql(args[0], "pwd")) {
                 println(ShellCommands::pwd(*current_dir), 0x07);
+            } else if (streql(args[0], "chmod")) {
+                if (!args[1] || !args[2]) {
+                    print_error("Usage: chmod +rwx/700 file");
+                    return EvalCmdReturnType::Normal;
+                }
+                ShellCommands::chmod(*current_dir, current_user, args[1], args[2]);
             } else {
                 char* error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);
