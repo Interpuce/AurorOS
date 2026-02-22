@@ -11,7 +11,7 @@ A lightweight, custom OS made by Interpuce without any external dependencies.
 
 ## Downloading
 
-Navigate to [AurorOS's releases page](https://github.com/Interpuce/AurorOS/releases) and download the latest stable release (prefer non-beta if available).
+Navigate to [AurorOS's GitHub releases page](https://github.com/Interpuce/AurorOS/releases) and download the latest stable release.
 
 ## Contributions
 
@@ -19,9 +19,9 @@ Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blo
 
 ## Copyright & License
 
-AurorOS is maintained by Interpuce members:
+AurorOS is maintained by the members of Interpuce organization:
 
 - [Ekler25](https://github.com/Ekler25)
 - [Gorciu](https://github.com/gorciu-official)
 
-AurorOS is licensed under [a custom license](https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md)
+AurorOS is currently licensed under [a custom license](https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md), which is about to be changed.
