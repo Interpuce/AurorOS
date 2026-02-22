@@ -108,13 +108,13 @@ namespace ShellUtils {
             } else if (streql(args[0], "eclair")) {
                 ShellCommands::eclair(args[1]);
             } else if (streql(args[0], "cat")) {
-                ShellCommands::cat(*current_dir, args[1]);
+                ShellCommands::cat(*current_dir, args[1], current_user);
             } else if (streql(args[0], "cd")) {
-                ShellCommands::cd(current_dir, args[1]);
+                ShellCommands::cd(current_dir, args[1], current_user);
             } else if (streql(args[0], "ls")) {
                 ShellCommands::ls(*current_dir);
             } else if (streql(args[0], "mkdir")) {
-                ShellCommands::mkdir(*current_dir, args[1]);
+                ShellCommands::mkdir(*current_dir, args[1], current_user);
             } else if (streql(args[0], "rm")) {
                 ShellCommands::rm(*current_dir, args[1]);
             } else if (streql(args[0], "tinypad")) {
@@ -174,4 +174,3 @@ extern "C" int shell_main(uint16_t theme, char* current_user) {
     );
     return 1;
 }
-

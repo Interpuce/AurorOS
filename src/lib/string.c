@@ -174,3 +174,50 @@ char* str_replace(const char* begin, const char* what, const char* repl) {
     out[oi] = 0;
     return out;
 }
+
+int strncmp(const char *a, const char *b, size_t n) {
+    while (n && *a && *b) {
+        if (*a != *b) {
+            return (unsigned char)*a - (unsigned char)*b;
+        }
+        a++;
+        b++;
+        n--;
+    }
+    if (n == 0) return 0;
+    return (unsigned char)*a - (unsigned char)*b;
+}
+
+char *strncpy(char *dest, const char *src, size_t n) {
+    char *orig = dest;
+
+    while (n && *src) {
+        *dest++ = *src++;
+        n--;
+    }
+
+    while (n--) {
+        *dest++ = '\0';
+    }
+
+    return orig;
+}
+
+size_t strlcpy(char *dest, const char *src, size_t size) {
+    size_t len = 0;
+    const char *s = src;
+
+    while (*s++) len++;
+
+    if (size == 0) return len;
+
+    size_t copy_len = (len >= size) ? size - 1 : len;
+
+    for (size_t i = 0; i < copy_len; i++) {
+        dest[i] = src[i];
+    }
+
+    dest[copy_len] = '\0';
+
+    return len;
+}

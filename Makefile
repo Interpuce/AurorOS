@@ -65,3 +65,7 @@ build_iso: build_kernel
 clean:
 	@echo -e "\033[1;33m[*]\033[0m Cleaning..."
 	@rm -rf $(BIN_DIR) $(ISO_DIR) $(KERNEL_BIN) $(ISO_FILE)
+
+# running the iso
+run: all
+	qemu-system-x86_64 -cdrom AurorOS.iso

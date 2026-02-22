@@ -22,3 +22,6 @@ extern kbool starts_with(const char *str, const char *prefix);
 extern char* strslice(char *dest, const char *src, size_t n);
 extern int strcmp(const char* a, const char* b);
 extern char* str_replace(const char* begin, const char* what, const char* repl);
+extern int strncmp(const char *a, const char *b, size_t n);
+extern char *strncpy(char *dest, const char *src, size_t n);
+extern size_t strlcpy(char *dest, const char *src, size_t size);

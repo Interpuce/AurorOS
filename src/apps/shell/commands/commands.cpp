@@ -20,6 +20,7 @@ extern "C" {
     #include <fs/fs-emulated.h>
     #include <fs/filesystem.h>
     #include <string.h>
+    #include <fs/permissions/check.h>
 }
 
 namespace ShellCommands {
@@ -128,34 +129,57 @@ namespace ShellCommands {
         println("", 0x07);
     }
 
-    void cd(fs_node** current_dir, char* where) {
+    void cd(fs_node** current_dir, char* where, char* current_user) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
         }
+    
         fs_node* target = fs_resolve(where, *current_dir);
-        if (target) {
-            if (target->type != EMULATED_FS_DIR) {
-                return print_info("Not a directory");
-            }
-            *current_dir = target;
-        } else {
+        if (!target) {
             print_error("Directory not found");
+            return;
         }
-    }
+    
+        if (target->type != EMULATED_FS_DIR) {
+            print_info("Not a directory");
+            return;
+        }
+    
+        int is_owner = streql(target->owner, current_user);
+    
+        uint8_t perms = GET_PERMS(is_owner, is_owner, target->permissions);
+        if (!(perms & 0x1)) { 
+            print_error("Permission denied");
+            return;
+        }
+    
+        *current_dir = target;
+    } 
 
-    void cat(fs_node* current_dir, char* where) {
+    void cat(fs_node* current_dir, char* where, char* current_user) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
         }
+
         fs_node* f = fs_resolve(where, current_dir);
+
         if (!f) {
             return print_error("File does not exist");
         }
         if (f->type != EMULATED_FS_FILE) {
             return print_info("Is a directory");
         }
+        
+        int is_owner = streql(f->owner, current_user);
+    
+        uint8_t perms = GET_PERMS(is_owner, is_owner, f->permissions);
+        if (!(perms & 0x4)) { 
+            print_error("Permission denied");
+            return;
+        }
+
         println((char*)f->data, 0x07);
     }
 
@@ -172,7 +196,7 @@ namespace ShellCommands {
         return path + i + 1;
     }
 
-    void mkdir(fs_node* current_dir, const char* where) {
+    void mkdir(fs_node* current_dir, const char* where, char* owner) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
@@ -220,7 +244,7 @@ namespace ShellCommands {
             }
         }
 
-        fs_node* new_dir = fs_create_dir_node(name, parent);
+        fs_node* new_dir = fs_create_dir_node(name, parent, owner);
         fs_add_child(parent, new_dir);
     }
 

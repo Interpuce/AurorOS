@@ -18,21 +18,26 @@ typedef enum {
 } emulated_fs_node_type;
 
 typedef struct emulated_fs_node {
+    // base
     char name[32];
     emulated_fs_node_type type;
     struct emulated_fs_node* parent;
 
+    // permissions
     uint16_t permissions;
+    char* owner;
 
+    // contents
     char* data;
     uint32_t size;
 
+    // children
     struct emulated_fs_node* children[64];
     uint32_t child_count;
 } emulated_fs_node;
 
-emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node* parent);
-emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_node* parent);
+emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node* parent, char* owner);
+emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_node* parent, char* owner);
 void emulated_fs_add_child(emulated_fs_node* dir, emulated_fs_node* child);
 emulated_fs_node* emulated_fs_find_in(emulated_fs_node* dir, const char* name);
 emulated_fs_node* emulated_fs_resolve(const char* path, emulated_fs_node* current);

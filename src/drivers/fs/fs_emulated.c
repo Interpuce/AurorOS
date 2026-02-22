@@ -17,23 +17,27 @@
 
 emulated_fs_node* emulated_fs_root;
 
-emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node* parent) {
+emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node* parent, char* owner) {
     emulated_fs_node* node = malloc(sizeof(emulated_fs_node));
     memset(node, 0, sizeof(emulated_fs_node));
     strcpy(node->name, name);
     node->type = EMULATED_FS_DIR;
     node->parent = parent;
-    node->permissions = MK_DEFAULT_PERMISSIONS(777);
+    node->permissions = MK_DEFAULT_PERMISSIONS(0777);
+    node->owner = malloc(strlen(owner) + 1);
+    strcpy(node->owner, owner);
     return node;
 }
 
-emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_node* parent) {
+emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_node* parent, char* owner) {
     emulated_fs_node* node = malloc(sizeof(emulated_fs_node));
     memset(node, 0, sizeof(emulated_fs_node));
     strcpy(node->name, name);
     node->type = EMULATED_FS_FILE;
     node->parent = parent;
-    node->permissions = MK_DEFAULT_PERMISSIONS(777);
+    node->permissions = MK_DEFAULT_PERMISSIONS(0777);
+    node->owner = malloc(strlen(owner) + 1);
+    strcpy(node->owner, owner);
     return node;
 }
 
@@ -123,7 +127,7 @@ int emulated_fs_read(emulated_fs_node* file, uint8_t* out, uint32_t max) {
 }
 
 void emulated_fs_init() {
-    emulated_fs_root = emulated_fs_create_dir_node("/", NULL);
+    emulated_fs_root = emulated_fs_create_dir_node("/", NULL, "root");
 }
 
 void emulated_fs_delete(emulated_fs_node* node) {
