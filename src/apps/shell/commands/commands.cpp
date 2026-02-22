@@ -112,6 +112,7 @@ namespace ShellCommands {
         println(" ls - shows all files in the current directory", 0x07);
         println(" cat - reads a specified file", 0x07);
         println(" cd - changes the directory", 0x07);
+        println(" chmod - changes permissions of a file", 0x07);
         println(" exit - exits the shell or shuts down the OS", 0x07);
         println("", 0x07);
     }
