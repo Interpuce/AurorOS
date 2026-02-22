@@ -19,6 +19,7 @@ extern "C" {
     #include <screen.h>
     #include <fs/fs-emulated.h>
     #include <fs/filesystem.h>
+    #include <string.h>
 }
 
 namespace ShellCommands {
@@ -127,7 +128,7 @@ namespace ShellCommands {
         println("", 0x07);
     }
 
-    void cd(fs_node** current_dir, string where) {
+    void cd(fs_node** current_dir, char* where) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
@@ -143,7 +144,7 @@ namespace ShellCommands {
         }
     }
 
-    void cat(fs_node* current_dir, string where) {
+    void cat(fs_node* current_dir, char* where) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
@@ -155,7 +156,7 @@ namespace ShellCommands {
         if (f->type != EMULATED_FS_FILE) {
             return print_info("Is a directory");
         }
-        println((string)f->data, 0x07);
+        println((char*)f->data, 0x07);
     }
 
     const char* fs_basename(const char* path) {

@@ -4,7 +4,7 @@
 
 fs_node* fs_root;
 
-void fs_write(fs_node* node, string data, uint32_t size) {
+void fs_write(fs_node* node, char* data, uint32_t size) {
     emulated_fs_write(node, data, size);
 }
 

@@ -90,7 +90,7 @@ namespace Auth {
     }
 }
 
-extern "C" int shell_main(uint16_t theme, string current_user);
+extern "C" int shell_main(uint16_t theme, char* current_user);
 
 extern "C" int terminal_main(uint16_t theme) {
     char buf[256];

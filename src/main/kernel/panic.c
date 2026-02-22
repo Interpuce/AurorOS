@@ -33,7 +33,7 @@ void kernelpanic(const char *paniccode, const char *devnote) {
     /*
     If a developer note is provided, print it after the panic code.
     Please note that VGA resolution doesn't provide much space, so notes should be short and formatted properly. 
-    Developers are encouraged to use adjacent string literals when writing devnotes. For example, every newline in devnote can be a start of next string literal, just like below:
+    Developers are encouraged to use adjacent char* literals when writing devnotes. For example, every newline in devnote can be a start of next char* literal, just like below:
 
     kernelpanic("GRAPHICS_PROCESSOR_FAILURE", 
             "GPU has malfunctioned and system has crashed." 

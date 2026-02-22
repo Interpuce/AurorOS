@@ -16,7 +16,7 @@
 #include <msg.h>
 #include <panic.h>
 
-string replace_aef_arch(string what) {
+char* replace_aef_arch(char* what) {
     if (streql("x86", what)) {
         return AEF_ARCHITECTURE_X86;
     }
@@ -26,7 +26,7 @@ string replace_aef_arch(string what) {
     return "------";
 }
 
-int check_aef_arch(string content) {
+int check_aef_arch(char* content) {
     char* full_arch_beginning = AEF_MAGIC_NUMBER;
     strcpy(full_arch_beginning, replace_aef_arch(PC_ARCH));
 
@@ -48,7 +48,7 @@ int check_aef_arch(string content) {
     }
 }
 
-int start_aef_binary(string content) {
+int start_aef_binary(char* content) {
     int is_arch_ok = check_aef_arch(content);
 
     if (is_arch_ok == CODE_EXEC_UNSUPPORTED_ARCH_ON_THIS_DEVICE) {

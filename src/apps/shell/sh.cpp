@@ -25,7 +25,7 @@ extern "C" {
 #include "commands/commands.hpp"
 #include <apps/tinypad.hpp>
 
-extern "C" int shell_main(uint16_t theme, string current_user);
+extern "C" int shell_main(uint16_t theme, char* current_user);
 
 namespace ShellUtils {
     void printprefix(const char* user, const char* pcname, const char* directory) {
@@ -77,7 +77,7 @@ namespace ShellUtils {
         } Type;
     }
     
-    EvalCmdReturnType::Type evaluate_command(char* command, uint16_t theme, string current_user, fs_node** current_dir) {
+    EvalCmdReturnType::Type evaluate_command(char* command, uint16_t theme, char* current_user, fs_node** current_dir) {
         char *args[10];
         int arg_count = split_str(command, ' ', args, 10);
 
@@ -137,7 +137,7 @@ namespace ShellUtils {
             } else if (streql(args[0], "pwd")) {
                 println(ShellCommands::pwd(*current_dir), 0x07);
             } else {
-                string error = strcat(args[0], " is neither a known command nor valid AEF binary!");
+                char* error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);
             }
         }
@@ -145,7 +145,7 @@ namespace ShellUtils {
     }
 }
 
-extern "C" int shell_main(uint16_t theme, string current_user) {
+extern "C" int shell_main(uint16_t theme, char* current_user) {
     char user_home_path[256]; 
     strcpy(user_home_path, "/home/");
     strcat(user_home_path, current_user);

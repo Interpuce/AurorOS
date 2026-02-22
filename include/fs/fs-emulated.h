@@ -24,7 +24,7 @@ typedef struct emulated_fs_node {
 
     uint16_t permissions;
 
-    string* data;
+    char* data;
     uint32_t size;
 
     struct emulated_fs_node* children[64];
@@ -37,7 +37,7 @@ void emulated_fs_add_child(emulated_fs_node* dir, emulated_fs_node* child);
 emulated_fs_node* emulated_fs_find_in(emulated_fs_node* dir, const char* name);
 emulated_fs_node* emulated_fs_resolve(const char* path, emulated_fs_node* current);
 
-void emulated_fs_write(emulated_fs_node* file, string data, uint32_t size);
+void emulated_fs_write(emulated_fs_node* file, char* data, uint32_t size);
 int emulated_fs_read(emulated_fs_node* file, uint8_t* out, uint32_t max);
 
 extern void emulated_fs_delete(emulated_fs_node* node);

@@ -96,7 +96,7 @@ emulated_fs_node* emulated_fs_resolve(const char* path, emulated_fs_node* curren
     return current;
 }
 
-void emulated_fs_write(emulated_fs_node* file, string data, uint32_t size) {
+void emulated_fs_write(emulated_fs_node* file, char* data, uint32_t size) {
     if (file->type != EMULATED_FS_FILE) return;
 
     file->data = malloc(size);

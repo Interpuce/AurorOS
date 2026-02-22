@@ -12,10 +12,10 @@
 
 #include <types.h>
 
-extern void print_error(const string str);
-extern void print_info(const string str);
-extern void print_ok(const string str);
-extern void print_warn(const string str);
-extern void print_custom(const string str, uint8_t color, uint8_t scolor);
-extern void print(const string str, uint8_t color);
-extern void println(const string str, uint8_t color);
+extern void print_error(const char* str);
+extern void print_info(const char* str);
+extern void print_ok(const char* str);
+extern void print_warn(const char* str);
+extern void print_custom(const char* str, uint8_t color, uint8_t scolor);
+extern void print(const char* str, uint8_t color);
+extern void println(const char* str, uint8_t color);
