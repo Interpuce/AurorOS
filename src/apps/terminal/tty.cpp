@@ -29,7 +29,7 @@ namespace Auth {
             ue->password[0] = 0;
             ue->group_count = 0;
 
-            int field = 0; // 0=username, 1=password, 2=groups, 3=nothing
+            int field = 0; // 0=user_id, 1=username, 2=password, 3=groups, 4=nothing
             int char_i = 0;
             int group_i = 0;
             int group_char_i = 0;
@@ -38,9 +38,9 @@ namespace Auth {
                 char c = buf[i];
 
                 if (c == ':') {
-                    if (field == 0) ue->username[char_i] = 0;
-                    else if (field == 1) ue->password[char_i] = 0;
-                    else if (field == 2 && group_char_i > 0 && group_i < 8) {
+                    if (field == 1) ue->username[char_i] = 0;
+                    else if (field == 2) ue->password[char_i] = 0;
+                    else if (field == 3 && group_char_i > 0 && group_i < 8) {
                         ue->groups[group_i][group_char_i] = 0;
                         ue->group_count++;
                         group_i++;
@@ -49,7 +49,7 @@ namespace Auth {
                     char_i = 0;
                     field++;
                 }
-                else if (field == 2) {
+                else if (field == 3) {
                     if (c == ',' && group_i < 8) {
                         ue->groups[group_i][group_char_i] = 0;
                         ue->group_count++;
@@ -59,9 +59,9 @@ namespace Auth {
                         ue->groups[group_i][group_char_i++] = c;
                     }
                 }
-                else if (field == 0 || field == 1) {
+                else if (field == 1 || field == 2) {
                     if (char_i < 31) {
-                        if (field == 0) ue->username[char_i++] = c;
+                        if (field == 1) ue->username[char_i++] = c;
                         else ue->password[char_i++] = c;
                     }
                 }
@@ -69,7 +69,7 @@ namespace Auth {
                 i++;
             }
 
-            if (field == 2 && group_char_i > 0 && group_i < 8) {
+            if (field == 3 && group_char_i > 0 && group_i < 8) {
                 ue->groups[group_i][group_char_i] = 0;
                 ue->group_count++;
             }

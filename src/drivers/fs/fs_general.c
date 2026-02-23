@@ -1,3 +1,4 @@
+#include <string.h>
 #include <types.h>
 #include <fs/fs-emulated.h>
 #include <fs/filesystem.h>
@@ -95,7 +96,8 @@ void init_fs() {
     // system files
     fs_node* users = fs_create_file_node("users", etc, "root");
     fs_add_child(etc, users);
-    fs_write(users, "root:x::\nliveuser:x:sudo,sudonopasswd:", 39);
+    char* users_content = "0:root:x::\n1001:liveuser:x:sudo,sudonopasswd:";
+    fs_write(users, users_content, strlen(users_content));
 
     fs_node* groups = fs_create_file_node("groups", etc, "root");
     fs_add_child(etc, groups);

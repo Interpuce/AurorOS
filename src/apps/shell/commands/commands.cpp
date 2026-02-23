@@ -242,7 +242,7 @@ namespace ShellCommands {
             return;
         }
 
-        println((char*)f->data, 0x07);
+        println_limit((char*)f->data, f->size, 0x07);
     }
 
     const char* fs_basename(const char* path) {

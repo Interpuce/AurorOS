@@ -9,7 +9,6 @@
  */
 
 #include <screen.h>
-#include <string.h>
 #include <msg.h>
 
 void print_error(const char* str) {
@@ -56,5 +55,13 @@ void print(const char* str, uint8_t color) {
 
 void println(const char* str, uint8_t color) {
     printstr(str, color);
+    printchar('\n', color);
+}
+
+void println_limit(const char* data, size_t len, uint8_t color) {
+    for (size_t i = 0; i < len; i++) {
+        if (data[i] == 0) break;
+        printchar(data[i], color);
+    }
     printchar('\n', color);
 }
