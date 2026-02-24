@@ -8,7 +8,8 @@
  * -------------------------------------------------------------------------
  */
 
-#pragma GCC optimize ("O3")
+#pragma GCC optimize ("O0")
+#pragma GCC target ("no-sse")
 
 extern "C" {
     #include <string.h>
@@ -26,6 +27,29 @@ extern "C" {
 #include <apps/tinypad.hpp>
 
 extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id);
+
+void utoa(uint64_t value, char* buffer) {
+    char tmp[21];
+    int i = 0;
+
+    if (value == 0) {
+        buffer[0] = '0';
+        buffer[1] = 0;
+        return;
+    }
+
+    while (value > 0) {
+        tmp[i++] = '0' + (value % 10);
+        value /= 10;
+    }
+
+    int j = 0;
+    while (i > 0) {
+        buffer[j++] = tmp[--i];
+    }
+
+    buffer[j] = 0;
+}
 
 namespace ShellUtils {
     void printprefix(const char* user, const char* pcname, const char* directory) {
@@ -142,6 +166,10 @@ namespace ShellUtils {
                     return EvalCmdReturnType::Normal;
                 }
                 ShellCommands::chmod(*current_dir, user_id, args[1], args[2]);
+            } else if (streql(args[0], "id")) {
+                char buffer[25];
+                utoa(user_id, buffer);
+                println(buffer, 0x07);
             } else {
                 char* error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);

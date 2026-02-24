@@ -1,4 +1,5 @@
-#pragma GCC optimize("O3")
+#pragma GCC optimize("O0")
+#pragma GCC target ("no-sse")
 
 extern "C" {
     #include <types.h>
@@ -68,9 +69,10 @@ namespace Auth {
                     }
                 }
                 else if (field == 0) {
-                    ue->user_id = 0;
+                    if (c >= '0' && c <= '9') {
+                        ue->user_id = ue->user_id * 10 + (c - '0');
+                    }
                 }
-
                 i++;
             }
 
@@ -159,11 +161,11 @@ reauth:
     print(PC_NAME, 0x07);
     print(" password: ", 0x07);
 
-    if (user && user != NULL && streql(username, "liveuser") && AUROR_LIVEUSER_AUTOLOGIN == KTRUE) {
+    if (user && streql(username, "liveuser") && AUROR_LIVEUSER_AUTOLOGIN == KTRUE) {
         println("(automatic login)", 0x07);
     } else {
         read_str(passwd, sizeof(passwd), KTRUE, 0x07);
-        if (!user || user == NULL || !streql(passwd, user->password)) {
+        if (!user || !streql(passwd, user->password)) {
             println("", 0x07);
             print_error("Login incorrect");
             println("", 0x07);
