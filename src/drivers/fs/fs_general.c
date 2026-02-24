@@ -17,11 +17,11 @@ fs_node* fs_resolve(const char* path, fs_node* current) {
     return emulated_fs_resolve(path, current);
 }
 
-fs_node* fs_create_dir_node(const char* name, fs_node* parent, char* owner) {
+fs_node* fs_create_dir_node(const char* name, fs_node* parent, uint64_t owner) {
     return emulated_fs_create_dir_node(name, parent, owner);
 }
 
-fs_node* fs_create_file_node(const char* name, fs_node* parent, char* owner) {
+fs_node* fs_create_file_node(const char* name, fs_node* parent, uint64_t owner) {
     return emulated_fs_create_file_node(name, parent, owner);
 }
 
@@ -67,39 +67,39 @@ void init_fs() {
     fs_root = emulated_fs_root;
     
     // bin folder
-    fs_node* bin = fs_create_dir_node("bin", fs_root, "root");
+    fs_node* bin = fs_create_dir_node("bin", fs_root, 0);
     bin->permissions = 0755;
     fs_add_child(fs_root, bin);
     
     // home dirs
-    fs_node* home = fs_create_dir_node("home", fs_root, "root");
+    fs_node* home = fs_create_dir_node("home", fs_root, 0);
     home->permissions = 0755;
     fs_add_child(fs_root, home);
 
-    fs_node* user = fs_create_dir_node("liveuser", home, "liveuser");
+    fs_node* user = fs_create_dir_node("liveuser", home, 1001);
     fs_add_child(home, user);
 
-    fs_node* root = fs_create_dir_node("root", fs_root, "root");
+    fs_node* root = fs_create_dir_node("root", fs_root, 0);
     root->permissions = 0755;
     fs_add_child(fs_root, root);
     
     // etc folder
-    fs_node* etc = fs_create_dir_node("etc", fs_root, "root");
+    fs_node* etc = fs_create_dir_node("etc", fs_root, 0);
     etc->permissions = 0755;
     fs_add_child(fs_root, etc); 
 
     // user files
-    fs_node* notes = fs_create_file_node("README.txt", user, "liveuser");
+    fs_node* notes = fs_create_file_node("README.txt", user, 0);
     fs_add_child(user, notes);
     fs_write(notes, "Welcome in AurorOS!", 23);
     
     // system files
-    fs_node* users = fs_create_file_node("users", etc, "root");
+    fs_node* users = fs_create_file_node("users", etc, 0);
     fs_add_child(etc, users);
-    char* users_content = "0:root:x::\n1001:liveuser:x:sudo,sudonopasswd:";
+    char* users_content = "0:root:x:\n1001:liveuser:x:sudo,sudonopasswd";
     fs_write(users, users_content, strlen(users_content));
 
-    fs_node* groups = fs_create_file_node("groups", etc, "root");
+    fs_node* groups = fs_create_file_node("groups", etc, 0);
     fs_add_child(etc, groups);
     fs_write(groups, "group {\n  name = sudo\n  desc = All users in this group will be able to use the sudo command.\n}\n\ngroup {\n  name = sudonopasswd\n  desc = All users in this group will be able to use the sudo command without the need to enter the user password.\n}", 243);
 }

@@ -13,6 +13,7 @@ extern "C" {
 namespace Auth {
 
     typedef struct {
+        uint64_t user_id;
         char username[32];
         char password[32];
         char groups[8][32];
@@ -28,6 +29,7 @@ namespace Auth {
             ue->username[0] = 0;
             ue->password[0] = 0;
             ue->group_count = 0;
+            ue->user_id = 0;
 
             int field = 0; // 0=user_id, 1=username, 2=password, 3=groups, 4=nothing
             int char_i = 0;
@@ -65,6 +67,9 @@ namespace Auth {
                         else ue->password[char_i++] = c;
                     }
                 }
+                else if (field == 0) {
+                    ue->user_id = 0;
+                }
 
                 i++;
             }
@@ -90,10 +95,10 @@ namespace Auth {
     }
 }
 
-extern "C" int shell_main(uint16_t theme, char* current_user);
+extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id);
 
 extern "C" int terminal_main(uint16_t theme) {
-    char buf[256];
+    char buf[2048];
     Auth::UserEntry users[16];
     int users_count = 0;
 
@@ -168,7 +173,7 @@ reauth:
 
     println("", 0x07);
 
-    shell_main(theme, user->username);
+    shell_main(theme, user->username, user->user_id);
 
     println("", 0x07);
 

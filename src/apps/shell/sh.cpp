@@ -25,7 +25,7 @@ extern "C" {
 #include "commands/commands.hpp"
 #include <apps/tinypad.hpp>
 
-extern "C" int shell_main(uint16_t theme, char* current_user);
+extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id);
 
 namespace ShellUtils {
     void printprefix(const char* user, const char* pcname, const char* directory) {
@@ -77,7 +77,7 @@ namespace ShellUtils {
         } Type;
     }
     
-    EvalCmdReturnType::Type evaluate_command(char* command, uint16_t theme, char* current_user, fs_node** current_dir) {
+    EvalCmdReturnType::Type evaluate_command(char* command, uint16_t theme, char* current_user, fs_node** current_dir, uint64_t user_id) {
         char *args[10];
         int arg_count = split_str(command, ' ', args, 10);
 
@@ -108,13 +108,13 @@ namespace ShellUtils {
             } else if (streql(args[0], "eclair")) {
                 ShellCommands::eclair(args[1]);
             } else if (streql(args[0], "cat")) {
-                ShellCommands::cat(*current_dir, args[1], current_user);
+                ShellCommands::cat(*current_dir, args[1], user_id);
             } else if (streql(args[0], "cd")) {
-                ShellCommands::cd(current_dir, args[1], current_user);
+                ShellCommands::cd(current_dir, args[1], user_id);
             } else if (streql(args[0], "ls")) {
                 ShellCommands::ls(*current_dir);
             } else if (streql(args[0], "mkdir")) {
-                ShellCommands::mkdir(*current_dir, args[1], current_user);
+                ShellCommands::mkdir(*current_dir, args[1], user_id);
             } else if (streql(args[0], "rm")) {
                 ShellCommands::rm(*current_dir, args[1]);
             } else if (streql(args[0], "tinypad")) {
@@ -125,7 +125,7 @@ namespace ShellUtils {
                 println("Visit this link on other device:", 0x07);
                 println("https://github.com/Interpuce/AurorOS", 0x07);
             } else if (streql(args[0], "sh")) {
-                if (shell_main(theme, current_user) == EvalCmdReturnType::RecursiveNormalExit) return EvalCmdReturnType::RecursiveNormalExit;
+                if (shell_main(theme, current_user, user_id) == EvalCmdReturnType::RecursiveNormalExit) return EvalCmdReturnType::RecursiveNormalExit;
             } else if (streql(args[0], "exit")) {
                 return EvalCmdReturnType::ExitShell;
             } else if (streql(args[0], "logout")) {
@@ -133,7 +133,7 @@ namespace ShellUtils {
             } else if (streql(args[0], "kptesting") && AUROR_BETA_STATE != 0) {
                 return EvalCmdReturnType::ExitKernelMainLoop;
             } else if (streql(args[0], "eval")) {
-                return evaluate_command(farg, theme, current_user, current_dir);
+                return evaluate_command(farg, theme, current_user, current_dir, user_id);
             } else if (streql(args[0], "pwd")) {
                 println(ShellCommands::pwd(*current_dir), 0x07);
             } else if (streql(args[0], "chmod")) {
@@ -141,7 +141,7 @@ namespace ShellUtils {
                     print_error("Usage: chmod +rwx/700 file");
                     return EvalCmdReturnType::Normal;
                 }
-                ShellCommands::chmod(*current_dir, current_user, args[1], args[2]);
+                ShellCommands::chmod(*current_dir, user_id, args[1], args[2]);
             } else {
                 char* error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);
@@ -151,8 +151,8 @@ namespace ShellUtils {
     }
 }
 
-extern "C" int shell_main(uint16_t theme, char* current_user) {
-    char user_home_path[256]; 
+extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id) {
+    char user_home_path[] = "smth"; 
     strcpy(user_home_path, "/home/");
     strcat(user_home_path, current_user);
     fs_node* current_dir = fs_resolve(streql(current_user, "root") ? "root" : user_home_path, emulated_fs_root);
@@ -162,7 +162,7 @@ extern "C" int shell_main(uint16_t theme, char* current_user) {
         ShellUtils::printprefix(current_user, PC_NAME, ShellCommands::pwd(current_dir));
         read_str(buffer, sizeof(buffer), 0, 0x07);
 
-        ShellUtils::EvalCmdReturnType::Type eval_result = ShellUtils::evaluate_command(buffer, theme, current_user, &current_dir);
+        ShellUtils::EvalCmdReturnType::Type eval_result = ShellUtils::evaluate_command(buffer, theme, current_user, &current_dir, user_id);
 
         using namespace ShellUtils::EvalCmdReturnType;
         if (eval_result == Normal) continue;

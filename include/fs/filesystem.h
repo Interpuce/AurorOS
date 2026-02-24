@@ -15,8 +15,8 @@
 
 typedef emulated_fs_node fs_node;
 
-fs_node* fs_create_dir_node(const char* name, fs_node* parent, char* owner);
-fs_node* fs_create_file_node(const char* name, fs_node* parent, char* owner);
+fs_node* fs_create_dir_node(const char* name, fs_node* parent, uint64_t owner);
+fs_node* fs_create_file_node(const char* name, fs_node* parent, uint64_t owner);
 void fs_add_child(fs_node* dir, fs_node* child);
 
 fs_node* fs_resolve(const char* path, fs_node* current);

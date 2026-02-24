@@ -130,7 +130,7 @@ namespace ShellCommands {
         println("", 0x07);
     }
 
-    void cd(fs_node** current_dir, char* where, char* current_user) {
+    void cd(fs_node** current_dir, char* where, uint64_t current_user) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
@@ -147,7 +147,7 @@ namespace ShellCommands {
             return;
         }
     
-        int is_owner = streql(target->owner, current_user);
+        int is_owner = target->owner == current_user;
     
         uint8_t perms = GET_PERMS(is_owner, is_owner, target->permissions);
         if (!(perms & 0x1)) { 
@@ -168,7 +168,7 @@ namespace ShellCommands {
         return result;
     }
 
-    void chmod(fs_node* current_dir, char* current_user, char* perm_arg, char* target_path) {
+    void chmod(fs_node* current_dir, uint64_t current_user_id, char* perm_arg, char* target_path) {
         if (!perm_arg || !target_path) {
             print_error("Missing operand");
             return;
@@ -180,8 +180,8 @@ namespace ShellCommands {
             return;
         }
     
-        int is_owner = streql(current_user, target->owner);
-        int is_root  = streql(current_user, "root");
+        int is_owner = current_user_id == target->owner;
+        int is_root  = current_user_id == 0;
     
         if (!is_owner && !is_root) {
             print_error("Permission denied");
@@ -219,7 +219,7 @@ namespace ShellCommands {
         print_info("Permissions updated");
     }
 
-    void cat(fs_node* current_dir, char* where, char* current_user) {
+    void cat(fs_node* current_dir, char* where, uint64_t current_user_id) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;
@@ -234,7 +234,7 @@ namespace ShellCommands {
             return print_info("Is a directory");
         }
         
-        int is_owner = streql(f->owner, current_user);
+        int is_owner = f->owner == current_user_id;
     
         uint8_t perms = GET_PERMS(is_owner, is_owner, f->permissions);
         if (!(perms & 0x4)) { 
@@ -258,7 +258,7 @@ namespace ShellCommands {
         return path + i + 1;
     }
 
-    void mkdir(fs_node* current_dir, const char* where, char* owner) {
+    void mkdir(fs_node* current_dir, const char* where, uint64_t owner) {
         if (!where || where[0] == 0) {
             print_error("Missing operand");
             return;

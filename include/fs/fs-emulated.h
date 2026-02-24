@@ -25,7 +25,7 @@ typedef struct emulated_fs_node {
 
     // permissions
     uint16_t permissions;
-    char* owner;
+    uint64_t owner;
 
     // contents
     char* data;
@@ -36,8 +36,8 @@ typedef struct emulated_fs_node {
     uint32_t child_count;
 } emulated_fs_node;
 
-emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node* parent, char* owner);
-emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_node* parent, char* owner);
+emulated_fs_node* emulated_fs_create_dir_node(const char* name, emulated_fs_node* parent, uint64_t owner);
+emulated_fs_node* emulated_fs_create_file_node(const char* name, emulated_fs_node* parent, uint64_t owner);
 void emulated_fs_add_child(emulated_fs_node* dir, emulated_fs_node* child);
 emulated_fs_node* emulated_fs_find_in(emulated_fs_node* dir, const char* name);
 emulated_fs_node* emulated_fs_resolve(const char* path, emulated_fs_node* current);

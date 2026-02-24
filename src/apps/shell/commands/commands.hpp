@@ -19,11 +19,11 @@ namespace ShellCommands {
     extern void map();
     extern void eclair(const char *trt);
     extern void help();
-    extern void cat(fs_node* current_dir, char* where, char* current_user);
-    extern void cd(fs_node** current_dir, char* where, char* current_user);
+    extern void cat(fs_node* current_dir, char* where, uint64_t current_user_id);
+    extern void cd(fs_node** current_dir, char* where, uint64_t current_user);
     extern void ls(fs_node* dir);
     extern const char* pwd(fs_node* current_dir);
-    extern void mkdir(fs_node* current_dir, const char* where, char* owner);
+    extern void mkdir(fs_node* current_dir, const char* where, uint64_t owner);
     extern void rm(fs_node* current_dir, const char* path);
-    extern void chmod(fs_node* current_dir, char* current_user, char* perm_arg, char* target_path);
+    extern void chmod(fs_node* current_dir, uint64_t current_user_id, char* perm_arg, char* target_path);
 }
