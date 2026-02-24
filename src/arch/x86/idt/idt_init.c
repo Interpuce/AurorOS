@@ -33,15 +33,15 @@ void idt_init() {
         idt_set_gate(i, 0, 0, 0);
     }
 
-    extern void isr_stub_table(void);
-    extern void irq_stub_table(void);
+    extern uint32_t isr_stub_table[];
+    extern uint32_t irq_stub_table[];
 
     for (int i = 0; i < 32; ++i) {
-        idt_set_gate(i, (uint32_t)isr_stub_table + i * 8, 0x08, 0x8E);
+        idt_set_gate(i, isr_stub_table[i], 0x08, 0x8E);
     }
 
     for (int i = 0; i < 16; ++i) {
-        idt_set_gate(32 + i, (uint32_t)irq_stub_table + i * 8, 0x08, 0x8E);
+        idt_set_gate(32 + i, irq_stub_table[i], 0x08, 0x8E);
     }
 
     pic_remap(0x20, 0x28);
