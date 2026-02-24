@@ -152,7 +152,7 @@ namespace ShellUtils {
 }
 
 extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id) {
-    char user_home_path[] = "smth"; 
+    char user_home_path[256] = ""; 
     strcpy(user_home_path, "/home/");
     strcat(user_home_path, current_user);
     fs_node* current_dir = fs_resolve(streql(current_user, "root") ? "root" : user_home_path, emulated_fs_root);

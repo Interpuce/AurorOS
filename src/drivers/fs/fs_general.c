@@ -96,7 +96,7 @@ void init_fs() {
     // system files
     fs_node* users = fs_create_file_node("users", etc, 0);
     fs_add_child(etc, users);
-    char* users_content = "0:root:x:\n1001:liveuser:x:sudo,sudonopasswd";
+    char* users_content = "0:root:x::\n1001:liveuser:x:sudo,sudonopasswd:";
     fs_write(users, users_content, strlen(users_content));
 
     fs_node* groups = fs_create_file_node("groups", etc, 0);
