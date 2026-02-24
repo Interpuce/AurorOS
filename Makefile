@@ -69,3 +69,7 @@ clean:
 # running the iso
 run: all
 	qemu-system-x86_64 -cdrom AurorOS.iso
+
+run_dbg: all
+	@chmod +x scripts/run_debug_mode.sh
+	./scripts/run_debug_mode.sh
