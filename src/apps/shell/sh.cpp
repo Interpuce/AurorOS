@@ -21,63 +21,13 @@ extern "C" {
     #include <panic.h>
     #include <fs/fs-emulated.h>
     #include <fs/filesystem.h>
+    #include <numbers.h>
 }
 
 #include "commands/commands.hpp"
 #include <apps/tinypad.hpp>
 
 extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id);
-
-static uint64_t udiv64(uint64_t n, uint64_t d) {
-    uint64_t q = 0, r = 0;
-    for (int i = 63; i >= 0; i--) {
-        r = (r << 1) | ((n >> i) & 1);
-        if (r >= d) {
-            r -= d;
-            q |= 1ULL << i;
-        }
-    }
-    return q;
-}
-
-static uint64_t umod64(uint64_t n, uint64_t d) {
-    uint64_t r = 0;
-    for (int i = 63; i >= 0; i--) {
-        r = (r << 1) | ((n >> i) & 1);
-        if (r >= d) r -= d;
-    }
-    return r;
-}
-
-
-char* utoa(uint64_t value, char* buffer, int base) {
-    static const char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    char* ptr = buffer;
-    char* ptr1 = buffer;
-    char tmp_char;
-
-    if (value == 0) {
-        *ptr++ = '0';
-        *ptr = '\0';
-        return buffer;
-    }
-
-    while (value != 0) {
-        uint64_t remainder = umod64(value, base);
-        *ptr++ = digits[remainder];
-        value = udiv64(value, base);
-    }
-    *ptr = '\0';
-
-    ptr--;
-    while (ptr1 < ptr) {
-        tmp_char = *ptr;
-        *ptr-- = *ptr1;
-        *ptr1++ = tmp_char;
-    }
-
-    return buffer;
-}
 
 namespace ShellUtils {
     void printprefix(const char* user, const char* pcname, const char* directory) {
@@ -196,7 +146,7 @@ namespace ShellUtils {
                 ShellCommands::chmod(*current_dir, user_id, args[1], args[2]);
             } else if (streql(args[0], "id")) {
                 char buffer[25];
-                utoa(user_id, buffer, 10);
+                utoa(user_id, buffer, 1);
                 println(buffer, 0x07);
             } else {
                 char* error = strcat(args[0], " is neither a known command nor valid AEF binary!");
