@@ -8,7 +8,6 @@ extern isr_handler
 %macro ISR_NOERR 1
 global isr%1
 isr%1:
-    cli
     push dword 0          ; err_code = 0
     push dword %1         ; int number
     jmp isr_common
@@ -17,7 +16,6 @@ isr%1:
 %macro ISR_ERR 1
 global isr%1
 isr%1:
-    cli
     push dword %1         ; int number
     jmp isr_common
 %endmacro
@@ -25,7 +23,6 @@ isr%1:
 %macro IRQ 1
 global irq%1
 irq%1:
-    cli
     push dword 0          ; err_code = 0
     push dword (32 + %1)  ; IRQ mapped to IDT 32+
     jmp isr_common

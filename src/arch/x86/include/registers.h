@@ -1,12 +1,29 @@
 #pragma once
 
+#include <types.h>
+
 typedef struct registers {
-    unsigned int ds;
+    uint32_t gs;
+    uint32_t fs;
+    uint32_t es;
+    uint32_t ds;
 
-    unsigned int edi, esi, ebp, esp, ebx, edx, ecx, eax;
+    uint32_t edi;
+    uint32_t esi;
+    uint32_t ebp;
+    uint32_t esp;
+    uint32_t ebx;
+    uint32_t edx;
+    uint32_t ecx;
+    uint32_t eax;
 
-    unsigned int int_no;
-    unsigned int err_code;
+    uint32_t int_no;
+    uint32_t err_code;
 
-    unsigned int eip, cs, eflags, useresp, ss;
+    uint32_t eip;
+    uint32_t cs;
+    uint32_t eflags;
+
+    uint32_t useresp; 
+    uint32_t ss; 
 } registers_t;
