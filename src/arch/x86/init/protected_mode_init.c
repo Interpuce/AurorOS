@@ -6,7 +6,6 @@
 #include <asm/power.h>
 #include <asm/multiboot.h>
 #include <wait.h>
-#include <string.h>
 
 extern void main(void);
 

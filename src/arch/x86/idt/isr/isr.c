@@ -50,7 +50,7 @@ const char* cpu_exception_name(uint32_t int_no) {
 
 void isr_handler(registers_t* regs) {
     if (regs->int_no < 32) {
-        kernelpanic("CPU_EXCEPTION", str_replace("Your CPU has thrown an error called\n {name}. This is a bug in AurorOS. Please report it on\n https://github.com/Interpuce/AurorOS/issues/new/choose", "{name}", cpu_exception_name(regs->int_no)));
+        kernelpanic("CPU_EXCEPTION", str_replace("Your CPU has thrown an error\n with the following name: {name}.\n\n This is a bug in AurorOS. Please report it on\n https://github.com/Interpuce/AurorOS/issues/new/choose", "{name}", cpu_exception_name(regs->int_no)));
         return;
     }
 
