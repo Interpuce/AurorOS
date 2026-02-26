@@ -7,3 +7,4 @@
 -fno-stack-protector 
 -fno-exceptions 
 -fno-rtti
+-m64
