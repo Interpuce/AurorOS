@@ -1,10 +1,13 @@
 <p align="center">
-  <img width="775" height="473" alt="image" src="https://github.com/user-attachments/assets/4ee2dfc0-0940-453e-a84f-9a1520dff374" />
+    <img width="699" height="464" alt="image" src="https://github.com/user-attachments/assets/fc76eb15-7a22-4843-9834-8a6d2fe9121a" />
 </p>
 
 # AurorOS
 
 A lightweight, custom OS made by Interpuce without any external dependencies.
+
+- **debuggable:** working IDT and ability to debug the kernel via gdb using the `run_dbg` make target
+- **minimal:** can start in miliseconds and the code is fairly simple
 
 > [!TIP]
 > You can join our official [Discord server](https://discord.gg/kSv7KdFhGq) for announcements, changes and much more.
