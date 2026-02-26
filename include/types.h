@@ -15,7 +15,7 @@ typedef signed long long int64;
 typedef unsigned long long uint64;
 
 typedef unsigned long size_t;
-typedef unsigned int uintptr_t;
+typedef unsigned long long uintptr_t;
 typedef signed int intptr_t;
 
 typedef void (*function_ptr)();

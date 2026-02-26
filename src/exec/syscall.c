@@ -5,15 +5,15 @@
 #include <fs/permissions/check.h>
 
 SYSCALL_ERROR_CODE handle_syscall(
-    uint32_t syscall_number, 
-    uint32_t rdi,
-    uint32_t rsi,
-    uint32_t rdx,
-    uint32_t r10,
-    uint32_t r8,
-    uint32_t r9,
-    uint32_t user_id,
-    uint32_t process_id
+    uint64_t syscall_number, 
+    uint64_t rdi,
+    uint64_t rsi,
+    uint64_t rdx,
+    uint64_t r10,
+    uint64_t r8,
+    uint64_t r9,
+    uint64_t user_id,
+    uint64_t process_id
 ) {
     switch (syscall_number) {
         // SYSCALL 0 - READ
@@ -72,6 +72,8 @@ SYSCALL_ERROR_CODE handle_syscall(
                     return SYSCALL_RESERVED;            
                 }
             } 
+
+            return SYSCALL_RESERVED;
         }
 
         // SYSCALL 2 - OPEN
@@ -99,6 +101,6 @@ SYSCALL_ERROR_CODE handle_syscall(
         default:
             // who cares about error handling
             // jk, just to do or smth
-            return -1;
+            return SYSCALL_UNKNOWN;
     }
 }

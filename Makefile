@@ -33,24 +33,24 @@ all: build_kernel build_iso
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@gcc -g -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
+	@gcc -g -Wall -Wextra -m64 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
 
 # build c++ sources
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@g++ -g -Wall -Wextra -m32 -ffreestanding -fno-rtti -fno-threadsafe-statics -nostartfiles -Iinclude -nostdlib -fno-stack-protector -fno-exceptions -c $< -o $@
+	@g++ -g -Wall -Wextra -m64 -ffreestanding -fno-rtti -fno-threadsafe-statics -nostartfiles -Iinclude -nostdlib -fno-stack-protector -fno-exceptions -c $< -o $@
 
 # build assembly sources
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.asm
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@nasm -f elf32 $< -o $@
+	@nasm -f elf64 $< -o $@
 
 # link the kernel
 build_kernel: $(OBJECTS)
 	@echo -e "\033[1;33m[*]\033[0m Linking objects -> kernel binary"
-	@ld -m elf_i386 -T $(LINKER_SCRIPT) -o $(KERNEL_BIN) $(OBJECTS)
+	@ld -m elf_x86_64 -T $(LINKER_SCRIPT) -o $(KERNEL_BIN) $(OBJECTS)
 
 # build the iso
 build_iso: build_kernel
@@ -73,3 +73,6 @@ run: all
 run_dbg: all
 	@chmod +x scripts/run_debug_mode.sh
 	./scripts/run_debug_mode.sh
+
+# recompiling
+recompile: clean all	
