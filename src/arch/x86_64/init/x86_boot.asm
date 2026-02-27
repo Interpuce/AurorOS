@@ -21,11 +21,11 @@ section .multiboot
 
 section .text
 
-global arch_x86_start
-extern arch_x86_real_mode_entry
+global arch_x86_64_start
+extern arch_x86_64_real_mode_entry
 extern _kernel_stack_end
 
-arch_x86_start:
+arch_x86_64_start:
     cli
     mov esp, _kernel_stack_end
     mov ebp, esp
@@ -34,7 +34,7 @@ arch_x86_start:
     mov esi, ebx  
     push esi   
     push edi
-    call arch_x86_real_mode_entry
+    call arch_x86_64_real_mode_entry
     add esp, 8
 
     hlt

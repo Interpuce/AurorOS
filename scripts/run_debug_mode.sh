@@ -8,6 +8,6 @@
 # up remote debugging on port 1234 and start AurorOS
 # from ISO
 
-qemu-system-i386 -s -S -cdrom AurorOS.iso >/dev/null 2>&1 & disown
+qemu-system-x86_64 -s -S -cdrom AurorOS.iso >/dev/null 2>&1 & disown
 
 gdb -ex "target remote :1234" ./iso/boot/kernel.bin

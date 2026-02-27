@@ -1,4 +1,4 @@
-bits 32
+bits 64
 
 global isr_stub_table
 global irq_stub_table
@@ -6,25 +6,22 @@ global idt_load
 extern isr_handler
 
 %macro ISR_NOERR 1
-global isr%1
 isr%1:
-    push dword 0          ; err_code = 0
-    push dword %1         ; int number
+    push 0
+    push %1
     jmp isr_common
 %endmacro
 
 %macro ISR_ERR 1
-global isr%1
 isr%1:
-    push dword %1         ; int number
+    push %1
     jmp isr_common
 %endmacro
 
 %macro IRQ 1
-global irq%1
 irq%1:
-    push dword 0          ; err_code = 0
-    push dword (32 + %1)  ; IRQ mapped to IDT 32+
+    push 0
+    push (32 + %1)
     jmp isr_common
 %endmacro
 
@@ -67,29 +64,49 @@ ISR_NOERR 31
     %assign n n+1
 %endrep
 
+bits 64
+
+extern isr_handler
+global isr_common
+
 isr_common:
-    pusha                   ; 8 regs
-    push ds
-    push es
-    push fs
-    push gs
+    push rax
+    push rbx
+    push rcx
+    push rdx
+    push rbp
+    push rdi
+    push rsi
+    push r8
+    push r9
+    push r10
+    push r11
+    push r12
+    push r13
+    push r14
+    push r15
 
-    mov ax, 0x10            ; kernel data segment
-    mov ds, ax
-    mov es, ax
-
-    mov eax, esp            ; eax = pointer to registers_t
-    push eax
+    mov rdi, rsp        
     call isr_handler
-    add esp, 4
 
-    pop gs
-    pop fs
-    pop es
-    pop ds
-    popa
-    add esp, 8              ; pop int_no, err_code
-    iretd
+    pop r15
+    pop r14
+    pop r13
+    pop r12
+    pop r11
+    pop r10
+    pop r9
+    pop r8
+    pop rsi
+    pop rdi
+    pop rbp
+    pop rdx
+    pop rcx
+    pop rbx
+    pop rax
+
+    add rsp, 16  
+    iretq
 
 section .data
 isr_stub_table:
@@ -108,6 +125,6 @@ irq_stub_table:
 
 section .text
 idt_load:
-    mov eax, [esp + 4]
-    lidt [eax]
+    mov rax, rdi
+    lidt [rax]
     ret

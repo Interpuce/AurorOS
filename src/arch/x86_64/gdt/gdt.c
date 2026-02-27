@@ -1,41 +1,64 @@
-#include <types.h>
 #include "gdt_structs.h"
 
-struct gdt_entry gdt[4];
+__attribute__((used, section(".data"))) 
+volatile struct {
+    struct gdt_entry null;
+    struct gdt_entry code;
+    struct gdt_entry data;
+    struct gdt_tss_entry tss;
+} __attribute__((packed)) gdt;
+
 struct gdt_ptr gdt_ptr;
-struct tss_entry tss;
+struct tss_entry tss_inst; 
 
-extern void gdt_flush(uint32_t);
+extern void gdt_flush(uint64_t);
+extern uint64_t _kernel_stack_end;
 
-void gdt_set_gate(int num, uint32_t base, uint32_t limit, uint8_t access, uint8_t gran) {
-    gdt[num].base_low    = base & 0xFFFF;
-    gdt[num].base_middle = (base >> 16) & 0xFF;
-    gdt[num].base_high   = (base >> 24) & 0xFF;
-    gdt[num].limit_low   = limit & 0xFFFF;
-    gdt[num].granularity = (limit >> 16) & 0x0F;
-    gdt[num].granularity |= gran & 0xF0;
-    gdt[num].access      = access;
+void gdt_set_gate(int num, uint8_t access, uint8_t gran) {
+    struct gdt_entry *entries = (struct gdt_entry*)&gdt;
+    entries[num].limit_low = 0;
+    entries[num].base_low = 0;
+    entries[num].base_middle = 0;
+    entries[num].access = access;
+    entries[num].granularity = gran;
+    entries[num].base_high = 0;
 }
 
-extern uint32_t _kernel_stack_end;
-
 void tss_init() {
-    for (unsigned int i = 0; i < sizeof(struct tss_entry)/4; i++)
-        ((uint32_t*)&tss)[i] = 0;
+    uint8_t *ptr = (uint8_t*)&tss_inst;
+    for (uint32_t i = 0; i < sizeof(struct tss_entry); i++) ptr[i] = 0;
 
-    tss.esp0 = (uint32_t)&_kernel_stack_end;
-    tss.ss0  = 0x10; // kernel data segment
-    tss.iomap_base = sizeof(struct tss_entry);
+    tss_inst.rsp0 = (uint64_t)&_kernel_stack_end;
+    tss_inst.iomap_base = sizeof(struct tss_entry);
 }
 
 void gdt_install() {
+    asm volatile ("movq $0xDEADBEEFCAFEBABE, %%rax; movq %%rax, (%0)" 
+                 : : "r"(&gdt) : "rax", "memory");
+
+    for(int i = 0; i < sizeof(gdt); i++) ((uint8_t*)&gdt)[i] = 0;
+
+    gdt_set_gate(0, 0, 0);      
+    gdt_set_gate(1, 0x9A, 0xAF);     
+    gdt_set_gate(2, 0x92, 0xCF);   
+
+    uint64_t tss_base = (uint64_t)&tss_inst;
+    uint32_t tss_limit = sizeof(struct tss_entry) - 1;
+
+    gdt.tss.limit_low    = tss_limit & 0xFFFF;
+    gdt.tss.base_low     = tss_base & 0xFFFF;
+    gdt.tss.base_middle  = (tss_base >> 16) & 0xFF;
+    gdt.tss.access       = 0x89; 
+    gdt.tss.granularity  = (tss_limit >> 16) & 0x0F;
+    gdt.tss.base_high    = (tss_base >> 24) & 0xFF;
+    gdt.tss.base_upper   = (tss_base >> 32) & 0xFFFFFFFF;
+
     gdt_ptr.limit = sizeof(gdt) - 1;
-    gdt_ptr.base  = (uint32_t)&gdt;
+    gdt_ptr.base  = (uint64_t)&gdt;
 
-    gdt_set_gate(0, 0, 0, 0, 0);        // null
-    gdt_set_gate(1, 0, 0xFFFFF, 0x9A, 0xCF); // code
-    gdt_set_gate(2, 0, 0xFFFFF, 0x92, 0xCF); // data
-    gdt_set_gate(3, (uint32_t)&tss, sizeof(struct tss_entry)-1, 0x89, 0x00); // TSS
+    asm volatile("" : : : "memory");
 
-    gdt_flush((uint32_t)&gdt_ptr);
+    gdt_flush((uint64_t)&gdt_ptr);
+
+    asm volatile("ltr %%ax" : : "a"(0x18));
 }

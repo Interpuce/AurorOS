@@ -1,16 +1,17 @@
 ROOT_DIR  := .
 
 # directories
-SRC_DIR        := $(ROOT_DIR)/src
-BIN_DIR        := $(ROOT_DIR)/bin
-ISO_DIR        := $(ROOT_DIR)/iso
-BOOT_DIR       := $(ISO_DIR)/boot
-GRUB_DIR       := $(BOOT_DIR)/grub
+SRC_DIR           := $(ROOT_DIR)/src
+BIN_DIR           := $(ROOT_DIR)/bin
+ISO_DIR           := $(ROOT_DIR)/iso
+BOOT_DIR          := $(ISO_DIR)/boot
+GRUB_DIR          := $(BOOT_DIR)/grub
+ARCHITECTURE_DIR  := $(SRC_DIR)/arch/x86_64
 
 # files
 KERNEL_BIN     := $(ROOT_DIR)/kernel.bin
 ISO_FILE       := $(ROOT_DIR)/AurorOS.iso
-LINKER_SCRIPT  := $(SRC_DIR)/arch/x86/build/linker.ld
+LINKER_SCRIPT  := $(ARCHITECTURE_DIR)/build/linker.ld
 
 # sources
 C_SOURCES      := $(shell find $(SRC_DIR) -type f -name '*.c' ! -name '*.excluded.c')
@@ -57,7 +58,7 @@ build_iso: build_kernel
 	@echo -e "\033[1;33m[*]\033[0m Creating ISO directory structure"
 	@mkdir -p $(GRUB_DIR)
 	@cp $(KERNEL_BIN) $(BOOT_DIR)
-	@cp $(SRC_DIR)/arch/x86/build/grub.cfg $(GRUB_DIR)/grub.cfg
+	@cp $(ARCHITECTURE_DIR)/build/grub.cfg $(GRUB_DIR)/grub.cfg
 	@echo -e "\033[1;33m[*]\033[0m Generating ISO with GRUB"
 	@grub-mkrescue -o $(ISO_FILE) $(ISO_DIR)
 

@@ -10,11 +10,12 @@
 extern void main(void);
 
 extern void gdt_install();
+extern void tss_init();
 extern void idt_init();
-extern void protected_mode_init();
+extern void long_mode_init();
 
 static inline kbool is_protected_mode() {
-    uint32_t cr0;
+    uint64_t cr0;
     __asm__ volatile("mov %%cr0, %0" : "=r"(cr0));
     return (cr0 & 1) != 0;
 }
@@ -22,18 +23,19 @@ static inline kbool is_protected_mode() {
 int arch_x86_multiboot_magic;
 multiboot_info_t* arch_x86_multiboot_mb;
 
-void arch_x86_real_mode_entry(uint32_t magic, multiboot_info_t* mb) {
+void arch_x86_64_real_mode_entry(uint32_t magic, multiboot_info_t* mb) {
     arch_x86_multiboot_magic = magic;
     arch_x86_multiboot_mb = mb;
     if (!arch_x86_multiboot_magic || !arch_x86_multiboot_mb) {
         kernelpanic("MB_STRUCT_NOT_AVAILABLE", "Please make sure you are using the GRUB 2 bootloader.");
     }
-
+    
+    tss_init();
     gdt_install();
-    protected_mode_init();
+    long_mode_init();
 }
 
-void arch_x86_protected_mode_entry() {
+void arch_x86_64_long_mode_entry() {
     asm volatile (
         "mov $0x10, %%ax\n"
         "mov %%ax, %%ds\n"
