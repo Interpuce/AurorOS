@@ -18,7 +18,7 @@ Navigate to [AurorOS's GitHub releases page](https://github.com/Interpuce/AurorO
 
 ## Contributions
 
-Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blob/main/CONTRIBUTING.md) about contributing to AurorOS.
+Contributions are welcome. [Learn more](https://github.com/Interpuce/AurorOS/blob/main/docs/CONTRIBUTING.md) about contributing to AurorOS.
 
 ## Copyright & License
 
@@ -27,4 +27,4 @@ AurorOS is maintained by the members of Interpuce organization:
 - [Ekler25](https://github.com/Ekler25)
 - [Gorciu](https://github.com/gorciu-official)
 
-AurorOS is currently licensed under [a custom license](https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md), which is about to be changed.
+AurorOS is currently licensed under [GNU General Public License, version 3](https://github.com/Interpuce/AurorOS/blob/main/LICENSE).
