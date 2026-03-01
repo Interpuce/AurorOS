@@ -16,7 +16,7 @@ void *memcpy(void *dest, const void *src, size_t n);
 void *memmove(void *dest, const void *src, size_t n);
 void *memset(void *ptr, int value, size_t num);
 
-void physmem_init_from_multiboot(uint32_t mmap_addr, uint32_t mmap_length);
+void physmem_init_from_multiboot(uintptr_t mmap_addr, uint32_t mmap_length);
 uint64_t phys_alloc_contiguous(size_t size, size_t alignment);
 void phys_free_contiguous(uint64_t phys_addr, size_t size);
 

@@ -1,5 +1,6 @@
 #include <types.h>
 #include <memory.h>
+#include <asm/multiboot.h>
 
 typedef struct memory_block {
     size_t size;
@@ -104,16 +105,6 @@ void *memset(void *ptr, int value, size_t num) {
     return ptr;
 }
 
-/* physical memory manager */
-
-/* short: multiboot mmap entry */
-typedef struct __attribute__((packed)) {
-    uint32_t size;
-    uint64_t addr;
-    uint64_t len;
-    uint32_t type;
-} multiboot_mmap_entry_t;
-
 uint8_t *phys_bitmap = NULL;
 size_t phys_bitmap_bytes = 0;
 uint64_t phys_mem_size = 0;
@@ -123,8 +114,7 @@ uint64_t phys_total_pages = 0;
 static uint64_t early_alloc_phys_ptr = 0;
 static uint64_t early_alloc_phys_end = 0;
 
-/* external mapping helper - implement in platform */
-static inline void* phys_to_virt(uint32_t phys_addr) {
+static inline void* phys_to_virt(uintptr_t phys_addr) {
     return (void*)phys_addr;
 }
 
@@ -179,9 +169,9 @@ void *early_phys_alloc_virtual(size_t size, size_t alignment) {
     return phys_to_virt(phys);
 }
 
-void physmem_init_from_multiboot(uint32_t mmap_addr, uint32_t mmap_length) {
+void physmem_init_from_multiboot(uintptr_t mmap_addr, uint32_t mmap_length) {
     if (!mmap_addr || mmap_length == 0) return;
-    uint32_t cur = mmap_addr;
+    uintptr_t cur = mmap_addr;
     uint64_t highest = 0;
     while (cur < mmap_addr + mmap_length) {
         multiboot_mmap_entry_t *e = (multiboot_mmap_entry_t *)cur;

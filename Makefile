@@ -101,3 +101,6 @@ run: all
 run_dbg: all
 	@chmod +x scripts/run_debug_mode.sh
 	./scripts/run_debug_mode.sh $(ARCH_ELFFORMAT)
+
+# recompile
+recompile: clean all
