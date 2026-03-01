@@ -1,29 +1,63 @@
 ROOT_DIR  := .
 
+# architecture
+ARCH ?= x86_64
+SUPPORTED_ARCHES := x86 x86_64
+
+ifeq ($(filter $(ARCH),$(SUPPORTED_ARCHES)),)
+$(error Unsupported ARCH='$(ARCH)'. Supported values: $(SUPPORTED_ARCHES))
+endif
+
+ifeq ($(ARCH), x86)
+    ARCH_M = 32
+    ARCH_ELFFORMAT = i386
+else 
+    ARCH_M = 64
+    ARCH_ELFFORMAT = x86_64
+endif
+
 # directories
 SRC_DIR        := $(ROOT_DIR)/src
 BIN_DIR        := $(ROOT_DIR)/bin
 ISO_DIR        := $(ROOT_DIR)/iso
 BOOT_DIR       := $(ISO_DIR)/boot
 GRUB_DIR       := $(BOOT_DIR)/grub
+ARCH_DIR       := $(SRC_DIR)/arch/$(ARCH)
 
 # files
 KERNEL_BIN     := $(ROOT_DIR)/kernel.bin
 ISO_FILE       := $(ROOT_DIR)/AurorOS.iso
-LINKER_SCRIPT  := $(SRC_DIR)/arch/x86/build/linker.ld
+LINKER_SCRIPT  := $(ARCH_DIR)/build/linker.ld
+GRUB_CONFIG    := $(ARCH_DIR)/build/grub.cfg
 
 # sources
 C_SOURCES      := $(shell find $(SRC_DIR) -type f -name '*.c' ! -name '*.excluded.c')
 CPP_SOURCES    := $(shell find $(SRC_DIR) -type f -name '*.cpp' ! -name '*.excluded.cpp')
 ASM_SOURCES    := $(shell find $(SRC_DIR) -type f -name '*.asm')
 
+# filtered sources
+#  assuming C++ is only in src/apps, so there is no need
+#  to exclude it based on architecture
+C_SOURCES_FILTERED := \
+    $(filter-out $(SRC_DIR)/arch/%,$(ASM_SOURCES)) \
+    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(ASM_SOURCES))
+ASM_SOURCES_FILTERED := \
+    $(filter-out $(SRC_DIR)/arch/%,$(ASM_SOURCES)) \
+    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(ASM_SOURCES)) 
+
 # objects
-C_OBJECTS      := $(patsubst $(SRC_DIR)/%.c,$(BIN_DIR)/%.o,$(C_SOURCES))
+C_OBJECTS      := $(patsubst $(SRC_DIR)/%.c,$(BIN_DIR)/%.o,$(C_SOURCES_FILTERED))
 CPP_OBJECTS    := $(patsubst $(SRC_DIR)/%.cpp,$(BIN_DIR)/%.o,$(CPP_SOURCES))
-ASM_OBJECTS    := $(patsubst $(SRC_DIR)/%.asm,$(BIN_DIR)/%.o,$(ASM_SOURCES))
+ASM_OBJECTS    := $(patsubst $(SRC_DIR)/%.asm,$(BIN_DIR)/%.o,$(ASM_SOURCES_FILTERED))
 
 # all objects
+#  temporarily disable compiling any C objects
+#  on x86_64
+ifeq ($(ARCH), x86_64)
+OBJECTS        := $(ASM_OBJECTS)
+else 
 OBJECTS        := $(C_OBJECTS) $(CPP_OBJECTS) $(ASM_OBJECTS)
+endif
 
 # main target
 all: build_kernel build_iso
@@ -33,31 +67,31 @@ all: build_kernel build_iso
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@gcc -g -Wall -Wextra -m32 -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
+	@gcc -g -Wall -Wextra -m$(ARCH_M) -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
 
 # build c++ sources
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@g++ -g -Wall -Wextra -m32 -ffreestanding -fno-rtti -fno-threadsafe-statics -nostartfiles -Iinclude -nostdlib -fno-stack-protector -fno-exceptions -c $< -o $@
+	@g++ -g -Wall -Wextra -m$(ARCH_M) -ffreestanding -fno-rtti -fno-threadsafe-statics -nostartfiles -Iinclude -nostdlib -fno-stack-protector -fno-exceptions -c $< -o $@
 
 # build assembly sources
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.asm
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@nasm -f elf32 $< -o $@
+	@nasm -f elf$(ARCH_M) $< -o $@
 
 # link the kernel
 build_kernel: $(OBJECTS)
 	@echo -e "\033[1;33m[*]\033[0m Linking objects -> kernel binary"
-	@ld -m elf_i386 -T $(LINKER_SCRIPT) -o $(KERNEL_BIN) $(OBJECTS)
+	@ld -m elf_$(ARCH_ELFFORMAT) -T $(LINKER_SCRIPT) -o $(KERNEL_BIN) $(OBJECTS)
 
 # build the iso
 build_iso: build_kernel
 	@echo -e "\033[1;33m[*]\033[0m Creating ISO directory structure"
 	@mkdir -p $(GRUB_DIR)
 	@cp $(KERNEL_BIN) $(BOOT_DIR)
-	@cp $(SRC_DIR)/arch/x86/build/grub.cfg $(GRUB_DIR)/grub.cfg
+	@cp $(ARCH_DIR)/build/grub.cfg $(GRUB_DIR)/grub.cfg
 	@echo -e "\033[1;33m[*]\033[0m Generating ISO with GRUB"
 	@grub-mkrescue -o $(ISO_FILE) $(ISO_DIR)
 
