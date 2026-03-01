@@ -39,8 +39,8 @@ ASM_SOURCES    := $(shell find $(SRC_DIR) -type f -name '*.asm')
 #  assuming C++ is only in src/apps, so there is no need
 #  to exclude it based on architecture
 C_SOURCES_FILTERED := \
-    $(filter-out $(SRC_DIR)/arch/%,$(ASM_SOURCES)) \
-    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(ASM_SOURCES))
+    $(filter-out $(SRC_DIR)/arch/%,$(C_SOURCES)) \
+    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(C_SOURCES))
 ASM_SOURCES_FILTERED := \
     $(filter-out $(SRC_DIR)/arch/%,$(ASM_SOURCES)) \
     $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(ASM_SOURCES)) 
@@ -51,13 +51,7 @@ CPP_OBJECTS    := $(patsubst $(SRC_DIR)/%.cpp,$(BIN_DIR)/%.o,$(CPP_SOURCES))
 ASM_OBJECTS    := $(patsubst $(SRC_DIR)/%.asm,$(BIN_DIR)/%.o,$(ASM_SOURCES_FILTERED))
 
 # all objects
-#  temporarily disable compiling any C objects
-#  on x86_64
-ifeq ($(ARCH), x86_64)
-OBJECTS        := $(ASM_OBJECTS)
-else 
 OBJECTS        := $(C_OBJECTS) $(CPP_OBJECTS) $(ASM_OBJECTS)
-endif
 
 # main target
 all: build_kernel build_iso
@@ -106,4 +100,4 @@ run: all
 
 run_dbg: all
 	@chmod +x scripts/run_debug_mode.sh
-	./scripts/run_debug_mode.sh
+	./scripts/run_debug_mode.sh $(ARCH_ELFFORMAT)

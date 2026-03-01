@@ -7,12 +7,4 @@ SECTIONS
     .text : { *(.text) }
     .data : { *(.data) }
     .bss  : { *(.bss)  }
-
-    .stack :
-    {
-        . = ALIGN(16);
-        _kernel_stack_start = .;
-        . = . + 0x4000;
-        _kernel_stack_end = .;
-    }
 }

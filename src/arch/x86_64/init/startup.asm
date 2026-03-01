@@ -1,4 +1,6 @@
 global arch_x86_64_start
+extern arch_x86_64_late_start
+extern arch_x86_64_set_mb
 
 section .multiboot
 align 8
@@ -25,6 +27,9 @@ arch_x86_64_long_mode_entry:
     mov es, ax
     mov fs, ax
     mov gs, ax
+
+    call arch_x86_64_late_start
+
     hlt
 
 section .text
@@ -33,7 +38,12 @@ bits 32
 arch_x86_64_start:
     mov esp, stack_top
 
-	call check_multiboot
+    mov edi, eax 
+    mov esi, ebx  
+    push esi   
+    push edi
+    call arch_x86_64_set_mb
+
 	call check_cpuid
 	call check_long_mode
 
@@ -44,14 +54,6 @@ arch_x86_64_start:
 	jmp gdt64.code_segment:arch_x86_64_long_mode_entry
 
 	hlt
-
-check_multiboot:
-	cmp eax, 0x36d76289
-	jne .no_multiboot
-	ret
-.no_multiboot:
-	mov al, "M"
-	jmp error
 
 check_cpuid:
 	pushfd
