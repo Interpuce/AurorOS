@@ -124,21 +124,35 @@ reauth:
 
     if (welcome_msg_displayed == KFALSE) {
         println("", 0x07);
-        if (AUROR_BETA_STATE == 1) {
-            print_warn("You are using early build of AurorOS!");
-        } else if (AUROR_BETA_STATE == 2) {
-            print_warn("You are using public beta build of AurorOS!");
-        } else if (AUROR_BETA_STATE == 3) {
-            print_warn("You are using release candidate build of AurorOS!");
-        } else {
-            print_ok("You're running a stable version of AurorOS!");
-        }
+
+        switch (AUROR_BETA_STATE) {
+            case 1:
+                print_warn("You are using early build of AurorOS!");
+                break;
+            case 2:
+                print_warn("You are using public beta build of AurorOS!");
+                break;
+            case 3:
+                print_warn("You are using release candidate build of AurorOS!");
+                break;
+            default:
+                print_ok("You're running a stable version of AurorOS!");
+                break;
+        } 
+
+        #if defined(__amd64__) || defined(__x86_64__)
+            print_warn("You are using an architecture that is experimental in AurorOS.");
+        #endif
+
         println("", 0x07);
         println("Welcome to AurorOS!", 0x0a);
+
         if (Auth::find_user("liveuser", users, users_count) && AUROR_LIVEUSER_AUTOLOGIN) {
             println("Automatic login is enabled for the liveuser account.", 0x07);
         }
+
         println("", 0x07);
+
         welcome_msg_displayed = KTRUE;
     }
 

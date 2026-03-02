@@ -1,20 +1,17 @@
+default rel
+
 global arch_x86_64_start
 extern arch_x86_64_late_start
 extern arch_x86_64_set_mb
 
 section .multiboot
-align 8
+bits 32
+align 4
 header_start:
 
-    dd 0xE85250D6   
-    dd 0    
-    dd header_end - header_start
-    dd -(0xE85250D6 + 0 + (header_end - header_start))
-
-    ; end tag
-    dw 0
-    dw 0
-    dd 8
+    dd 0x1BADB002
+    dd 0x00000003
+    dd -(0x1BADB002 + 0x00000003)
 
 header_end:
 
@@ -28,6 +25,9 @@ arch_x86_64_long_mode_entry:
     mov fs, ax
     mov gs, ax
 
+    mov rdi, [multiboot_ptr]
+    call arch_x86_64_set_mb
+
     call arch_x86_64_late_start
 
     hlt
@@ -38,11 +38,7 @@ bits 32
 arch_x86_64_start:
     mov esp, stack_top
 
-    mov edi, eax 
-    mov esi, ebx  
-    push esi   
-    push edi
-    call arch_x86_64_set_mb
+    mov [multiboot_ptr], eax
 
 	call check_cpuid
 	call check_long_mode
@@ -150,6 +146,10 @@ stack_bottom:
 	resb 4096 * 4
 align 16
 stack_top:
+
+section .bss
+multiboot_ptr:
+    resq 1
 
 section .rodata
 gdt64:

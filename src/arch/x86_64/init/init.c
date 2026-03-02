@@ -4,11 +4,9 @@
 #include <panic.h>
 #include <memory.h>
 
-extern void main(void);
-
-int arch_x86_64_multiboot_magic;
 multiboot_info_t* arch_x86_64_multiboot_mb;
 
+extern void main(void);
 
 static inline int is_long_mode(void) {
     uint32_t low, high;
@@ -24,14 +22,6 @@ static inline int is_long_mode(void) {
     return (efer & (1ULL << 10)) != 0;
 }
 
-void arch_x86_64_set_mb(uint32_t magic, multiboot_info_t* mb) {
-    arch_x86_64_multiboot_magic = magic;
-    arch_x86_64_multiboot_mb = mb;
-    if (!arch_x86_64_multiboot_magic || !arch_x86_64_multiboot_mb) {
-        kernelpanic("MB_STRUCT_NOT_AVAILABLE", "Please make sure you are using the GRUB 2 bootloader.");
-    }
-}
-
 void arch_x86_64_late_start() {
     init_memory(arch_x86_64_multiboot_mb->mmap_addr, arch_x86_64_multiboot_mb->mmap_length);
     init_fs();
@@ -41,4 +31,11 @@ void arch_x86_64_late_start() {
     }
 
     main();
+}
+
+void arch_x86_64_set_mb(multiboot_info_t* mb) {
+    arch_x86_64_multiboot_mb = mb; 
+    if (!mb) {
+        kernelpanic("MB_STRUCT_NOT_AVAILABLE", "GRUB2 multiboot2 header required");
+    }
 }

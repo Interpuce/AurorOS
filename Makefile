@@ -1,7 +1,7 @@
 ROOT_DIR  := .
 
 # architecture
-ARCH ?= x86_64
+ARCH ?= x86
 SUPPORTED_ARCHES := x86 x86_64
 
 ifeq ($(filter $(ARCH),$(SUPPORTED_ARCHES)),)
