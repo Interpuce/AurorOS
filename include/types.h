@@ -15,8 +15,15 @@ typedef signed long long int64;
 typedef unsigned long long uint64;
 
 typedef unsigned long size_t;
-typedef unsigned int uintptr_t;
-typedef signed int intptr_t;
+#if defined(__x86_64__) || defined(__amd64__)
+typedef unsigned long uintptr_t;  
+typedef signed long   intptr_t;
+#elif defined(__i386__)
+typedef unsigned int  uintptr_t; 
+typedef signed int    intptr_t;
+#else
+#error "AurorOS should not compile for this architecture."
+#endif
 
 typedef void (*function_ptr)();
 

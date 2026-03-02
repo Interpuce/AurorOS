@@ -45,6 +45,19 @@ git clone https://github.com/Interpuce/AurorOS . --depth 1
 
 ---
 
+### Architecture notes 
+
+By default AurorOS compiles to i386 (commonly known as x86), because it is currently the most stable architecture. 
+
+Currently supported architectures are: `x86` (`i386`) and `x86_64` (`x64`).
+
+To change the architecture you are compiling to, use `ARCH=x86` (or other architecture) before any `make` commands.
+
+> [!IMPORTANT]
+> To avoid compiler or linker errors, please run `make clean` to clean all left-over files from other architectures.
+
+---
+
 ### Compiling AurorOS
 
 Run this in AurorOS repository root:
