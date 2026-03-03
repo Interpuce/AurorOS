@@ -1,3 +1,4 @@
+#include "panic.h"
 #include <types.h>
 #include <memory.h>
 #include <asm/multiboot.h>
@@ -49,6 +50,7 @@ void *malloc(size_t size) {
         }
         current = current->next;
     }
+    kernelpanic("OUT_OF_MEMORY", "There is no sufficient memory for allocation.");
     return NULL;
 }
 

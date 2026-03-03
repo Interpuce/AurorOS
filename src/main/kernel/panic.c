@@ -48,9 +48,9 @@ void kernelpanic(const char *paniccode, const char *devnote) {
             "\n We recommend you to get help in the Internet or AurorOS documentation"
             "\n\n You can create a feature request to add a developer note here:"
             "\n https://github.com/Interpuce/AurorOS/issues/new?template=feature.yaml", 
-            COLOR_1
+            COLOR_2
         );
-        println(" ", COLOR_1);
+        print(" ", COLOR_1);
     }
     
     println(" ", COLOR_1);
