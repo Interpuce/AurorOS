@@ -1,18 +1,5 @@
-; -------------------------------------------------------------------------
-;                                   AurorOS
-; (c) 2022-2025 Interpuce
-; 
-; You should receive AurorOS license with this source code. If not - check:
-;  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
-; -------------------------------------------------------------------------
-
-; If you are editing this file on a Visual Studio Code, please download
-; extension for x86 assembly syntax, because Visual Studio Code don't
-; highlight Assembly language without additional extensions.
-
 bits 32
 
-; Multiboot Header section
 section .multiboot
     align 4
     dd 0x1BADB002
@@ -38,6 +25,3 @@ arch_x86_start:
     add esp, 8
 
     hlt
-
-; eclair was here (twice)
-; gorciu was here

@@ -41,6 +41,16 @@ void kernelpanic(const char *paniccode, const char *devnote) {
         print(" Developer note: ", COLOR_1);
         print(devnote, COLOR_2);
         println(" ", COLOR_1);
+    } else {
+        println(" ", COLOR_1);
+        println(
+            " No developer note is available for this kernel panic code."
+            "\n We recommend you to get help in the Internet or AurorOS documentation"
+            "\n\n You can create a feature request to add a developer note here:"
+            "\n https://github.com/Interpuce/AurorOS/issues/new?template=feature.yaml", 
+            COLOR_1
+        );
+        println(" ", COLOR_1);
     }
     
     println(" ", COLOR_1);

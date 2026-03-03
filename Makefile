@@ -18,7 +18,7 @@ endif
 
 # directories
 SRC_DIR        := $(ROOT_DIR)/src
-BIN_DIR        := $(ROOT_DIR)/bin
+BIN_DIR        := $(ROOT_DIR)/bin/$(ARCH_ELFFORMAT)
 ISO_DIR        := $(ROOT_DIR)/iso
 BOOT_DIR       := $(ISO_DIR)/boot
 GRUB_DIR       := $(BOOT_DIR)/grub
