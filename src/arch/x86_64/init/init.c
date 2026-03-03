@@ -7,6 +7,7 @@
 multiboot_info_t* arch_x86_64_multiboot_mb;
 
 extern void main(void);
+extern void idt_init(void);
 
 static inline int is_long_mode(void) {
     uint32_t low, high;
@@ -23,6 +24,8 @@ static inline int is_long_mode(void) {
 }
 
 void arch_x86_64_late_start() {
+    idt_init();
+
     init_memory(arch_x86_64_multiboot_mb->mmap_addr, arch_x86_64_multiboot_mb->mmap_length);
     init_fs();
 

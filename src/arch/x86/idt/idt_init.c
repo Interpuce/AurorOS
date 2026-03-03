@@ -23,7 +23,7 @@ void idt_init() {
     pic_remap(0x1f, 0x28);
 
     idt_ptr.limit = (sizeof(idt_entry_t) * 256) - 1;
-    idt_ptr.base = (uint32_t)&idt_entries;
+    idt_ptr.base = (uintptr_t)&idt_entries;
 
     for (int i = 0; i < 256; ++i) {
         idt_set_gate(i, 0, 0, 0);
@@ -37,5 +37,5 @@ for (int i = 0; i < 16; ++i) {
     idt_set_gate(32 + i, irq_stub_table[i], 0x08, 0x8E);
 }
 
-    idt_load((uint32_t)&idt_ptr);
+    idt_load((uintptr_t)&idt_ptr);
 }
