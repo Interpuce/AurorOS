@@ -8,6 +8,7 @@ A lightweight, custom OS made by Interpuce without any external dependencies.
 
 - **debuggable:** working IDT and ability to debug the kernel via gdb using the `run_dbg` make target
 - **minimal:** can start in miliseconds and the code is fairly simple
+- **multi-architecture:** AurorOS works in both `x86` (32-bit mode) and `x86_64` (64-bit mode)
 
 > [!TIP]
 > You can join our official [Discord server](https://discord.gg/kSv7KdFhGq) for announcements, changes and much more.
