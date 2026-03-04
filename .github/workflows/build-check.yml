@@ -20,7 +20,7 @@ jobs:
           sudo apt-get install -y build-essential clang cmake pkg-config
 
       - name: Install Rust
-        uses: actions-rust/setup-rust@v1
+        uses: rust-lang/setup-rust@v1
         with:
           rust-toolchain: stable
 
