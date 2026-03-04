@@ -11,7 +11,6 @@
 #pragma once
 
 extern "C" {
-    #include <string.h>
     #include <screen.h>
     #include <types.h>
     #include <input.h>

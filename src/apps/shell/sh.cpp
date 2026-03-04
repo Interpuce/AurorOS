@@ -16,6 +16,7 @@ extern "C" {
 
 #include "commands/commands.hpp"
 #include <apps/tinypad.hpp>
+#include <apps/calc.hpp>
 
 extern "C" int shell_main(uint16_t theme, char* current_user, uint64_t user_id);
 
@@ -138,6 +139,8 @@ namespace ShellUtils {
                 char buffer[25];
                 utoa(user_id, buffer, 1);
                 println(buffer, 0x07);
+            } else if (streql(args[0], "calc")) {
+                calculator_main();
             } else {
                 char* error = strcat(args[0], " is neither a known command nor valid AEF binary!");
                 print_error(error);

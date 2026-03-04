@@ -104,6 +104,7 @@ namespace ShellCommands {
         println(" cd - changes the directory", 0x07);
         println(" chmod - changes permissions of a file", 0x07);
         println(" exit - exits the shell or shuts down the OS", 0x07);
+        println(" calc - opens a calculator", 0x07);
         println("", 0x07);
     }
 
@@ -313,7 +314,7 @@ namespace ShellCommands {
         }
 
         if (node->type == EMULATED_FS_DIR) {
-            kbool confirmation = read_yn("Do you want to delete a directory?\n (y/n) $ ", 0x07);
+            kbool confirmation = read_yn("Are you sure you want to delete a directory?\n (y/n) $ ", 0x07);
             if (confirmation == KFALSE) return print_info("Ommitting directory");
         }
 

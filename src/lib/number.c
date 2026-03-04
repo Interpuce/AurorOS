@@ -20,3 +20,42 @@ uint64_t umod64(uint64_t n, uint64_t d) {
     }
     return r;
 }
+
+kbool is_valid_int(const char* str) {
+    if (!str || !str[0])
+        return KFALSE;
+
+    int i = 0;
+
+    if (str[0] == '-') {
+        if (!str[1])
+            return KFALSE;
+        if (str[1] == 0 && !str[2]) 
+            return KFALSE;
+        i = 1;
+    }
+
+    for (; str[i]; i++) {
+        if (str[i] < '0' || str[i] > '9')
+            return KFALSE;
+    }
+
+    return KTRUE;
+}
+
+int64_t str_to_int64(const char* str) {
+    int64_t result = 0;
+    int sign = 1;
+    int i = 0;
+
+    if (str[0] == '-') {
+        sign = -1;
+        i = 1;
+    }
+
+    for (; str[i]; i++) {
+        result = result * 10 + (str[i] - '0');
+    }
+
+    return result * sign;
+}
