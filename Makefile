@@ -61,7 +61,7 @@ all: build_kernel build_iso
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@gcc -g -Wall -Wextra -m$(ARCH_M) -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
+	@gcc -std=c99 -g -Wall -Wextra -m$(ARCH_M) -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
 
 # build c++ sources
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
