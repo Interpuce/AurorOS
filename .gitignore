@@ -4,3 +4,4 @@ iso
 bin
 .vscode
 .nvim
+kernel.bin
