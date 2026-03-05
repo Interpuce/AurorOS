@@ -35,7 +35,7 @@ int tinypad_main(uint8_t color, uint8_t barcolor) {
     clearscreen();
     paintline(0, barcolor);
     printct("Tinypad", barcolor);
-    println("\n\n `.exit` to discard and exit; `.save` to save (experimental) and exit\n", 0x0F);
+    println("\n\n `.exit` to discard and exit; `.save` to save and exit\n", 0x0F);
 
     size_t buffer_capacity = 1762;
     size_t buffer_len = 0;
