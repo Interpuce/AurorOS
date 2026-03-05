@@ -21,8 +21,6 @@ typedef signed long   intptr_t;
 #elif defined(__i386__)
 typedef unsigned int  uintptr_t; 
 typedef signed int    intptr_t;
-#else
-#error "AurorOS should not compile for this architecture."
 #endif
 
 typedef void (*function_ptr)();
@@ -39,6 +37,6 @@ typedef unsigned int uint32_t;
 typedef signed long long int64_t;
 typedef unsigned long long uint64_t;
 
-typedef unsigned char kbool;
+typedef _Bool kbool;
 #define KFALSE 0
 #define KTRUE 1
