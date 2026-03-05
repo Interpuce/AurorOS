@@ -15,3 +15,4 @@ extern char* str_replace(const char* begin, const char* what, const char* repl);
 extern int strncmp(const char *a, const char *b, size_t n);
 extern char *strncpy(char *dest, const char *src, size_t n);
 extern size_t strlcpy(char *dest, const char *src, size_t size);
+extern char* strtok(char** str_ptr, char sep); 

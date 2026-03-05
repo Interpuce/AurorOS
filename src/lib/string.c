@@ -211,3 +211,21 @@ size_t strlcpy(char *dest, const char *src, size_t size) {
 
     return len;
 }
+
+char* strtok(char** str_ptr, char sep) {
+    if (!str_ptr || !(*str_ptr) || **str_ptr == '\0')
+        return NULL;
+
+    char* start = *str_ptr;
+    char* p = start;
+    while (*p && *p != sep) p++;
+
+    if (*p == sep) {
+        *p = '\0';
+        *str_ptr = p + 1;
+    } else {
+        *str_ptr = NULL;
+    }
+
+    return start;
+}
