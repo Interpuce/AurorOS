@@ -7,4 +7,3 @@
 -fno-stack-protector 
 -fno-exceptions 
 -fno-rtti
--std=c99
