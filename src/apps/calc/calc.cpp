@@ -70,7 +70,7 @@ extern "C" void calculator_main() {
         result = left * right;
     }
     else if (streql(sign, "/")) {
-       result = left / right;
+       result = udiv64(left, right);
     }
 
     print("Result: ", 0x07);
