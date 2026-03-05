@@ -37,6 +37,10 @@ typedef unsigned int uint32_t;
 typedef signed long long int64_t;
 typedef unsigned long long uint64_t;
 
-typedef unsigned char kbool;
+#ifdef __cplusplus
+typedef bool kbool;
+#else
+typedef _Bool kbool;
+#endif
 #define KFALSE 0
 #define KTRUE 1
