@@ -1,3 +1,4 @@
+#include "fs/fs-emulated.h"
 extern "C" {
     #include <string.h>
     #include <screen.h>
@@ -80,6 +81,11 @@ int tinypad_main(uint8_t color, uint8_t barcolor) {
                     if (!file_node) {
                         file_node = fs_create_file_node(filename, folder_node, 1001);
                         fs_add_child(folder_node, file_node);
+                    }
+
+                    if (file_node->type == EMULATED_FS_DIR) {
+                        print_info("Is a directory.");
+                        continue;
                     }
 
                     fs_write(file_node, buffer, buffer_len);
