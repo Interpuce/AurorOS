@@ -32,12 +32,9 @@ GRUB_CONFIG    := $(ARCH_DIR)/build/grub.cfg
 
 # sources
 C_SOURCES      := $(shell find $(SRC_DIR) -type f -name '*.c' ! -name '*.excluded.c')
-CPP_SOURCES    := $(shell find $(SRC_DIR) -type f -name '*.cpp' ! -name '*.excluded.cpp')
 ASM_SOURCES    := $(shell find $(SRC_DIR) -type f -name '*.asm')
 
 # filtered sources
-#  assuming C++ is only in src/apps, so there is no need
-#  to exclude it based on architecture
 C_SOURCES_FILTERED := \
     $(filter-out $(SRC_DIR)/arch/%,$(C_SOURCES)) \
     $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(C_SOURCES))
@@ -47,11 +44,10 @@ ASM_SOURCES_FILTERED := \
 
 # objects
 C_OBJECTS      := $(patsubst $(SRC_DIR)/%.c,$(BIN_DIR)/%.o,$(C_SOURCES_FILTERED))
-CPP_OBJECTS    := $(patsubst $(SRC_DIR)/%.cpp,$(BIN_DIR)/%.o,$(CPP_SOURCES))
 ASM_OBJECTS    := $(patsubst $(SRC_DIR)/%.asm,$(BIN_DIR)/%.o,$(ASM_SOURCES_FILTERED))
 
 # all objects
-OBJECTS        := $(C_OBJECTS) $(CPP_OBJECTS) $(ASM_OBJECTS)
+OBJECTS        := $(C_OBJECTS) $(ASM_OBJECTS)
 
 # main target
 all: build_kernel build_iso
@@ -61,13 +57,7 @@ all: build_kernel build_iso
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.c
 	@mkdir -p $(dir $@)
 	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@gcc -g -Wall -Wextra -m$(ARCH_M) -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
-
-# build c++ sources
-$(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(dir $@)
-	@echo -e "\033[1;36m[*]\033[0m $< -> $@"
-	@g++ -g -Wall -Wextra -m$(ARCH_M) -ffreestanding -fno-rtti -fno-threadsafe-statics -nostartfiles -Iinclude -nostdlib -fno-stack-protector -fno-exceptions -c $< -o $@
+	@gcc -g -Wall -Wextra -m$(ARCH_M) -mno-sse -mno-sse2 -mno-sse3 -mno-mmx -ffreestanding -nostartfiles -Iinclude -nostdlib -fno-stack-protector -c $< -o $@
 
 # build assembly sources
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.asm
