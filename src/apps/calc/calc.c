@@ -1,12 +1,10 @@
-extern "C" {
-    #include <input.h>
-    #include <msg.h>
-    #include <string.h>
-    #include <types.h>
-    #include <numbers.h>
-}
+#include <input.h>
+#include <msg.h>
+#include <string.h>
+#include <types.h>
+#include <numbers.h>
 
-extern "C" void calculator_main() {
+void calculator_main() {
     int64_t left;
     int64_t right;
     char    sign[2]; // leaving a space for a null-terminator

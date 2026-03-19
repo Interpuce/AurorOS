@@ -1,13 +1,11 @@
-#include "fs/fs-emulated.h"
-extern "C" {
-    #include <string.h>
-    #include <screen.h>
-    #include <msg.h>
-    #include <types.h>
-    #include <memory.h>
-    #include <input.h>
-    #include <fs/filesystem.h>
-}
+#include <fs/fs-emulated.h>
+#include <string.h>
+#include <screen.h>
+#include <msg.h>
+#include <types.h>
+#include <memory.h>
+#include <input.h>
+#include <fs/filesystem.h>
 
 #define LINE_LENGTH 80
 #define BUFFER_INCREMENT 150
@@ -24,7 +22,7 @@ fs_node* resolve_folder(const char* path) {
     while ((token = strtok(&ptr, '/')) != NULL) {
         fs_node* child = fs_resolve(token, current);
         if (!child) {
-            return reinterpret_cast<fs_node*>NULL;
+            return NULL;
         }
         current = child;
     }

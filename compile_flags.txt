@@ -7,3 +7,7 @@
 -fno-stack-protector 
 -fno-exceptions 
 -fno-rtti
+-mno-sse 
+-mno-sse2 
+-mno-sse3 
+-mno-mmx
