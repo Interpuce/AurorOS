@@ -1,18 +1,3 @@
-; -------------------------------------------------------------------------
-;                                   AurorOS
-; (c) 2022-2025 Interpuce
-; 
-; You should receive AurorOS license with this source code. If not - check:
-;  https://github.com/Interpuce/AurorOS/blob/main/LICENSE.md
-; -------------------------------------------------------------------------
-
-; If you are editing this file on a Visual Studio Code, please download
-; extension for x86 assembly syntax, because Visual Studio Code don't
-; highlight Assembly language without additional extensions.
-
-; This file does not set up GDT & IDT tables.
-; For that logic please see src/main/main.c
-
 bits 32
 
 extern arch_x86_protected_mode_entry
