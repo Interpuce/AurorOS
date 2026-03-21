@@ -28,6 +28,7 @@ void main() {
     println("                                 @@@@@@             @@@@@@  ", 0x0B);
     println("                                  @@@@               @@@@   ", 0x0B);
     println("", 0x07);
+
     terminal_main(0x0B);
 
     shutdown();

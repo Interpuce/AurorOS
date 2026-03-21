@@ -7,17 +7,23 @@ typedef enum SYSCALL_ERROR_CODE {
     SYSCALL_FILE_NOT_FOUND = -2,
     SYSCALL_PERMISSION_DENIED = -3,
     SYSCALL_RESERVED = -4,
-    SYSCALL_ILLEGAL_OPERATION = -5
+    SYSCALL_ILLEGAL_OPERATION = -5,
+    SYSCALL_ILLEGAL_MODE = -6,
+
+    SYSCALL_OK = 0
 } SYSCALL_ERROR_CODE;
 
-extern SYSCALL_ERROR_CODE handle_syscall(
-    uint64_t syscall_number, 
-    uint64_t rdi,
-    uint64_t rsi,
-    uint64_t rdx,
-    uint64_t r10,
-    uint64_t r8,
-    uint64_t r9,
-    uint64_t user_id,
-    uint64_t process_id
+typedef struct {
+    uintptr_t rax;
+    SYSCALL_ERROR_CODE errs;
+    kbool set_rax_to_direct_return_value;
+} SYSCALL_RESULT;
+
+extern SYSCALL_RESULT handle_syscall(
+    uintptr_t syscall_number, 
+    uintptr_t rdi,
+    uintptr_t rsi,
+    uintptr_t rdx,
+    uintptr_t user_id,
+    uintptr_t process_id
 );
