@@ -1,6 +1,3 @@
-#pragma GCC optimize("O0")
-#pragma GCC target ("no-sse")
-
 #include <types.h>
 #include <string.h>
 #include <fs/filesystem.h>
@@ -152,7 +149,7 @@ reauth: {
 
     static char username[32] = {0};
     print("AurorOS login: ", 0x07);
-    read_str(username, sizeof(username), KFALSE, 0x07);
+    read_str(username, sizeof(username), KFALSE, 0x07, "");
 
     if (username[0] == 0) {
         println("", 0x07);
@@ -172,7 +169,7 @@ reauth: {
     if (user && streql(username, "liveuser") && AUROR_LIVEUSER_AUTOLOGIN == KTRUE) {
         println("(automatic login)", 0x07);
     } else {
-        read_str(passwd, sizeof(passwd), KTRUE, 0x07);
+        read_str(passwd, sizeof(passwd), KTRUE, 0x07, "");
         if (!user || !streql(passwd, user->password)) {
             println("", 0x07);
             print_error("Login incorrect");

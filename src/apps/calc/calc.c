@@ -15,7 +15,7 @@ void calculator_main() {
 
     while (KTRUE) {
         print("Sign (+ | - | / | *): ", 0x07);
-        read_str(sign, 2, KFALSE, 0x07);
+        read_str(sign, 2, KFALSE, 0x07, "");
 
         if (
             !streql(sign, "/") && 
@@ -32,7 +32,7 @@ void calculator_main() {
 
     while (KTRUE) {
         print("Left number: ", 0x07);
-        read_str(left_buf, 32, KFALSE, 0x07);
+        read_str(left_buf, 32, KFALSE, 0x07, "");
 
         if (!is_valid_int(left_buf)) {
             print_error("Invalid number");
@@ -45,7 +45,7 @@ void calculator_main() {
 
     while (KTRUE) {
         print("Right number: ", 0x07);
-        read_str(right_buf, 32, KFALSE, 0x07);
+        read_str(right_buf, 32, KFALSE, 0x07, "");
 
         if (!is_valid_int(right_buf)) {
             print_error("Invalid number");

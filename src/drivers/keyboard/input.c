@@ -32,8 +32,25 @@ static uint8_t read_scancode() {
     return inb(0x60);
 }
 
-void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) {
+void read_str(char* buffer, uint16_t max_length, uint8_t secret, uint8_t color, char* base_value) {
     uint16_t length = 0;
+
+    if (base_value) {
+        while (base_value[length] && length < max_length - 1) {
+            buffer[length] = base_value[length];
+
+            if (secret) {
+                printchar('*', color);
+            } else {
+                printchar(base_value[length], color);
+            }
+
+            length++;
+        }
+        buffer[length] = '\0';
+    } else {
+        buffer[0] = '\0';
+    }
 
     while (1) {
         uint8_t scancode = read_scancode();
@@ -83,7 +100,6 @@ void read_str(char *buffer, uint16_t max_length, uint8_t secret, uint8_t color) 
         switch (key) {
             case 0x2A:
             case 0x36:
-                if (SHIFT_RELEASED) break;
                 if (key == 0x2A) SHIFT_LEFT_PRESSED = 1;
                 if (key == 0x36) SHIFT_RIGHT_PRESSED = 1;
                 continue;
@@ -114,7 +130,7 @@ uint8_t read_yn(const char* text, uint8_t color) {
         print(" ", color);
         print(text, color);
         char buffer[2];
-        read_str(buffer, sizeof(buffer), 0, color);
+        read_str(buffer, sizeof(buffer), 0, color, "");
         if (streql(buffer, "Y") || streql(buffer, "y")) {
             return 1;
         } else if (streql(buffer, "N") || streql(buffer, "n")) {

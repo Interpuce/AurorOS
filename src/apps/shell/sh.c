@@ -152,7 +152,7 @@ int shell_main(uint16_t theme, char* current_user, uint64_t user_id) {
     char buffer[128];
     while (KTRUE) {
         shell_printprefix(current_user, PC_NAME, shc_pwd(current_dir));
-        read_str(buffer, sizeof(buffer), 0, 0x07);
+        read_str(buffer, sizeof(buffer), 0, 0x07, "");
 
         EvalResult eval_result = shell_evaluate_command(buffer, theme, current_user, &current_dir, user_id);
 

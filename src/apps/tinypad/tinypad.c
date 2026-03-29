@@ -46,7 +46,7 @@ int tinypad_main(uint8_t color, uint8_t barcolor) {
 
     while (1) {
         char line[LINE_LENGTH + 1]; 
-        read_str(line, sizeof(line), 0, color);
+        read_str(line, sizeof(line), 0, color, "");
 
         if (starts_with(line, ".")) {
             if (streql(line, ".exit")) {
@@ -55,7 +55,7 @@ int tinypad_main(uint8_t color, uint8_t barcolor) {
                 while (KTRUE) {
                     char fullpath[256];
                     print("File to save: ", 0x07);
-                    read_str(fullpath, sizeof(fullpath), KFALSE, 0x07);
+                    read_str(fullpath, sizeof(fullpath), KFALSE, 0x07, "/");
 
                     char* last_slash = strrchr(fullpath, '/');
                     char* filename;
