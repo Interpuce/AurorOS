@@ -69,7 +69,7 @@ void shc_help() {
         " calc - opens a calculator"
     };
     println("", 0x07);
-    for (int i = 0; i < sizeof(commands)/sizeof(commands[0]); i++) {
+    for (size_t i = 0; i < sizeof(commands) / sizeof(commands[0]); i++) {
         println(commands[i], 0x07);
     }
     println("", 0x07);
