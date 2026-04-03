@@ -2,6 +2,12 @@
 
 char* utoa(uint64_t value, char* buffer, int base) {
     static const char digits[] = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    if (base < 2 || base > 36) {
+        buffer[0] = '\0';
+        return buffer;
+    }
+
     char* ptr = buffer;
     char* ptr1 = buffer;
     char tmp_char;
@@ -17,6 +23,7 @@ char* utoa(uint64_t value, char* buffer, int base) {
         *ptr++ = digits[remainder];
         value = udiv64(value, base);
     }
+
     *ptr = '\0';
 
     ptr--;

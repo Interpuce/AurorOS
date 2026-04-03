@@ -12,7 +12,7 @@ uint64_t udiv64(uint64_t n, uint64_t d) {
     }
     return q;
 #else
-    return n % d;
+    return n / d;
 #endif
 }
 
@@ -25,7 +25,7 @@ uint64_t umod64(uint64_t n, uint64_t d) {
     }
     return r;
 #else
-    return n / d;
+    return n % d;
 #endif
 }
 

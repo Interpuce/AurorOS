@@ -89,7 +89,7 @@ void init_fs() {
     fs_add_child(fs_root, etc); 
 
     // user files
-    fs_node* notes = fs_create_file_node("README.txt", user, 0);
+    fs_node* notes = fs_create_file_node("README.txt", user, 1001);
     fs_add_child(user, notes);
     fs_write(notes, "Welcome to AurorOS!", 23);
     

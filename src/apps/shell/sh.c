@@ -12,6 +12,7 @@
 #include "commands/commands.h"
 #include <apps/tinypad.h>
 #include <apps/calc.h>
+#include <apps/hexedit.h>
 
 int shell_main(uint16_t theme, char* current_user, uint64_t user_id);
 
@@ -135,9 +136,15 @@ EvalResult shell_evaluate_command(char* command, uint16_t theme, char* current_u
             }
             shc_chmod(*current_dir, user_id, args[1], args[2]);
         } else if (streql(args[0], "id")) {
+            char buf[32];
+utoa(12345, buf, 10);
+println(buf, 0x07);
             char buffer[25];
-            utoa(user_id, buffer, 1);
+            utoa(user_id, buffer, 10);
             println(buffer, 0x07);
+        } else if (streql(args[0], "hexedit")) {
+            hexedit_main(user_id, args[1], &current_dir);
+            return EvalResultNormal;
         } else if (streql(args[0], "calc")) {
             calculator_main();
         } else {
