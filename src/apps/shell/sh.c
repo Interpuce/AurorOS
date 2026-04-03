@@ -34,8 +34,8 @@ void shell_printprefix(const char* user, const char* pcname, const char* directo
     }
 
     const char* shown = directory;
-    int match = 1;
 
+    int match = 1;
     for (int i = 0; home[i]; i++) {
         if (directory[i] != home[i]) {
             match = 0;
@@ -44,13 +44,18 @@ void shell_printprefix(const char* user, const char* pcname, const char* directo
     }
 
     if (match) {
-        shown = "~";
+        shown = directory + pos;
+        if (shown[0] == '/') {
+            shown++;
+        }
     }
 
     print(user, 0x0B);
     print("@", 0x07);
     print(pcname, 0x0B);
     print(":", 0x07);
+    if (match) print("~", 0x0B);
+    if (match && !streql(shown, "")) print("/", 0x0B);
     print(shown, 0x0B);
     print(" $ ", 0x0F);
 }
