@@ -11,9 +11,11 @@ endif
 ifeq ($(ARCH), x86)
     ARCH_M = 32
     ARCH_ELFFORMAT = i386
+    ARCH_COMMON = x86_common
 else 
     ARCH_M = 64
     ARCH_ELFFORMAT = x86_64
+    ARCH_COMMON = x86_common
 endif
 
 # directories
@@ -37,10 +39,12 @@ ASM_SOURCES    := $(shell find $(SRC_DIR) -type f -name '*.asm')
 # filtered sources
 C_SOURCES_FILTERED := \
     $(filter-out $(SRC_DIR)/arch/%,$(C_SOURCES)) \
-    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(C_SOURCES))
+    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(C_SOURCES)) \
+	$(filter $(SRC_DIR)/arch/$(ARCH_COMMON)/%,$(C_SOURCES))
 ASM_SOURCES_FILTERED := \
     $(filter-out $(SRC_DIR)/arch/%,$(ASM_SOURCES)) \
-    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(ASM_SOURCES)) 
+    $(filter $(SRC_DIR)/arch/$(ARCH)/%,$(ASM_SOURCES)) \
+	$(filter $(SRC_DIR)/arch/$(ARCH_COMMON)/%,$(ASM_SOURCES))
 
 # objects
 C_OBJECTS      := $(patsubst $(SRC_DIR)/%.c,$(BIN_DIR)/%.o,$(C_SOURCES_FILTERED))

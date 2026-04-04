@@ -1,11 +1,10 @@
 #include <types.h>
+#include <ports.h>
+#include <string.h>
 #include <panic.h>
-#include <asm/power.h>
-#include "ports.h"
-#include "string.h"
-#include "../include/registers.h"
+#include "../include/cpu_registers.h"
 
-const char* cpu_exception_name(uint32_t int_no) {
+static const char* cpu_exception_name(uintptr_t int_no) {
     static const char* exceptions[] = {
         "Divide Error",
         "Debug",
@@ -50,10 +49,18 @@ const char* cpu_exception_name(uint32_t int_no) {
 
 void isr_handler(registers_t* regs) {
     if (regs->int_no < 32) {
-        kernelpanic("CPU_EXCEPTION", str_replace("Your CPU has thrown an error\n with the following name: {name}.\n\n This is a bug in AurorOS. Please report it on\n https://github.com/Interpuce/AurorOS/issues/new/choose", "{name}", cpu_exception_name(regs->int_no)));
+        kernelpanic(
+            "CPU_EXCEPTION", 
+            str_replace(
+                "Your CPU has thrown an error\n with the following name: {name}.\n\n "
+                "This is a bug in AurorOS. Please report it on\n https://github.com/Interpuce/AurorOS/issues/new/choose", 
+                "{name}", cpu_exception_name(regs->int_no)
+            )
+        );
         return;
     }
-
+    
+    // send hardware EOI (end of interrupt)
     if (regs->int_no >= 32 && regs->int_no <= 47) {
         if (regs->int_no >= 40) {
             outb(0xA0, 0x20);  // slave EOI
