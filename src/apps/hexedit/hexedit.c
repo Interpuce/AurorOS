@@ -24,13 +24,10 @@ static size_t parse_hexdump_to_bytes(const char* hexdump, uint8_t* out_bytes, si
     size_t i = 0;
 
     while (hexdump[i] != '\0' && byte_index < max_bytes) {
-
-        // znajdź pierwszy hex
         while (hexdump[i] && !is_hex(hexdump[i])) i++;
         if (!hexdump[i]) break;
         char high = hexdump[i++];
 
-        // znajdź drugi hex
         while (hexdump[i] && !is_hex(hexdump[i])) i++;
         if (!hexdump[i]) {
             out_bytes[byte_index++] = 0xDD;
